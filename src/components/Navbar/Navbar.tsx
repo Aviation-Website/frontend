@@ -25,7 +25,7 @@ export function Navbar() {
 
   return (
     <NavbarWrapper className="bg-blue-900">
-      <NavBody className="bg-blue-900">
+      <NavBody className="bg-blue-900 dark:bg-blue-900">
         <NavbarLogo />
         <NavItems 
           items={navItems} 
@@ -36,12 +36,12 @@ export function Navbar() {
           <NavbarButton href="/login" variant="primary">
             Sign In
           </NavbarButton>
-          <NavbarButton href="/sign-up" variant="dark">
-            Sign Up
+          <NavbarButton href="/register" variant="dark">
+            Register
           </NavbarButton>
         </div>
       </NavBody>
-      <MobileNav className="bg-blue-900">
+      <MobileNav className="">
         <MobileNavHeader>
           <NavbarLogo />
           <MobileNavToggle
@@ -67,8 +67,8 @@ export function Navbar() {
             <NavbarButton href="/login" variant="primary" className="w-full">
               Sign In
             </NavbarButton>
-            <NavbarButton href="/sign-up" variant="dark" className="w-full">
-              Sign Up
+            <NavbarButton href="/register" variant="dark" className="w-full">
+              Register
             </NavbarButton>
           </div>
         </MobileNavMenu>
