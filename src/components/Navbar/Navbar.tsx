@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import {
   Navbar as NavbarWrapper,
   NavBody,
@@ -52,17 +53,30 @@ export function Navbar() {
         <MobileNavMenu 
           isOpen={isMobileMenuOpen}
         >
-          {navItems.map((item) => (
-            <a
-              key={item.link}
-              href={item.link}
-              className="w-full text-white dark:text-white font-medium hover:text-blue-200 px-2 py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {item.name}
-            </a>
-          ))}
-          <div className="w-full flex flex-row gap-2 mt-4 pt-4 border-t border-white/20">
+          <div className="flex w-full items-center px-2 pt-2">
+            <div className="flex flex-col w-1/2 gap-4">
+              {navItems.map((item) => (
+                <a
+                  key={item.link}
+                  href={item.link}
+                  className="text-white dark:text-white text-lg font-medium hover:text-blue-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+            <div className="w-1/2 flex justify-center">
+              <Image
+                src="/Footer/airplane-2.svg"
+                alt="Airplane"
+                width={150}
+                height={150}
+                className="w-32 h-auto opacity-90"
+              />
+            </div>
+          </div>
+          <div className="w-full flex flex-row gap-2 mt-6 pt-4 border-t border-white/20">
             <NavbarButton href="/login" variant="primary" className="flex-1">
               Sign In
             </NavbarButton>

@@ -118,7 +118,7 @@ export const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-blue-900 pt-8 text-center">
+        <div className="border-t border-gray-400 pt-8 text-center">
           <p className="text-gray-400">
             © Copyright {new Date().getFullYear()}, All Rights Reserved by AirSpeak App
           </p>
