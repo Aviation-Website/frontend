@@ -133,7 +133,7 @@ function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqItemProps) {
 }
 
 export default function FaqContent() {
-  const [openId, setOpenId] = useState<string | null>("what-is-airspeak");
+  const [openId, setOpenId] = useState<string | null>(null);
 
   // Split items into two columns
   const midPoint = Math.ceil(FAQ_ITEMS.length / 2);
