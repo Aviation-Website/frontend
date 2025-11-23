@@ -9,7 +9,7 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         {/* Newsletter Section */}
         <div 
-          className="relative rounded-[42px] p-10 md:p-14 mb-16 overflow-hidden bg-white/90"
+          className="relative rounded-[42px] p-6 md:p-14 mb-16 overflow-hidden bg-white/90"
           style={{
             backgroundImage: "url('/Footer/Curve Line.svg')",
             backgroundSize: "cover",
@@ -29,11 +29,11 @@ export const Footer = () => {
           </div>
           
           <div className="relative z-10 flex flex-col items-center text-center">
-            <h2 className="text-[40px] md:text-[48px] leading-tight font-semibold text-blue-950 mb-10">
+            <h2 className="text-[28px] md:text-[48px] leading-tight font-semibold text-blue-950 mb-6 md:mb-10">
               Subscribe to our newsletter
-              <p className="font-semibold text-3xl">Get the latest updates and offers.</p>
+              <p className="font-semibold text-lg md:text-3xl">Get the latest updates and offers.</p>
             </h2>
-            <div className="flex flex-col md:flex-row gap-5 w-full max-w-[900px] justify-center">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-5 w-full max-w-[900px] justify-center">
               <input
                 type="text"
                 placeholder="First name"

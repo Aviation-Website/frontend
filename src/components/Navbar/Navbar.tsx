@@ -24,7 +24,7 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <NavbarWrapper className="bg-blue-950">
+    <NavbarWrapper className="md:bg-blue-950">
       <NavBody className="bg-blue-950 dark:bg-blue-950">
         <NavbarLogo />
         <NavItems 
@@ -63,11 +63,11 @@ export function Navbar() {
               {item.name}
             </a>
           ))}
-          <div className="w-full flex flex-col gap-2 mt-4 pt-4 border-t border-white/20">
-            <NavbarButton href="/login" variant="primary" className="w-full">
+          <div className="w-full flex flex-row gap-2 mt-4 pt-4 border-t border-white/20">
+            <NavbarButton href="/login" variant="primary" className="flex-1">
               Sign In
             </NavbarButton>
-            <NavbarButton href="/register" variant="dark" className="w-full">
+            <NavbarButton href="/register" variant="dark" className="flex-1">
               Register
             </NavbarButton>
           </div>
