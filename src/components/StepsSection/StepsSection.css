@@ -1,0 +1,253 @@
+.steps-section-container {
+  padding: 6rem 2rem;
+  background-color: #172554; /* blue-950 */
+  background: radial-gradient(circle at top center, #162555 0%, #172554 100%); /* blue-900 to blue-950 */
+  color: #fff; /* Slate 50 */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* ... (other styles remain same until banner) ... */
+
+.steps-banner {
+  display: inline-block;
+  background: #ffffff; /* White background as requested */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff; /* blue-950 text */
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 1), 0 2px 4px -1px rgba(255, 255, 255, 1);
+}
+
+/* ... (other styles) ... */
+
+@media (max-width: 1024px) {
+  .airplane-image {
+    height: auto;
+    width: 100%;
+    margin-top: 0; /* Reset margin for mobile */
+    max-height: none;
+  }
+  
+  .steps-content {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .steps-left, .steps-right {
+    width: 100%;
+  }
+}
+
+/* Background Elements */
+.steps-background-elements {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+}
+
+.glow-effect {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+  filter: blur(60px);
+}
+
+.steps-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.steps-banner {
+  display: inline-block;
+  background: rgba(56, 189, 248, 0.1); /* Sky blue tint */
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  color: #fff; /* Sky 400 */
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.steps-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  font-family: var(--font-geist-sans, sans-serif);
+  background: linear-gradient(to right, #ffffff, #94a3b8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+}
+
+.steps-subtitle {
+  font-size: 1.25rem;
+  color: #94a3b8; /* Slate 400 */
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: var(--font-geist-sans, sans-serif);
+  line-height: 1.6;
+}
+
+.steps-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Closer gap as requested before */
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .steps-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0; /* No gap for tight integration */
+  }
+}
+
+.steps-left,
+.steps-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Steps Image Specifics */
+.steps-image-wrapper {
+  /* Transparent background for the steps graphic */
+  background: transparent;
+  box-shadow: none;
+  z-index: 2; /* Layer on top */
+}
+
+.steps-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.steps-image-wrapper:hover .steps-image {
+  transform: scale(1.02) translateX(10px);
+  opacity: 1;
+}
+
+/* Airplane Image Specifics */
+/* Airplane Image Specifics */
+.airplane-image-wrapper {
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+  /* Increase width/size context if needed, but flex: 1 in parent handles most */
+}
+
+.airplane-image-wrapper:hover {
+  transform: none; /* Reset wrapper transform, handle in image or animation */
+  box-shadow: none;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.airplane-image {
+  display: block;
+  width: auto; /* Let width adjust to maintain aspect ratio or cover */
+  height: 1100px; /* Match the height of the steps image roughly */
+  max-height: 280vh; /* Prevent it from being too tall on small screens */
+  margin-top: -20rem;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+  animation: float 6s ease-in-out infinite;
+}
+
+@media (max-width: 1024px) {
+  .airplane-image {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.airplane-image-wrapper:hover .airplane-image {
+  transform: scale(1.05) rotate(2deg); /* Enhanced hover movement */
+  animation-play-state: paused;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+  padding: 3rem 1.5rem 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  justify-content: center;
+}
+
+.airplane-image-wrapper:hover .overlay {
+  opacity: 1;
+}
+
+.overlay-text {
+  color: #f8fafc;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}

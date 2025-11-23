@@ -50,8 +50,7 @@ export function Navbar() {
           />
         </MobileNavHeader>
         <MobileNavMenu 
-          isOpen={isMobileMenuOpen} 
-          onClose={() => setIsMobileMenuOpen(false)}
+          isOpen={isMobileMenuOpen}
         >
           {navItems.map((item) => (
             <a

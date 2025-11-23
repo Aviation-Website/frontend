@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+import SmoothScroll from "@/components/ui/SmoothScroll";
+
+// Using Roboto as B612 might not be available in Next.js Google Fonts
+// But we'll add B612 via CSS import for aviation authenticity
+const roboto = Roboto({
   subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -21,7 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${roboto.className} antialiased`} style={{ fontFamily: '"B612", sans-serif' }}>
+        <SmoothScroll />
         {children}
       </body>
     </html>
