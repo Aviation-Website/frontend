@@ -31,13 +31,13 @@ const SERVICES: Service[] = [
       "Lock in distinct captain, first officer, and controller voices that stay stable across flights, aircraft, and scenarios so your audio always feels like the same crew.",
   },
   {
-    tag: "Intelligent audio",
-    title: "Context-aware soundscapes",
-    subtitle: "Audio that reacts to the flight",
+    tag: "Pilot training",
+    title: "Realistic pilot training audio",
+    subtitle: "Train with authentic cockpit sounds",
     description:
-      "Blend engine layers, cabin ambience, and alerts so text-to-speech and AI voices sit naturally inside every cockpit moment.",
+      "Practice with real pilot voices, text-to-speech callouts, and layered cockpit ambience that mirrors actual flight operations.",
     details:
-      "Shape ambient layers, alerts, and voices together so every callout sits in the mix without masking ATC or critical cockpit sounds.",
+      "Combine authentic engine sounds, radio chatter, checklist readbacks, and procedural callouts so every training session feels like you're in the left seat during a real flight.",
   },
 ];
 
@@ -61,18 +61,10 @@ export default function AboutServices() {
   }, [activeIndex]);
 
   return (
-    <section className="relative w-full overflow-hidden bg-white py-16 sm:py-24 text-slate-900">
+    <section className="relative w-full overflow-hidden bg-white py-14 sm:py-18 text-slate-900">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,55,148,0.10),transparent_60%),radial-gradient(circle_at_bottom,rgba(15,23,42,0.06),transparent_65%)]" />
       <div className="pointer-events-none absolute inset-0">
-        <svg
-          className="absolute left-1/2 -top-40 h-64 w-64 -translate-x-1/2 text-[#103794]"
-          viewBox="0 0 200 200"
-          aria-hidden="true"
-        >
-          <circle cx="100" cy="100" r="82" fill="currentColor" opacity="0.62" />
-          <circle cx="100" cy="100" r="58" fill="currentColor" opacity="0.68" />
-          <circle cx="100" cy="100" r="36" fill="currentColor" opacity="0.66" />
-        </svg>
+       
         <svg
           className="absolute -left-32 top-4 h-56 w-56 text-[#103794]"
           viewBox="0 0 200 200"
@@ -230,19 +222,45 @@ export default function AboutServices() {
             strokeWidth="1.2"
           />
         </svg>
+        <svg
+          className="absolute -left-24 bottom-6 h-56 w-56 text-[#103794]"
+          viewBox="0 0 200 200"
+          aria-hidden="true"
+        >
+          <circle cx="100" cy="100" r="88" fill="currentColor" opacity="0.62" />
+          <circle cx="100" cy="100" r="64" fill="currentColor" opacity="0.68" />
+          <circle cx="100" cy="100" r="40" fill="currentColor" opacity="0.66" />
+        </svg>
+        <svg
+          className="absolute right-[-40px] bottom-10 h-56 w-56 text-[#103794]"
+          viewBox="0 0 200 200"
+          aria-hidden="true"
+        >
+          <circle cx="100" cy="100" r="88" fill="currentColor" opacity="0.62" />
+          <circle cx="100" cy="100" r="64" fill="currentColor" opacity="0.68" />
+          <circle cx="100" cy="100" r="40" fill="currentColor" opacity="0.66" />
+        </svg>
       </div>
       <div className="relative z-10 mx-auto max-w-[1380px] px-4">
         <div className="text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
-            <span className="h-1.5 w-1.5 rounded-full bg-violet-400 shadow-[0_0_14px_rgba(167,139,250,0.9)]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-900 shadow-[0_0_14px_rgba(30,58,138,0.9)]" />
             What we offer
           </div>
-          <h2 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
             One service, three ways to sound real
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-6 md:mt-14 md:grid-cols-3">
+        <div className="mt-6 flex justify-center">
+          <img
+            src="/About/Lifelike text-to-speech - visual selection.svg"
+            alt="Lifelike text-to-speech visualization"
+            className="w-full max-w-2xl"
+          />
+        </div>
+
+        <div className="mt-8 grid gap-6 md:mt-10 md:grid-cols-3">
           {SERVICES.map((service, index) => {
             const titleSpeed = 14;
             const subtitleSpeed = 12;

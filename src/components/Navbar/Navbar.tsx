@@ -31,7 +31,7 @@ export function Navbar() {
         <NavItems 
           items={navItems} 
           onItemClick={() => setIsMobileMenuOpen(false)}
-          className="text-white"
+          className="text-white font-semibold text-sm tracking-wider uppercase"
         />
         <div className="flex gap-3">
           <NavbarButton href="/login" variant="primary">

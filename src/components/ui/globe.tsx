@@ -103,16 +103,26 @@ export function Globe({ globeConfig, data }: WorldProps) {
       emissiveIntensity: number;
       shininess: number;
     };
-    globeMaterial.color = new Color(globeConfig.globeColor);
-    globeMaterial.emissive = new Color(globeConfig.emissive);
-    globeMaterial.emissiveIntensity = globeConfig.emissiveIntensity || 0.1;
-    globeMaterial.shininess = globeConfig.shininess || 0.9;
+
+    // Use merged defaults so the globe keeps a consistent color even when rotated
+    const baseColor = defaultProps.globeColor || "#1d072e";
+    const emissiveColor = defaultProps.emissive || baseColor;
+    const emissiveIntensity =
+      defaultProps.emissiveIntensity !== undefined
+        ? defaultProps.emissiveIntensity
+        : 0.6;
+
+    globeMaterial.color = new Color(baseColor);
+    globeMaterial.emissive = new Color(emissiveColor);
+    globeMaterial.emissiveIntensity = emissiveIntensity;
+    globeMaterial.shininess =
+      defaultProps.shininess !== undefined ? defaultProps.shininess : 0.9;
   }, [
     isInitialized,
-    globeConfig.globeColor,
-    globeConfig.emissive,
-    globeConfig.emissiveIntensity,
-    globeConfig.shininess,
+    defaultProps.globeColor,
+    defaultProps.emissive,
+    defaultProps.emissiveIntensity,
+    defaultProps.shininess,
   ]);
 
   // Build data when globe is initialized or when data changes
