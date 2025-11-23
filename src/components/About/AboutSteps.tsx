@@ -12,7 +12,7 @@ export default function AboutSteps() {
 
       <div className="relative mx-auto flex max-w-[1380px] flex-col gap-10 px-4 py-20 sm:py-24 lg:py-28 md:flex-row md:items-center">
         <div className="space-y-6 md:w-1/2">
-          <p className="inline-flex items-center rounded-full bg-slate-900/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-400 ring-1 ring-sky-500/40">
+          <p className="inline-flex items-center rounded-full bg-slate-900/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 ring-1 ring-blue-500/40">
             About US
           </p>
           <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
@@ -32,7 +32,7 @@ export default function AboutSteps() {
           <Stepper
             initialStep={1}
             autoPlay
-            autoPlayIntervalMs={1500}
+            autoPlayIntervalMs={2000}
             pauseOnInteraction
             stepCircleContainerClassName="bg-slate-950/80 border border-sky-500/40 shadow-[0_20px_60px_rgba(15,23,42,0.9)] backdrop-blur-md"
             stepContainerClassName="justify-between"

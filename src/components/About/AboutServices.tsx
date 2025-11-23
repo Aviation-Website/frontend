@@ -64,7 +64,7 @@ export default function AboutServices() {
     <section className="relative w-full overflow-hidden bg-white py-14 sm:py-18 text-slate-900">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,55,148,0.10),transparent_60%),radial-gradient(circle_at_bottom,rgba(15,23,42,0.06),transparent_65%)]" />
       <div className="pointer-events-none absolute inset-0">
-       
+
         <svg
           className="absolute -left-32 top-4 h-56 w-56 text-[#103794]"
           viewBox="0 0 200 200"
@@ -98,128 +98,41 @@ export default function AboutServices() {
           <circle cx="16" cy="16" r="6" fill="currentColor" opacity="0.86" />
         </svg>
         <svg
-          className="absolute inset-x-0 top-24 h-48 w-full text-[#103794] opacity-[0.3]"
-          viewBox="0 0 1200 260"
+          className="absolute left-0 top-28 h-40 w-[42%] text-[#103794] opacity-[0.25]"
+          viewBox="0 0 400 160"
           aria-hidden="true"
         >
           <path
-            d="M-40 40 C 240 110 520 0 1240 80"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.4"
-          />
-          <path
-            d="M-60 110 C 260 40 620 180 1240 60"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.3"
-            opacity="0.9"
-          />
-          <path
-            d="M-80 170 C 260 200 640 120 1240 150"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.3"
-            opacity="0.85"
-          />
-          <path
-            d="M-120 210 C 260 240 660 160 1240 190"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.1"
-            opacity="0.7"
-          />
-          <path
-            d="M-100 10 C 260 -20 640 40 1240 10"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.1"
-            opacity="0.55"
-          />
-        </svg>
-        <svg
-          className="absolute inset-x-0 top-10 h-[420px] w-full text-[#103794] opacity-[0.32]"
-          viewBox="0 0 1200 420"
-          aria-hidden="true"
-        >
-          <path
-            d="M360 0 L360 420"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-          />
-          <path
-            d="M600 0 L600 420"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            opacity="0.9"
-          />
-          <path
-            d="M840 0 L840 420"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            opacity="0.8"
-          />
-        </svg>
-        <svg
-          className="absolute left-1/2 top-40 h-80 w-80 -translate-x-1/2 text-[#103794] opacity-[0.16]"
-          viewBox="0 0 200 200"
-          aria-hidden="true"
-        >
-          <circle cx="100" cy="100" r="82" fill="currentColor" opacity="0.62" />
-          <circle cx="100" cy="100" r="58" fill="currentColor" opacity="0.68" />
-          <circle cx="100" cy="100" r="36" fill="currentColor" opacity="0.66" />
-        </svg>
-        <svg
-          className="absolute inset-x-6 top-56 h-40 w-full text-[#103794] opacity-[0.24]"
-          viewBox="0 0 1200 200"
-          aria-hidden="true"
-        >
-          <path
-            d="M-60 40 C 260 20 620 80 1240 40"
+            d="M0 120 C 80 90 180 70 320 60"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.2"
           />
           <path
-            d="M-40 90 C 260 130 640 70 1240 110"
+            d="M-10 145 C 90 115 190 95 330 85"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.1"
             opacity="0.9"
           />
+        </svg>
+        <svg
+          className="absolute right-0 top-28 h-40 w-[42%] text-[#103794] opacity-[0.25]"
+          viewBox="0 0 400 160"
+          aria-hidden="true"
+        >
           <path
-            d="M-20 150 C 260 110 660 130 1240 150"
+            d="M400 120 C 320 90 220 70 80 60"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.2"
+          />
+          <path
+            d="M410 145 C 310 115 210 95 70 85"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.1"
-            opacity="0.85"
-          />
-        </svg>
-        <svg
-          className="absolute -left-24 top-10 h-40 w-40 text-[#103794] opacity-[0.18]"
-          viewBox="0 0 200 200"
-          aria-hidden="true"
-        >
-          <path
-            d="M0 120 C 70 40 140 40 220 110"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.2"
-          />
-        </svg>
-        <svg
-          className="absolute right-[-10px] top-20 h-40 w-40 text-[#103794] opacity-[0.18]"
-          viewBox="0 0 200 200"
-          aria-hidden="true"
-        >
-          <path
-            d="M-20 80 C 40 20 120 40 220 100"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.2"
+            opacity="0.9"
           />
         </svg>
         <svg
@@ -273,29 +186,29 @@ export default function AboutServices() {
               <article
                 key={service.title}
                 role="button"
-              tabIndex={0}
-              onClick={() => {
-                setActiveIndex(index);
-                setModalKey((prev) => prev + 1);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
+                tabIndex={0}
+                onClick={() => {
                   setActiveIndex(index);
                   setModalKey((prev) => prev + 1);
-                }
-              }}
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActiveIndex(index);
+                    setModalKey((prev) => prev + 1);
+                  }
+                }}
                 className="relative cursor-pointer overflow-hidden rounded-4xl border border-sky-500/40 bg-blue-950 px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(15,23,42,1)]"
               >
-              <div className="pointer-events-none absolute inset-0 opacity-80">
-                <div className="absolute -left-16 -top-20 h-40 w-40 rounded-full bg-[radial-gradient(circle_at_center,rgba(248,250,252,0.16),transparent_60%)] blur-sm" />
-                <div className="absolute right-[-40px] top-1/3 h-52 w-52 rounded-full bg-[radial-gradient(circle_at_center,rgba(129,140,248,0.4),transparent_65%)] blur-sm" />
-                <div className="absolute inset-x-8 top-10 h-px bg-linear-to-r from-transparent via-violet-400/70 to-transparent opacity-80" />
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black/70 via-transparent" />
-                <span className="absolute left-10 top-16 h-1 w-1 rounded-full bg-violet-300 shadow-[0_0_18px_rgba(196,181,253,0.9)]" />
-                <span className="absolute right-16 top-8 h-1 w-1 rounded-full bg-sky-300 shadow-[0_0_18px_rgba(125,211,252,0.9)]" />
-                <span className="absolute right-10 bottom-16 h-1 w-1 rounded-full bg-violet-400 shadow-[0_0_20px_rgba(167,139,250,0.9)]" />
-              </div>
+                <div className="pointer-events-none absolute inset-0 opacity-80">
+                  <div className="absolute -left-16 -top-20 h-40 w-40 rounded-full bg-[radial-gradient(circle_at_center,rgba(248,250,252,0.16),transparent_60%)] blur-sm" />
+                  <div className="absolute right-[-40px] top-1/3 h-52 w-52 rounded-full bg-[radial-gradient(circle_at_center,rgba(129,140,248,0.4),transparent_65%)] blur-sm" />
+                  <div className="absolute inset-x-8 top-10 h-px bg-linear-to-r from-transparent via-violet-400/70 to-transparent opacity-80" />
+                  <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black/70 via-transparent" />
+                  <span className="absolute left-10 top-16 h-1 w-1 rounded-full bg-violet-300 shadow-[0_0_18px_rgba(196,181,253,0.9)]" />
+                  <span className="absolute right-16 top-8 h-1 w-1 rounded-full bg-sky-300 shadow-[0_0_18px_rgba(125,211,252,0.9)]" />
+                  <span className="absolute right-10 bottom-16 h-1 w-1 rounded-full bg-violet-400 shadow-[0_0_20px_rgba(167,139,250,0.9)]" />
+                </div>
 
                 <div className="relative">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-300/80">

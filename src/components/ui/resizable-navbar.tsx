@@ -72,6 +72,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
       className={cn(
         "sticky inset-x-0 top-0 z-40 w-full transition-colors duration-300",
         !visible && "bg-blue-950 dark:bg-blue-950",
+        className,
       )}
     >
       {React.Children.map(children, (child) =>
@@ -118,7 +119,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <motion.div
+    <div
       onMouseLeave={() => setHovered(null)}
       className={cn(
         "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-700 lg:flex lg:space-x-2",
@@ -147,7 +148,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           <span className="relative z-20">{item.name}</span>
         </a>
       ))}
-    </motion.div>
+    </div>
   );
 };
 
@@ -163,7 +164,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         paddingLeft: visible ? "12px" : "0px",
         borderRadius: visible ? "4px" : "2rem",
         y: visible ? 20 : 0,
-        backgroundColor: visible ? "#172554" : "transparent",
+        backgroundColor: visible ? "#172554" : "rgba(23,37,84,0)",
       }}
       transition={{
         type: "spring",
@@ -279,7 +280,11 @@ export const NavbarButton = ({
       "bg-gradient-to-b from- to- text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
   };
 
-  const Component = Tag as any;
+  const Component = Tag as React.ElementType<{
+    href?: string;
+    className?: string;
+    children?: React.ReactNode;
+  }>;
 
   return (
     <Component
