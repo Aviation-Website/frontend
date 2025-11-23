@@ -71,8 +71,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
       // IMPORTANT: Change this to class of `fixed` if you want the navbar to be fixed
       className={cn(
         "sticky inset-x-0 top-0 z-40 w-full transition-colors duration-300",
-        !visible && "bg-blue-950 dark:bg-blue-950",
-        className,
+        !visible && "bg-[#002d4b] dark:bg-[#002d4b]",
       )}
     >
       {React.Children.map(children, (child) =>
@@ -164,7 +163,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         paddingLeft: visible ? "12px" : "0px",
         borderRadius: visible ? "4px" : "2rem",
         y: visible ? 20 : 0,
-        backgroundColor: visible ? "#172554" : "rgba(23,37,84,0)",
+        backgroundColor: visible ? "#002d4b" : "transparent",
       }}
       transition={{
         type: "spring",
@@ -210,7 +209,7 @@ export const MobileNavMenu = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 bg-blue-950 px-4 py-8 shadow-[0_0_24px_rgba(34,42,53,0.06),0_1px_1px_rgba(0,0,0,0.05),0_0_0_1px_rgba(34,42,53,0.04),0_0_4px_rgba(34,42,53,0.08),0_16px_68px_rgba(47,48,55,0.05),0_1px_0_rgba(255,255,255,0.1)_inset] dark:bg-blue-950",
+            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 bg-[#002d4b] px-4 py-8 shadow-[0_0_24px_rgba(34,42,53,0.06),0_1px_1px_rgba(0,0,0,0.05),0_0_0_1px_rgba(34,42,53,0.04),0_0_4px_rgba(34,42,53,0.08),0_16px_68px_rgba(47,48,55,0.05),0_1px_0_rgba(255,255,255,0.1)_inset] dark:bg-[#002d4b]",
             className,
           )}
         >

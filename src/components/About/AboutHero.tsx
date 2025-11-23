@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import "../StepsSection/StepsSection.css";
+import "../Home/StepsSection/StepsSection.css";
 
 type SectionId =
   | "cockpit"

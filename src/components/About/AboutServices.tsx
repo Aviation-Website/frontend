@@ -186,19 +186,19 @@ export default function AboutServices() {
               <article
                 key={service.title}
                 role="button"
-                tabIndex={0}
-                onClick={() => {
+              tabIndex={0}
+              onClick={() => {
+                setActiveIndex(index);
+                setModalKey((prev) => prev + 1);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
                   setActiveIndex(index);
                   setModalKey((prev) => prev + 1);
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setActiveIndex(index);
-                    setModalKey((prev) => prev + 1);
-                  }
-                }}
-                className="relative cursor-pointer overflow-hidden rounded-4xl border border-sky-500/40 bg-blue-950 px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(15,23,42,1)]"
+                }
+              }}
+                className="relative cursor-pointer overflow-hidden rounded-4xl border border-sky-500/40 bg-[#002d4b] px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(15,23,42,1)]"
               >
                 <div className="pointer-events-none absolute inset-0 opacity-80">
                   <div className="absolute -left-16 -top-20 h-40 w-40 rounded-full bg-[radial-gradient(circle_at_center,rgba(248,250,252,0.16),transparent_60%)] blur-sm" />
@@ -281,7 +281,7 @@ function ServiceModal({ service, onClose, restartKey }: ModalProps) {
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="relative w-full max-w-xl overflow-hidden rounded-4xl border border-sky-500/40 bg-blue-950 px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md"
+        className="relative w-full max-w-xl overflow-hidden rounded-4xl border border-sky-500/40 bg-[#002d4b] px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md"
         initial={{ opacity: 0, y: 32, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 24, scale: 0.96 }}
