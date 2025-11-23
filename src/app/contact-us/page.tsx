@@ -1,8 +1,9 @@
+import { ContactHero, Footer, Navbar } from "@/components";
+
 export default function ContactUsPage() {
-  return (
-    <div>
-      <h1>Contact Us</h1>
-      {/* Contact form content goes here */}
-    </div>
-  );
+  return <main className="smooth-scroll-wrapper">
+    <Navbar />
+    <ContactHero />
+    <Footer />
+  </main>;
 }

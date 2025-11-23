@@ -30,7 +30,7 @@ const globeConfig = {
   autoRotateSpeed: 0.5,
 };
 
-export function Hero() {
+export function ContactHero() {
   return (
     <section className="relative min-h-screen w-full bg-white flex flex-col lg:flex-row items-center justify-center px-4 pt-4 md:pt-16 pb-40 overflow-hidden">
       {/* Background World Map SVG */}
