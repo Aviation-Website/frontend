@@ -10,43 +10,6 @@
   position: relative;
 }
 
-/* ... (other styles remain same until banner) ... */
-
-.steps-banner {
-  display: inline-block;
-  background: #ffffff; /* White background as requested */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff; /* blue-950 text */
-  padding: 0.5rem 1.5rem;
-  border-radius: 9999px;
-  font-weight: 700;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 1), 0 2px 4px -1px rgba(255, 255, 255, 1);
-}
-
-/* ... (other styles) ... */
-
-@media (max-width: 1024px) {
-  .airplane-image {
-    height: auto;
-    width: 100%;
-    margin-top: 0; /* Reset margin for mobile */
-    max-height: none;
-  }
-  
-  .steps-content {
-    flex-direction: column;
-    gap: 3rem;
-  }
-  
-  .steps-left, .steps-right {
-    width: 100%;
-  }
-}
-
 /* Background Elements */
 .steps-background-elements {
   position: absolute;
@@ -85,17 +48,17 @@
 
 .steps-banner {
   display: inline-block;
-  background: rgba(56, 189, 248, 0.1); /* Sky blue tint */
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  color: #fff; /* Sky 400 */
+  background: #ffffff; /* White background */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #172554; /* blue-950 text */
   padding: 0.5rem 1.5rem;
   border-radius: 9999px;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 1.5rem;
-  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 1), 0 2px 4px -1px rgba(255, 255, 255, 1);
 }
 
 .steps-title {
@@ -122,7 +85,7 @@
 .steps-content {
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* Closer gap as requested before */
+  gap: 2rem;
   width: 100%;
   max-width: 1400px;
   padding: 0 1rem;
@@ -135,7 +98,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0; /* No gap for tight integration */
+    gap: 0;
   }
 }
 
@@ -156,10 +119,9 @@
 
 /* Steps Image Specifics */
 .steps-image-wrapper {
-  /* Transparent background for the steps graphic */
   background: transparent;
   box-shadow: none;
-  z-index: 2; /* Layer on top */
+  z-index: 2;
 }
 
 .steps-image {
@@ -176,18 +138,16 @@
 }
 
 /* Airplane Image Specifics */
-/* Airplane Image Specifics */
 .airplane-image-wrapper {
   box-shadow: none;
   border: none;
   background: transparent;
   border-radius: 0;
   overflow: visible;
-  /* Increase width/size context if needed, but flex: 1 in parent handles most */
 }
 
 .airplane-image-wrapper:hover {
-  transform: none; /* Reset wrapper transform, handle in image or animation */
+  transform: none;
   box-shadow: none;
 }
 
@@ -205,24 +165,17 @@
 
 .airplane-image {
   display: block;
-  width: auto; /* Let width adjust to maintain aspect ratio or cover */
-  height: 1100px; /* Match the height of the steps image roughly */
-  max-height: 280vh; /* Prevent it from being too tall on small screens */
+  width: auto;
+  height: 1100px;
+  max-height: 280vh;
   margin-top: -20rem;
   object-fit: contain;
   transition: transform 0.5s ease;
   animation: float 6s ease-in-out infinite;
 }
 
-@media (max-width: 1024px) {
-  .airplane-image {
-    height: auto;
-    width: 100%;
-  }
-}
-
 .airplane-image-wrapper:hover .airplane-image {
-  transform: scale(1.05) rotate(2deg); /* Enhanced hover movement */
+  transform: scale(1.05) rotate(2deg);
   animation-play-state: paused;
 }
 
@@ -250,4 +203,36 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+@keyframes float-mobile {
+  0% {
+    transform: rotate(180deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(180deg) translateY(-20px);
+  }
+  100% {
+    transform: rotate(180deg) translateY(0px);
+  }
+}
+
+/* Mobile Responsive Styles - Placed at the end to override */
+@media (max-width: 1024px) {
+  .airplane-image {
+    height: auto;
+    width: 100%;
+    margin-top: -4rem; /* Pull up to reduce gap */
+    max-height: none;
+    animation: float-mobile 6s ease-in-out infinite; /* Use mobile-specific animation */
+  }
+  
+  .steps-content {
+    flex-direction: column;
+    gap: 0; /* Remove gap between columns */
+  }
+  
+  .steps-left, .steps-right {
+    width: 100%;
+  }
 }

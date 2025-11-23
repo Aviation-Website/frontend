@@ -10,12 +10,12 @@ const World = dynamic(() => import("@/components/ui/globe").then((m) => m.World)
 
 const globeConfig = {
   pointSize: 4,
-  globeColor: "#062056",
+  globeColor: "#092d79", // Brighter realistic ocean blue
   showAtmosphere: true,
   atmosphereColor: "#FFFFFF",
   atmosphereAltitude: 0.1,
   emissive: "#062056",
-  emissiveIntensity: 0.1,
+  emissiveIntensity: 0.2,
   shininess: 0.9,
   polygonColor: "rgba(255,255,255,0.7)",
   ambientLight: "#38bdf8",
