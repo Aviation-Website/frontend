@@ -4,6 +4,7 @@ import AboutSteps from '@/components/About/AboutSteps'
 import React from 'react'
 import type { Metadata } from 'next'
 import AboutServices from '@/components/About/AboutServices'
+import AboutMission from '@/components/About/AboutMission'
 
 export const metadata: Metadata = {
   title: 'About us | AirSpeak - Aviation Communication Training',
@@ -18,6 +19,7 @@ export default function about() {
       <AboutSteps />
       <AboutServices />
       <AboutHero />
+      <AboutMission />
       <Footer />
     </div>
   )

@@ -105,7 +105,7 @@ export default function AboutHero() {
           viewport={{ once: true, amount: 0.3 }}
         >
           <p className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
-            <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shadow-[0_0_10px_rgba(59,130,246,0.9)]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.9)]" />
             Aircraft explorer
           </p>
           <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl lg:text-[3.1rem]">
@@ -140,7 +140,7 @@ export default function AboutHero() {
                 onMouseEnter={() => handleActivate(section.id)}
                 onFocus={() => handleActivate(section.id)}
                 className={`rounded-full border px-3 py-1 transition-colors duration-150 ${activeId === section.id
-                  ? "border-sky-500 bg-sky-50 text-sky-700"
+                  ? "border-blue-500 bg-sky-50 text-sky-700"
                   : "border-slate-200 bg-white text-slate-500 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700"
                   }`}
               >

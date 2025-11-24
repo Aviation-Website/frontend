@@ -62,11 +62,11 @@ export default function AboutServices() {
 
   return (
     <section className="relative w-full overflow-hidden bg-white py-14 sm:py-18 text-slate-900">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,55,148,0.10),transparent_60%),radial-gradient(circle_at_bottom,rgba(15,23,42,0.06),transparent_65%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,45,75,0.10),transparent_60%),radial-gradient(circle_at_bottom,rgba(0,45,75,0.06),transparent_65%)]" />
       <div className="pointer-events-none absolute inset-0">
 
         <svg
-          className="absolute -left-32 top-4 h-56 w-56 text-[#103794]"
+          className="absolute -left-32 top-4 h-56 w-56 text-[#002d4b]"
           viewBox="0 0 200 200"
           aria-hidden="true"
         >
@@ -75,7 +75,7 @@ export default function AboutServices() {
           <circle cx="100" cy="100" r="40" fill="currentColor" opacity="0.66" />
         </svg>
         <svg
-          className="absolute right-[-60px] top-4 h-56 w-56 text-[#103794]"
+          className="absolute right-[-60px] top-4 h-56 w-56 text-[#002d4b]"
           viewBox="0 0 200 200"
           aria-hidden="true"
         >
@@ -84,21 +84,21 @@ export default function AboutServices() {
           <circle cx="100" cy="100" r="40" fill="currentColor" opacity="0.66" />
         </svg>
         <svg
-          className="absolute right-8 top-32 h-5 w-5 text-[#103794]"
+          className="absolute right-8 top-32 h-5 w-5 text-[#002d4b]"
           viewBox="0 0 40 40"
           aria-hidden="true"
         >
           <circle cx="20" cy="20" r="7" fill="currentColor" opacity="0.86" />
         </svg>
         <svg
-          className="absolute right-24 top-40 h-3 w-3 text-[#103794]"
+          className="absolute right-24 top-40 h-3 w-3 text-[#002d4b]"
           viewBox="0 0 32 32"
           aria-hidden="true"
         >
           <circle cx="16" cy="16" r="6" fill="currentColor" opacity="0.86" />
         </svg>
         <svg
-          className="absolute left-0 top-28 h-40 w-[42%] text-[#103794] opacity-[0.25]"
+          className="absolute left-0 top-28 h-40 w-[42%] text-[#002d4b] opacity-[0.25]"
           viewBox="0 0 400 160"
           aria-hidden="true"
         >
@@ -106,18 +106,18 @@ export default function AboutServices() {
             d="M0 120 C 80 90 180 70 320 60"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.2"
+            strokeWidth="1.8"
           />
           <path
             d="M-10 145 C 90 115 190 95 330 85"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.1"
-            opacity="0.9"
+            strokeWidth="1.6"
+            opacity="0.95"
           />
         </svg>
         <svg
-          className="absolute right-0 top-28 h-40 w-[42%] text-[#103794] opacity-[0.25]"
+          className="absolute right-0 top-28 h-40 w-[42%] text-[#002d4b] opacity-[0.25]"
           viewBox="0 0 400 160"
           aria-hidden="true"
         >
@@ -125,39 +125,22 @@ export default function AboutServices() {
             d="M400 120 C 320 90 220 70 80 60"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.2"
+            strokeWidth="1.8"
           />
           <path
             d="M410 145 C 310 115 210 95 70 85"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.1"
-            opacity="0.9"
+            strokeWidth="1.6"
+            opacity="0.95"
           />
         </svg>
-        <svg
-          className="absolute -left-24 bottom-6 h-56 w-56 text-[#103794]"
-          viewBox="0 0 200 200"
-          aria-hidden="true"
-        >
-          <circle cx="100" cy="100" r="88" fill="currentColor" opacity="0.62" />
-          <circle cx="100" cy="100" r="64" fill="currentColor" opacity="0.68" />
-          <circle cx="100" cy="100" r="40" fill="currentColor" opacity="0.66" />
-        </svg>
-        <svg
-          className="absolute right-[-40px] bottom-10 h-56 w-56 text-[#103794]"
-          viewBox="0 0 200 200"
-          aria-hidden="true"
-        >
-          <circle cx="100" cy="100" r="88" fill="currentColor" opacity="0.62" />
-          <circle cx="100" cy="100" r="64" fill="currentColor" opacity="0.68" />
-          <circle cx="100" cy="100" r="40" fill="currentColor" opacity="0.66" />
-        </svg>
+
       </div>
       <div className="relative z-10 mx-auto max-w-[1380px] px-4">
         <div className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-900 shadow-[0_0_14px_rgba(30,58,138,0.9)]" />
+          <div className="inline-flex items-center gap-3 rounded-full border border-blye-950/80 bg-[#002d4b] px-6 py-2.5 text-sm font-bold uppercase tracking-[0.2em] text-white shadow-lg backdrop-blur-md">
+            <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.8)]" />
             What we offer
           </div>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -198,7 +181,7 @@ export default function AboutServices() {
                   setModalKey((prev) => prev + 1);
                 }
               }}
-                className="relative cursor-pointer overflow-hidden rounded-4xl border border-sky-500/40 bg-[#002d4b] px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(15,23,42,1)]"
+                className="relative cursor-pointer overflow-hidden rounded-4xl border border-blue-500/40 bg-[#002d4b] px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(15,23,42,1)]"
               >
                 <div className="pointer-events-none absolute inset-0 opacity-80">
                   <div className="absolute -left-16 -top-20 h-40 w-40 rounded-full bg-[radial-gradient(circle_at_center,rgba(248,250,252,0.16),transparent_60%)] blur-sm" />
@@ -281,7 +264,7 @@ function ServiceModal({ service, onClose, restartKey }: ModalProps) {
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="relative w-full max-w-xl overflow-hidden rounded-4xl border border-sky-500/40 bg-[#002d4b] px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md"
+        className="relative w-full max-w-xl overflow-hidden rounded-4xl border border-blue-500/40 bg-[#002d4b] px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md"
         initial={{ opacity: 0, y: 32, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 24, scale: 0.96 }}

@@ -8,16 +8,16 @@ export default function AboutSteps() {
         className="absolute inset-0 bg-cover bg-center opacity-80"
         style={{ backgroundImage: "url('/About/about-hero.jpg')" }}
       />
-      <div className="absolute inset-0 bg-slate-950/80" />
+      <div className="absolute inset-0 bg-[#002d4b]/90" />
 
       <div className="relative mx-auto flex max-w-[1380px] flex-col gap-10 px-4 py-20 sm:py-24 lg:py-28 md:flex-row md:items-center">
         <div className="space-y-6 md:w-1/2">
-          <p className="inline-flex items-center rounded-full bg-slate-900/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 ring-1 ring-blue-500/40">
+          <p className="inline-flex items-center rounded-full bg-[#002d4b] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white ring-1 ring-white">
             About US
           </p>
           <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
             Make every flight With a clear{" "}
-            <span className="relative inline-flex text-5xl items-center rounded-2xl bg-[#103794] px-3 py-1 mt-4 text-white shadow-[0_12px_40px_rgba(56,189,248,0.6)]">
+            <span className="relative inline-flex text-5xl items-center rounded-2xl bg-white px-3 py-1 mt-4 text-[#002d4b] shadow-[0_12px_40px_rgba(56,189,248,0.6)]">
               Audio Lines
             </span>
           </h1>
@@ -34,7 +34,7 @@ export default function AboutSteps() {
             autoPlay
             autoPlayIntervalMs={2000}
             pauseOnInteraction
-            stepCircleContainerClassName="bg-slate-950/80 border border-sky-500/40 shadow-[0_20px_60px_rgba(15,23,42,0.9)] backdrop-blur-md"
+            stepCircleContainerClassName="bg-slate-950/60 border border-blue-500/40 shadow-[0_20px_60px_rgba(15,23,42,0.9)] backdrop-blur-md"
             stepContainerClassName="justify-between"
             contentClassName="space-y-3 text-left text-slate-100"
             footerClassName=""
@@ -44,13 +44,9 @@ export default function AboutSteps() {
               className:
                 "text-xs font-medium text-slate-300 transition-colors hover:text-white",
             }}
-            nextButtonProps={{
-              className:
-                "duration-200 flex items-center justify-center rounded-full bg-[#5227FF] py-1.5 px-4 text-xs font-semibold tracking-tight text-white shadow-[0_14px_40px_rgba(82,39,255,0.55)] hover:bg-[#6b3bff] active:bg-[#5227FF]",
-            }}
           >
             <Step>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-400">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-300">
                 Phase 1 · Pre-flight focus
               </h3>
               <p className="mt-2 text-sm text-slate-200">
@@ -59,7 +55,7 @@ export default function AboutSteps() {
               </p>
             </Step>
             <Step>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-400">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-300">
                 Phase 2 · Taxi &amp; takeoff
               </h3>
               <p className="mt-2 text-sm text-slate-200">
@@ -68,7 +64,7 @@ export default function AboutSteps() {
               </p>
             </Step>
             <Step>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-400">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-300">
                 Phase 3 · En-route awareness
               </h3>
               <p className="mt-2 text-sm text-slate-200">
@@ -77,7 +73,7 @@ export default function AboutSteps() {
               </p>
             </Step>
             <Step>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-400">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-300">
                 Phase 4 · Approach &amp; debrief
               </h3>
               <p className="mt-2 text-sm text-slate-200">
