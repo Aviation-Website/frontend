@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AirSpeak - Master Aviation Communication",
     description: "Train with exact, book-standard phraseology for professional pilots. Interactive scenarios, AI voices, and structured learning.",
-    url: "https://aviation-app.netlify.app",
+    url: "https://airspeak.netlify.app",
     siteName: "AirSpeak",
     images: [
       {
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     images: ["/Logo/Logo-OG.png"],
     creator: "@AirSpeakApp",
   },
-  metadataBase: new URL("https://aviation-app.netlify.app"),
+  metadataBase: new URL("https://airspeak.netlify.app"),
   keywords: [
     "aviation",
     "communication",
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://aviation-app.netlify.app",
+    canonical: "https://airspeak.netlify.app",
   },
 };
 
