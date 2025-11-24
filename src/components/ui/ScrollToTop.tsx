@@ -38,14 +38,23 @@ export default function ScrollToTop() {
   }, []);
 
   const scrollToTop = () => {
-    const lenis = (window as unknown as { lenis?: { scrollTo: (n: number) => void } }).lenis;
-    if (lenis) {
-      lenis.scrollTo(0);
-    } else {
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
+    } else {
+      const lenis = (window as unknown as { lenis?: { scrollTo: (n: number) => void } }).lenis;
+      if (lenis) {
+        lenis.scrollTo(0);
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
