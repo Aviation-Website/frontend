@@ -3,21 +3,21 @@ import Stepper, { Step } from "@/components/Stepper";
 
 export default function AboutSteps() {
   return (
-    <section className="relative w-full overflow-hidden bg-slate-950 text-slate-50 min-h-[460px]">
+    <section className="relative w-full overflow-hidden bg-slate-950 text-slate-50 min-h-[460px] font-montserrat">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-80"
         style={{ backgroundImage: "url('/About/about-hero.jpg')" }}
       />
       <div className="absolute inset-0 bg-[#002d4b]/90" />
 
-      <div className="relative mx-auto flex max-w-[1380px] flex-col gap-10 px-4 py-20 sm:py-24 lg:py-28 md:flex-row md:items-center">
+      <div className="relative mx-auto flex max-w-[1380px] flex-col gap-10 px-4 py-20 sm:py-24 lg:py-28 md:flex-row md:items-center ">
         <div className="space-y-6 md:w-1/2">
           <p className="inline-flex items-center rounded-full bg-[#002d4b] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white ring-1 ring-white">
             About US
           </p>
           <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
             Make every flight With a clear{" "}
-            <span className="relative inline-flex text-5xl items-center rounded-2xl bg-white px-3 py-1 mt-4 text-[#002d4b] shadow-[0_12px_40px_rgba(56,189,248,0.6)]">
+            <span className="relative inline-flex text-5xl items-center rounded-2xl bg-white px-3 py-1 mt-4 text-[#002d4b] shadow-[0_12px_40px_rgba(56,189,248,0.6)] font-black ">
               Audio Lines
             </span>
           </h1>

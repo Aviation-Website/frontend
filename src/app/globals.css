@@ -153,6 +153,7 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 1.6;
+    font-family:"Montserrat","Montserrat Fallback" !important;
     }
   
   /* Typography Hierarchy - Based on B612 Aviation Font Guide */
