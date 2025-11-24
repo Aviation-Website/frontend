@@ -148,7 +148,7 @@ export default function FaqContent() {
         {/* Chatbot mascots outside the cloud container */}
         <div className="absolute -bottom-4 left-4 sm:left-10">
           <Image
-            src="/Faq/chatbot-holding-magnifying-glass-ai-assistant-for-intelligent-search.png"
+            src="/Faq/chatbot.png"
             alt="AI assistant searching FAQs"
             className="h-40 w-auto object-contain drop-shadow-2xl sm:h-48 lg:h-60"
             width={240}
@@ -157,7 +157,7 @@ export default function FaqContent() {
         </div>
         <div className="absolute -top-1 right-4 sm:right-10">
           <Image
-            src="/Faq/chatbot-holding-magnifying-glass-ai-assistant-for-intelligent-search.png"
+            src="/Faq/chatbot.png"
             alt="AI assistant searching FAQs"
             className="h-40 w-auto object-contain drop-shadow-2xl sm:h-48 lg:h-60 transform -scale-x-100"
             width={240}
