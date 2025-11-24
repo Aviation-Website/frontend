@@ -32,11 +32,11 @@ export const metadata: Metadata = {
     siteName: "AirSpeak",
     images: [
       {
-        url: "/Logo/Logo-OG.svg",
+        url: "/Logo/Logo-OG.png",
         width: 1200,
         height: 630,
         alt: "AirSpeak - Aviation Communication Training Platform",
-        type: "image/svg+xml",
+        type: "image/png",
       },
     ],
     locale: "en_US",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AirSpeak - Aviation Communication Training",
     description: "Master aviation communication with AI-powered training. Perfect for pilots and trainees.",
-    images: ["/Logo/Logo-OG.svg"],
+    images: ["/Logo/Logo-OG.png"],
     creator: "@AirSpeakApp",
   },
   metadataBase: new URL("https://aviation-app.netlify.app"),
