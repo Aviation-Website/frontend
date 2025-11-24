@@ -14,6 +14,9 @@ export default function SmoothScroll() {
       touchMultiplier: 2,
     });
 
+    // Expose lenis to window for usage in other components
+    (window as any).lenis = lenis;
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -22,6 +25,7 @@ export default function SmoothScroll() {
     requestAnimationFrame(raf);
 
     return () => {
+      (window as any).lenis = null;
       lenis.destroy();
     };
   }, []);
