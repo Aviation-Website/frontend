@@ -69,7 +69,7 @@ export const PilotPhrases = () => {
               transition={{ delay: 0.4 }}
               className="pt-4"
             >
-              <button className="w-full md:w-auto bg-[#003049] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:bg-blue-600 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+              <button className="w-full md:w-auto bg-[#003049] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:bg-blue-600 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer">
                 Build Your Scenario
                 <Settings className="w-5 h-5" />
               </button>
@@ -108,7 +108,7 @@ export const PilotPhrases = () => {
                     <Volume2 className="w-4 h-4" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-slate-800 text-sm md:text-base truncate">"Mayday, Mayday, Mayday..."</p>
+                    <p className="font-medium text-slate-800 text-sm md:text-base truncate">&quot;Mayday, Mayday, Mayday...&quot;</p>
                     <div className="flex items-center gap-4 mt-2">
                       <div className="h-1 flex-1 bg-slate-100 rounded-full overflow-hidden">
                         <motion.div 
@@ -127,7 +127,7 @@ export const PilotPhrases = () => {
                    <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center shrink-0">
                     <span className="text-xs font-bold">2</span>
                   </div>
-                  <p className="font-medium text-slate-500 text-sm md:text-base line-clamp-1">"Request immediate return..."</p>
+                  <p className="font-medium text-slate-500 text-sm md:text-base line-clamp-1">&quot;Request immediate return...&quot;</p>
                 </div>
 
                 <div className="border-2 border-dashed border-slate-200 rounded-xl p-3 flex items-center justify-center text-slate-400 gap-2 cursor-pointer hover:border-blue-300 hover:text-blue-500 transition-colors">

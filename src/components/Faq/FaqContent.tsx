@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import Image from "next/image";
 
 type FaqItem = {
   id: string;
@@ -146,17 +147,21 @@ export default function FaqContent() {
       <div className="pointer-events-none absolute inset-0">
         {/* Chatbot mascots outside the cloud container */}
         <div className="absolute -bottom-4 left-4 sm:left-10">
-          <img
+          <Image
             src="/Faq/chatbot-holding-magnifying-glass-ai-assistant-for-intelligent-search.png"
             alt="AI assistant searching FAQs"
             className="h-40 w-auto object-contain drop-shadow-2xl sm:h-48 lg:h-60"
+            width={240}
+            height={240}
           />
         </div>
         <div className="absolute -top-1 right-4 sm:right-10">
-          <img
+          <Image
             src="/Faq/chatbot-holding-magnifying-glass-ai-assistant-for-intelligent-search.png"
             alt="AI assistant searching FAQs"
             className="h-40 w-auto object-contain drop-shadow-2xl sm:h-48 lg:h-60 transform -scale-x-100"
+            width={240}
+            height={240}
           />
         </div>
 
@@ -179,10 +184,12 @@ export default function FaqContent() {
           <div className="mx-auto flex max-w-[1400px] items-stretch justify-center lg:justify-between gap-4 lg:gap-8">
             <div className="relative flex-1 min-w-0 rounded-3xl overflow-hidden border border-slate-200 min-h-[520px] sm:min-h-[560px] lg:min-h-[680px]">
               <div className="pointer-events-none absolute inset-0 -z-10">
-                <img
+                <Image
                   src="/Faq/Cloudy.svg"
                   alt=""
                   className="h-full w-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
 

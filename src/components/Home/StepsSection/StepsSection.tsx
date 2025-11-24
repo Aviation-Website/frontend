@@ -37,7 +37,7 @@ export const StepsSection = () => {
         >
           <div className="image-wrapper steps-image-wrapper">
             <Image
-              src="/Steps/AviationSteps.png"
+              src="/Home/AviationSteps.png"
               alt="Flight Steps"
               width={600}
               height={800}
@@ -56,7 +56,7 @@ export const StepsSection = () => {
         >
           <div className="image-wrapper airplane-image-wrapper">
             <Image
-              src="/Steps/AirplaneSteps.png"
+              src="/Home/AirplaneSteps.png"
               alt="Airplane"
               width={800}
               height={800}

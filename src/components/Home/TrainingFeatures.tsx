@@ -131,7 +131,7 @@ export const TrainingFeatures = () => {
               <div className="absolute inset-0 bg-blue-50 rounded-full scale-90 -z-10" />
               
               <Image
-                src="/Hero/Shape2.png"
+                src="/Home/Shape2.png"
                 alt="Aviation Training Features"
                 fill
                 className="object-contain drop-shadow-2xl bg-transparent"

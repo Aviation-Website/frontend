@@ -15,7 +15,7 @@ export default function SmoothScroll() {
     });
 
     // Expose lenis to window for usage in other components
-    (window as any).lenis = lenis;
+    (window as unknown as { lenis?: Lenis }).lenis = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -25,7 +25,7 @@ export default function SmoothScroll() {
     requestAnimationFrame(raf);
 
     return () => {
-      (window as any).lenis = null;
+      (window as unknown as { lenis?: Lenis }).lenis = undefined;
       lenis.destroy();
     };
   }, []);

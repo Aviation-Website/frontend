@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plane, PlaneIcon, PlaneLanding, PlaneTakeoff } from "lucide-react";
-import { PlaneGeometry } from "three";
 import { IconPlane } from "@tabler/icons-react";
 
 export const ContactForm = () => {
@@ -31,7 +29,7 @@ export const ContactForm = () => {
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <label htmlFor="email" className="text-sm font-bold text-[#152351]">Email Address</label>
-            <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">We'll reply here</span>
+            <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">We&apos;ll reply here</span>
           </div>
           <input
             type="email"

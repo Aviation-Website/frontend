@@ -10,7 +10,7 @@ export const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full z-0">
         <Image
-          src="/Hero/MainHero.png"
+          src="/Home/MainHero.png"
           alt="Aviation Background"
           fill
           className="w-full h-full object-center"

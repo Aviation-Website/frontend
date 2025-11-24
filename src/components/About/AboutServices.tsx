@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 
 type Service = {
   tag: string;
@@ -149,10 +150,12 @@ export default function AboutServices() {
         </div>
 
         <div className="mt-6 flex justify-center">
-          <img
+          <Image
             src="/About/Lifelike text-to-speech - visual selection.svg"
             alt="Lifelike text-to-speech visualization"
             className="w-full max-w-2xl"
+            width={800}
+            height={400}
           />
         </div>
 

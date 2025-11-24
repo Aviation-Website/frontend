@@ -20,7 +20,7 @@ export const Footer = () => {
           {/* Airplane Image */}
           <div className="absolute right-4 md:right-14 top-1/2 -translate-y-1/2 w-24 md:w-20 lg:w-36 h-auto hidden md:block pointer-events-none opacity-90">
             <Image
-              src="/Footer/airplane-2.svg"
+              src="/Footer/airplane.svg"
               alt="Airplane"
               width={300}
               height={300}
@@ -59,7 +59,7 @@ export const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
                 <Image
-                    src="/Logo/icons8-airplane-50.svg"
+                    src="/Logo/Logo.svg"
                     alt="AirSpeak Logo"
                     width={40}
                     height={40}

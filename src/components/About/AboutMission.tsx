@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import Image from "next/image";
 
 const ORBIT_FEATURES = [
   {
@@ -116,10 +117,12 @@ export default function AboutMission() {
                 <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1),transparent_70%)]" />
 
                 {/* Image */}
-                <img
+                <Image
                   src="/About/For pilots & trainees - visual selection.svg"
                   alt="FlightSounds Ecosystem"
                   className="relative h-full w-full object-contain drop-shadow-2xl scale-[1.08]"
+                  width={600}
+                  height={600}
                 />
               </div>
             </div>

@@ -49,7 +49,7 @@ interface MobileNavMenuProps {
   isOpen: boolean;
 }
 
-export const Navbar = ({ children, className }: NavbarProps) => {
+export const Navbar = ({ children }: NavbarProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll({
     target: ref,
@@ -247,7 +247,7 @@ export const NavbarLogo = () => {
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
       <Image
-        src="/Logo/icons8-airplane-50.svg"
+        src="/Logo/Logo.svg"
         alt="AirSpeak logo"
         width={40}
         height={40}

@@ -68,7 +68,7 @@ export function Navbar() {
             </div>
             <div className="w-1/2 flex justify-center">
               <Image
-                src="/Footer/airplane-2.svg"
+                src="/Footer/airplane.svg"
                 alt="Airplane"
                 width={150}
                 height={150}

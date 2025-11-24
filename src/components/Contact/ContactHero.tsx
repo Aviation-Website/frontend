@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Plane, ArrowRight } from "lucide-react";
 import { sampleArcs } from "./Arc";
 import { ContactForm } from "./ContactForm";
 
@@ -38,7 +37,7 @@ export function ContactHero() {
       <div
         className="absolute inset-0 w-full h-full z-0 opacity-15"
         style={{
-          backgroundImage: "url('/Hero/World Map.svg')",
+          backgroundImage: "url('/Contact/World Map.svg')",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
