@@ -1,8 +1,13 @@
+import { Login } from "@/components";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Login | AirSpeak",
+  description: "Sign in to your AirSpeak account to access professional aviation communication training and interactive scenarios.",
+};
+
 export default function LoginPage() {
-  return (
-    <div>
-      <h1>Login</h1>
-      {/* Login form content goes here */}
-    </div>
-  );
+  return <>
+    <Login />
+  </>
 }

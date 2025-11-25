@@ -7,7 +7,7 @@ import AboutServices from '@/components/About/AboutServices'
 import AboutMission from '@/components/About/AboutMission'
 
 export const metadata: Metadata = {
-  title: 'About us | AirSpeak - Aviation Communication Training',
+  title: 'About us | AirSpeak',
   description:
     'Learn more about FlightSounds and how we bring immersive aviation audio experiences to life.',
 }

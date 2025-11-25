@@ -23,7 +23,7 @@ const Preloader = () => {
   if (!isHome) return null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isLoading && (
         <motion.div
           className="fixed inset-0 z-50 flex items-center justify-center bg-blue-950 overflow-hidden"
@@ -31,9 +31,9 @@ const Preloader = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Clouds Layer 1 (Back - Slower) */}
+          {/* Background Clouds Layer 1 (Back - Slower) */}
           <motion.div
-            className="absolute inset-0 z-0 opacity-60"
+            className="absolute inset-0 z-0 opacity-60 pointer-events-none"
             initial={{ y: "-100%" }}
             animate={{ y: "100%" }}
             transition={{ duration: 3, ease: "linear" }}
@@ -43,26 +43,42 @@ const Preloader = () => {
             <Cloud className="absolute left-[30%] top-[80%] h-12 w-12 md:h-24 md:w-24 text-white" />
           </motion.div>
 
-          {/* Plane */}
+          {/* Plane - MAIN CONTENT */}
           <motion.div
-            className="relative z-40 drop-shadow-2xl flex items-center justify-center w-full"
-            initial={{ y: "110vh", scale: 0.5}}
-            animate={{ y: "-110vh", scale: 1.2}}
-            transition={{ duration: 3.5, ease: "easeInOut" }}
+            className="absolute z-30 flex items-center justify-center"
+            initial={{ y: "150vh", opacity: 0, scale: 0.2 }}
+            animate={{ y: "0vh", opacity: 1, scale: 1 }}
+            exit={{ y: "-150vh", opacity: 0 }}
+            transition={{ 
+              duration: 3.5, 
+              ease: "easeInOut",
+              opacity: { duration: 0.5 }
+            }}
           >
-            {/* Replace src with your actual plane image path */}
-            <Image 
-              src="/Logo/AirplanePreloader.png"
-              width={300} 
-              height={300}
-              alt="Plane" 
-              className="h-32 w-32 md:h-[30%] md:w-[30%] object-contain"
-            />
+            <div className="flex flex-col items-center gap-4">
+              <Image 
+                src="/Logo/AirplanePreloader.png"
+                width={150} 
+                height={150}
+                alt="Plane" 
+                className="w-20 h-20 md:w-40 md:h-40 object-contain drop-shadow-2xl"
+                priority
+                unoptimized
+              />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+                className="text-white text-center"
+              >
+                <p className="text-sm md:text-base">Loading AirSpeak...</p>
+              </motion.div>
+            </div>
           </motion.div>
 
-          {/* Clouds Layer 2 (Front - Faster) */}
+          {/* Foreground Clouds Layer 2 (Front - Faster) */}
           <motion.div
-            className="absolute inset-0 z-20 opacity-80"
+            className="absolute inset-0 z-20 opacity-80 pointer-events-none"
             initial={{ y: "100%" }}
             animate={{ y: "-100%" }}
             transition={{ duration: 2.5, ease: "linear" }}
@@ -71,33 +87,32 @@ const Preloader = () => {
             <Cloud className="absolute left-[15%] top-[60%] h-28 w-28 md:h-56 md:w-56 text-white/90" />
           </motion.div>
           
-           {/* Speed Lines / Wind Effect */}
-           <motion.div
-            className="absolute inset-0 z-10"
+          {/* Speed Lines / Wind Effect */}
+          <motion.div
+            className="absolute inset-0 z-10 pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-             {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-0.5 bg-white/30"
-                  style={{
-                    left: `${20 + i * 15}%`,
-                    height: "20vh",
-                    top: "100%",
-                  }}
-                  animate={{ top: "-20%" }}
-                  transition={{
-                    duration: 1 + (i % 3) * 0.2,
-                    repeat: Infinity,
-                    ease: "linear",
-                    delay: (i % 5) * 0.1
-                  }}
-                />
-             ))}
-           </motion.div>
-
+            {[...Array(5)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-0.5 bg-white/30"
+                style={{
+                  left: `${20 + i * 15}%`,
+                  height: "20vh",
+                  top: "100%",
+                }}
+                animate={{ top: "-20%" }}
+                transition={{
+                  duration: 1 + (i % 3) * 0.2,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: (i % 5) * 0.1
+                }}
+              />
+            ))}
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -1,6 +1,12 @@
 import { Navbar } from "@/components/Navbar/Navbar";
 import { Footer } from "@/components/Footer/Footer";
 import FaqContent from "@/components/Faq/FaqContent";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "FAQ | AirSpeak",
+  description: "Frequently asked questions about AirSpeak aviation communication training platform and services.",
+};
 
 export default function FAQPage() {
   return (

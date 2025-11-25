@@ -4,7 +4,6 @@ import "./globals.css";
 
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import ScrollToTop from "@/components/ui/ScrollToTop";
-import Preloader from "@/components/ui/Preloader";
 
 // Using Roboto as B612 might not be available in Next.js Google Fonts
 // But we'll add B612 via CSS import for aviation authenticity
@@ -87,7 +86,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className} ${montserrat.variable} antialiased`} style={{ fontFamily: '"B612", sans-serif' }}>
-        <Preloader />
         <SmoothScroll />
         {children}
         <ScrollToTop />

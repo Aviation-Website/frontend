@@ -37,7 +37,7 @@ export function Navbar() {
           <NavbarButton href="/login" variant="primary">
             Sign In
           </NavbarButton>
-          <NavbarButton href="/register" variant="dark">
+          <NavbarButton href="/signup" variant="dark">
             Register
           </NavbarButton>
         </div>
@@ -80,7 +80,7 @@ export function Navbar() {
             <NavbarButton href="/login" variant="primary" className="flex-1">
               Sign In
             </NavbarButton>
-            <NavbarButton href="/register" variant="dark" className="flex-1">
+            <NavbarButton href="/signup" variant="dark" className="flex-1">
               Register
             </NavbarButton>
           </div>

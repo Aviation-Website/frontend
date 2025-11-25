@@ -5,8 +5,12 @@ import { motion } from "framer-motion";
 import { sampleArcs } from "./Arc";
 import { ContactForm } from "./ContactForm";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
+import { Suspense } from "react";
 
-const World = dynamic(() => import("@/components/ui/globe").then((m) => m.World), {
+// Preload the World component immediately
+const WorldModule = import("@/components/ui/globe");
+
+const World = dynamic(() => WorldModule.then((m) => m.World), {
   ssr: false,
 });
 
@@ -95,9 +99,8 @@ export function ContactHero() {
 
           {/* Mobile Globe */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 1, scale: 1 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
             className="w-full max-w-xs aspect-square relative lg:hidden mx-auto mt-8"
           >
             <World globeConfig={globeConfig} data={sampleArcs} />
@@ -106,9 +109,8 @@ export function ContactHero() {
 
         {/* Right column - Globe (Desktop) */}
         <motion.div
-          initial={{ opacity: 0, x: 30 }}
+          initial={{ opacity: 1, x: 0 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
           className="hidden lg:flex w-full flex-col items-center lg:items-end space-y-8 sticky top-24"
         >
           <div className="w-full max-w-md lg:max-w-xl aspect-square relative cursor-grab">
