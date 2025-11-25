@@ -145,8 +145,8 @@ export default function FaqContent() {
     <section className="relative w-full overflow-hidden bg-white py-12 sm:py-16">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,55,148,0.08),transparent_60%),radial-gradient(circle_at_bottom,rgba(15,23,42,0.03),transparent_65%)]" />
       <div className="pointer-events-none absolute inset-0">
-        {/* Chatbot mascots outside the cloud container */}
-        <div className="absolute -bottom-4 left-4 sm:left-10">
+        {/* Chatbot mascots outside the cloud container (small screens + very wide 2xl and up) */}
+        <div className="absolute -bottom-4 left-4 sm:left-10 xl:left-6 xl:bottom-6 2xl:-bottom-6 2xl:left-10 block lg:hidden 2xl:block">
           <Image
             src="/Faq/chatbot.png"
             alt="AI assistant searching FAQs"
@@ -155,7 +155,7 @@ export default function FaqContent() {
             height={240}
           />
         </div>
-        <div className="absolute -top-1 right-4 sm:right-10">
+        <div className="absolute -top-1 right-4 sm:right-10 xl:right-6 xl:top-4 2xl:-top-4 2xl:right-10 block lg:hidden 2xl:block">
           <Image
             src="/Faq/chatbot.png"
             alt="AI assistant searching FAQs"
@@ -164,14 +164,12 @@ export default function FaqContent() {
             height={240}
           />
         </div>
-
-     
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1400px] px-4">
         {/* Header */}
         <div className="mb-2 pb-4 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-sky-900 sm:text-4xl">
             AirSpeak FAQs
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
@@ -194,6 +192,28 @@ export default function FaqContent() {
               </div>
 
               <div className="relative flex h-full items-center justify-center px-4 py-10 lg:px-10">
+                {/* Chatbot mascots inside the cloud container on lg/xl screens (approx 1050-1536px) */}
+                <div className="pointer-events-none absolute inset-0 hidden lg:block 2xl:hidden">
+                  <div className="absolute -bottom-6 left-4 sm:-bottom-8 sm:left-8">
+                    <Image
+                      src="/Faq/chatbot.png"
+                      alt="AI assistant searching FAQs"
+                      className="h-40 w-auto object-contain drop-shadow-2xl sm:h-48 lg:h-56"
+                      width={240}
+                      height={240}
+                    />
+                  </div>
+                  <div className="absolute top-4 right-4 sm:top-6 sm:right-8">
+                    <Image
+                      src="/Faq/chatbot.png"
+                      alt="AI assistant searching FAQs"
+                      className="h-40 w-auto object-contain drop-shadow-2xl sm:h-48 lg:h-56 transform -scale-x-100"
+                      width={240}
+                      height={240}
+                    />
+                  </div>
+                </div>
+
                 <div className="grid w-full max-w-6xl items-start gap-8 lg:grid-cols-2 lg:gap-10">
                   {/* Left Column */}
                   <div className="flex-1">

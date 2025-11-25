@@ -319,8 +319,8 @@ export default function AboutHero() {
                                 const isMid = viewportWidth !== null && viewportWidth < 1600;
 
                                 const isNarrow = viewportWidth !== null && viewportWidth < 1300;
-                                anchorY = isNarrow ? 60 : 117;
-                                anchorX = isMid? 130 : isNarrow ? 160: 100;
+                                anchorY = isNarrow ? 60 : 110;
+                                anchorX = isMid? 130 : isNarrow ? 160: 135;
 
                                
                               } 
@@ -348,7 +348,7 @@ export default function AboutHero() {
                               if (activeId === "engineRight") {
                                 const isMid = viewportWidth !== null && viewportWidth < 1600;
                                 const isNarrow = viewportWidth !== null && viewportWidth < 1300;
-                                return isMid ? 130 : isNarrow ? 160 : 100;
+                                return isMid ? 130 : isNarrow ? 160 : 135;
                               }
 
                               return 100;
@@ -378,7 +378,7 @@ export default function AboutHero() {
                               }
                                if (activeId === "engineRight"){
                                 const isNarrow = viewportWidth !== null && viewportWidth < 1300;
-                                return isNarrow ? 60 : 117;
+                                return isNarrow ? 60 : 110;
                               }
 
                               return 112;
@@ -755,7 +755,7 @@ export default function AboutHero() {
               animate={viewportWidth && viewportWidth <= 700 ? { opacity: 1 } : { scale: 1, opacity: 1 }}
               exit={viewportWidth && viewportWidth <= 700 ? { opacity: 0 } : { scale: 0.9, opacity: 0 }}
               transition={viewportWidth && viewportWidth <= 700 ? { duration: 0.15 } : { duration: 0.3 }}
-              className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-900 border border-slate-700 shadow-2xl flex flex-col md:flex-row"
+              className="relative w-full max-w-sm sm:max-w-md md:max-w-4xl overflow-hidden rounded-3xl bg-slate-900 border border-slate-700 shadow-2xl flex flex-col md:flex-row"
               onClick={(e) => e.stopPropagation()}
               style={viewportWidth && viewportWidth <= 700 ? { willChange: "opacity", contain: "layout style paint" } : {}}
             >

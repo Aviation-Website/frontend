@@ -34,7 +34,7 @@ const globeConfig = {
 
 export function ContactHero() {
   return (
-    <section className="relative min-h-screen w-full bg-white flex flex-col items-center px-4 pt-10 pb-8 overflow-hidden">
+    <section className="relative min-h-screen w-full bg-white flex flex-col items-center px-4 sm:px-6 md:px-10 lg:px-12 pt-10 pb-8 overflow-hidden">
       {/* Background */}
 
       {/* Subtle Grid Pattern */}
