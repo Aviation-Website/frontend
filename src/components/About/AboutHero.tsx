@@ -141,6 +141,26 @@ export default function AboutHero() {
 
     if (viewport === null) return cfgLeft;
 
+    // Special overrides for tablet / portrait mode (700-1000px) where the plane stacks centered
+    if (viewport >= 700 && viewport <= 1000) {
+      switch (id) {
+        case "cockpit":
+        case "fuselage":
+        case "tail":
+          return "50%"; // centered
+        case "leftWing":
+          return "25%";
+        case "rightWing":
+          return "75%";
+        case "engineLeft":
+          return "35%";
+        case "engineRight":
+          return "65%";
+        default:
+          return cfgLeft;
+      }
+    }
+
     // Nudge right-side elements slightly left on medium/large screens
     // to keep the tooltip inside the viewport without overlapping the plane.
     if (id === "rightWing") {
@@ -157,6 +177,36 @@ export default function AboutHero() {
     }
 
     return cfgLeft;
+  };
+
+  // Helper to adjust tooltip vertical position, including 700-1000px overrides
+  const getTooltipTop = (id: SectionId | null, viewport: number | null) => {
+    if (!id) return "50%";
+    const cfgTop = sectionById[id].tooltipPosition.top;
+
+    if (viewport !== null && viewport >= 700 && viewport <= 1000) {
+      // Specific Y positions for stacked / centered plane layout
+      switch (id) {
+        case "cockpit":
+          return "15%";
+        case "fuselage":
+          return "45%";
+        case "tail":
+          return "80%";
+        case "leftWing":
+          return "40%";
+        case "rightWing":
+          return "40%";
+        case "engineLeft":
+          return "55%";
+        case "engineRight":
+          return "55%";
+        default:
+          return cfgTop;
+      }
+    }
+
+    return cfgTop;
   };
 
   return (
@@ -188,8 +238,8 @@ export default function AboutHero() {
       {/* Main Content Split: Controls (Left) vs Model (Right) */}
       <div className="relative z-10 w-full max-w-[1400px] flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-20">
 
-        {/* Tooltips Overlay - laptops & larger screens only */}
-        <div className="absolute inset-0 pointer-events-none z-[999] hidden lg:block">
+        {/* Tooltips Overlay - hidden at <= 1000px (no line/dot/popup), shown above 1000px */}
+        <div className={`absolute inset-0 pointer-events-none z-[999] ${viewportWidth && viewportWidth <= 1000 ? 'hidden' : 'block'}`}>
           <AnimatePresence>
             {activeId && (
               <motion.div
@@ -206,7 +256,7 @@ export default function AboutHero() {
                       <div
                         className="absolute flex flex-col items-center justify-center"
                         style={{
-                          top: sectionById[activeId].tooltipPosition.top,
+                          top: getTooltipTop(activeId, viewportWidth),
                           left: getTooltipLeft(activeId, viewportWidth),
                           transform: "translate(-50%, -50%)",
                           width: 0,
@@ -293,10 +343,10 @@ export default function AboutHero() {
                               if (activeId === "engineLeft") return 160;
                               if (activeId === "cockpit") return 125;
                               if (activeId === "tail") return 60;
-                              if(activeId === "engineRight") {
-                             const isMid = viewportWidth !== null && viewportWidth < 1600;
+                              if (activeId === "engineRight") {
+                                const isMid = viewportWidth !== null && viewportWidth < 1600;
                                 const isNarrow = viewportWidth !== null && viewportWidth < 1300;
-                                return isMid ? 130 : isNarrow ? 160: 100;
+                                return isMid ? 130 : isNarrow ? 160 : 100;
                               }
 
                               return 100;
@@ -336,30 +386,38 @@ export default function AboutHero() {
                           />
                         </svg>
 
-                        <div
-                          className={
-                            "absolute bg-slate-900/90 border-2 border-white rounded-lg " +
-                            "text-white px-5 py-3 " +
-                            "shadow-[4px_4px_0px_rgba(255,255,255,0.2)] " +
-                            "min-w-[220px] max-w-[300px] " +
-                            (tooltipAlign === "left"
-                              ? "right-[50px] bottom-[30px] "
-                              : "") +
-                            (tooltipAlign === "right"
-                              ? "left-[50px] bottom-[30px] "
-                              : "") +
-                            (tooltipAlign === "center"
-                              ? "bottom-[50px] "
-                              : "")
-                          }
-                        >
-                          <h3 className="font-bold text-lg mb-1 tracking-wide">
-                            {sectionById[activeId].label}
-                          </h3>
-                          <p className="text-xs text-sky-200 uppercase tracking-wider font-semibold">
-                            {sectionById[activeId].short}
-                          </p>
-                        </div>
+                        {viewportWidth !== null && viewportWidth <= 1000 ? null : (
+                          <div
+                            className={
+                              "absolute bg-slate-900/90 border-2 border-white rounded-lg " +
+                              "text-white px-4 py-2 " + // Reduced padding for smaller screens
+                              "shadow-[4px_4px_0px_rgba(255,255,255,0.2)] " +
+                              (viewportWidth && viewportWidth <= 1000
+                                ? "min-w-[180px] max-w-[240px] "
+                                : "min-w-[220px] max-w-[300px] ") + // Smaller size for 700-1000
+                              (tooltipAlign === "left"
+                                ? "right-[50px] bottom-[30px] "
+                                : "") +
+                              (tooltipAlign === "right"
+                                ? "left-[50px] bottom-[30px] "
+                                : "") +
+                              (tooltipAlign === "center"
+                                ? "bottom-[50px] "
+                                : "")
+                            }
+                          >
+                            <h3
+                              className={`font-bold mb-1 tracking-wide ${
+                                viewportWidth && viewportWidth <= 1000 ? "text-base" : "text-lg"
+                              }`}
+                            >
+                              {sectionById[activeId].label}
+                            </h3>
+                            <p className="text-xs text-sky-200 uppercase tracking-wider font-semibold">
+                              {sectionById[activeId].short}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -395,7 +453,8 @@ export default function AboutHero() {
           </div>
 
           {/* Dynamic "Currently Exploring" Card - WHITE THEME */}
-          <div className="w-full bg-white border border-slate-200 rounded-2xl p-6 min-h-[180px] transition-all duration-300 shadow-xl">
+          {/* Show on mobile if < 700 (without hover msg), show normally >= 700 */}
+          <div className={`w-full bg-white border border-slate-200 rounded-2xl p-6 min-h-[180px] transition-all duration-300 shadow-xl ${(viewportWidth && viewportWidth < 700 && !activeSection) ? 'hidden' : 'block'}`}>
           <p className="text-xs font-bold text-sky-600 uppercase tracking-wider mb-2">
             Currently Exploring
           </p>
@@ -423,7 +482,7 @@ export default function AboutHero() {
                 className="flex flex-col justify-center h-full"
               >
                 <p className="text-slate-400 italic">
-                  Hover over the aircraft model to view details...
+                  {viewportWidth && viewportWidth < 700 ? "" : "Hover over the aircraft model to view details..."}
                 </p>
               </motion.div>
             )}
@@ -689,6 +748,7 @@ export default function AboutHero() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
+              transition={viewportWidth && viewportWidth < 700 ? { duration: 0.2 } : {}} // Faster on mobile
               className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-900 border border-slate-700 shadow-2xl flex flex-col md:flex-row"
               onClick={(e) => e.stopPropagation()}
             >
