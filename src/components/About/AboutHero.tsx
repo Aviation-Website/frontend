@@ -102,7 +102,9 @@ const sectionById: Record<SectionId, SectionConfig> = SECTIONS.reduce(
 export default function AboutHero() {
   const [activeId, setActiveId] = useState<SectionId | null>(null);
   const [selectedId, setSelectedId] = useState<SectionId | null>(null);
-  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
+  const [viewportWidth, setViewportWidth] = useState<number | null>(() =>
+    typeof window !== "undefined" ? window.innerWidth : null
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -188,19 +190,19 @@ export default function AboutHero() {
       // Specific Y positions for stacked / centered plane layout
       switch (id) {
         case "cockpit":
-          return "15%";
+          return "55%";   // slightly above nose of plane
         case "fuselage":
-          return "45%";
+          return "68%";   // over center body
         case "tail":
-          return "80%";
+          return "86%";   // near tail section
         case "leftWing":
-          return "40%";
+          return "63%";
         case "rightWing":
-          return "40%";
+          return "63%";
         case "engineLeft":
-          return "55%";
+          return "73%";
         case "engineRight":
-          return "55%";
+          return "73%";
         default:
           return cfgTop;
       }
@@ -453,41 +455,43 @@ export default function AboutHero() {
           </div>
 
           {/* Dynamic "Currently Exploring" Card - WHITE THEME */}
-          {/* Show on mobile if < 700 (without hover msg), show normally >= 700 */}
-          <div className={`w-full bg-white border border-slate-200 rounded-2xl p-6 min-h-[180px] transition-all duration-300 shadow-xl ${(viewportWidth && viewportWidth < 700 && !activeSection) ? 'hidden' : 'block'}`}>
-          <p className="text-xs font-bold text-sky-600 uppercase tracking-wider mb-2">
-            Currently Exploring
-          </p>
-          <AnimatePresence mode="wait">
-            {activeSection ? (
-              <motion.div
-                key={activeSection.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                <h3 className="text-2xl font-bold text-slate-900 mb-1">{activeSection.label}</h3>
-                <p className="text-sm text-sky-600 font-medium mb-3">{activeSection.short}</p>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  {activeSection.description}
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="empty"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex flex-col justify-center h-full"
-              >
-                <p className="text-slate-400 italic">
-                  {viewportWidth && viewportWidth < 700 ? "" : "Hover over the aircraft model to view details..."}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          </div>
+          {/* Not rendered at all on very small screens (< 700px) since there's no hover */}
+          {viewportWidth !== null && viewportWidth < 700 ? null : (
+            <div className="w-full bg-white border border-slate-200 rounded-2xl p-6 min-h-[180px] transition-all duration-300 shadow-xl">
+              <p className="text-xs font-bold text-sky-600 uppercase tracking-wider mb-2">
+                Currently Exploring
+              </p>
+              <AnimatePresence mode="wait">
+                {activeSection ? (
+                  <motion.div
+                    key={activeSection.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <h3 className="text-2xl font-bold text-slate-900 mb-1">{activeSection.label}</h3>
+                    <p className="text-sm text-sky-600 font-medium mb-3">{activeSection.short}</p>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {activeSection.description}
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="empty"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex flex-col justify-center h-full"
+                  >
+                    <p className="text-slate-400 italic">
+                      Hover over the aircraft model to view details...
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
 
         {/* Right Column: Plane Model Section (Increased Size) */}
