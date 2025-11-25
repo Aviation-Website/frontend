@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import "../Home/StepsSection/StepsSection.css";
@@ -102,6 +102,20 @@ const sectionById: Record<SectionId, SectionConfig> = SECTIONS.reduce(
 export default function AboutHero() {
   const [activeId, setActiveId] = useState<SectionId | null>(null);
   const [selectedId, setSelectedId] = useState<SectionId | null>(null);
+  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleHover = (id: SectionId | null) => {
     setActiveId(id);
@@ -186,15 +200,33 @@ export default function AboutHero() {
                               let anchorY = 112;
 
                               if (activeId === "leftWing") {
-                                anchorX = 140;
-                                anchorY = 145;
+                                anchorX = 160;
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+                                anchorY = isNarrow ? 125 : 155;
                               } else if (activeId === "engineLeft") {
                                 anchorX = 160;
-                                anchorY = 126;
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+
+                                anchorY = isNarrow ? 60 : 126;
                               } else if (activeId === "cockpit") {
                                 anchorX = 125;
                                 anchorY = 70;
                               }
+                              else if (activeId === "tail") {
+
+                                anchorX = 60;
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+                                
+                                anchorY = isNarrow ? 60 : 100;
+                                
+                              }
+
+                              else if (activeId === "engineRight") {
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+                                anchorY = isNarrow ? 60 : 117;
+                               
+                              }
+
 
                               if (align === "right") {
                                 return `M ${anchorX} ${anchorY} C ${anchorX + 24} ${anchorY + 2}, ${anchorX + 40} ${anchorY - 18}, 160 64`;
@@ -212,15 +244,32 @@ export default function AboutHero() {
                           />
                           <circle
                             cx={(() => {
-                              if (activeId === "leftWing") return 140;
+                              if (activeId === "leftWing") return 160;
                               if (activeId === "engineLeft") return 160;
                               if (activeId === "cockpit") return 125;
+                              if (activeId === "tail") return 60;
+
                               return 100;
                             })()}
                             cy={(() => {
-                              if (activeId === "leftWing") return 145;
-                              if (activeId === "engineLeft") return 125;
+                              if (activeId === "leftWing") {
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+                                return isNarrow ? 125 : 155;
+                              }
                               if (activeId === "cockpit") return 70;
+                              if (activeId === "tail"){
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+                                return isNarrow ? 60 : 100;
+                              }
+                               if (activeId === "engineLeft"){
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+                                return isNarrow ? 60 : 126;
+                              }
+                               if (activeId === "engineRight"){
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+                                return isNarrow ? 60 : 117;
+                              }
+
                               return 112;
                             })()}
                             r="4"
