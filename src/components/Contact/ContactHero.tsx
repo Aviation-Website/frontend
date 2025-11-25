@@ -81,7 +81,7 @@ export function ContactHero() {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col items-center lg:items-start w-full max-w-2xl"
+          className="flex flex-col items-center lg:items-start w-full lg:max-w-2xl"
         >
           <div className="w-full bg-white/95 p-6 md:p-7 rounded-3xl shadow-sm border border-blue-50 z-20 relative overflow-hidden">
             {/* Top Bar */}
