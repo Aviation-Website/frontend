@@ -50,7 +50,7 @@ const SECTIONS: SectionConfig[] = [
     short: "Lift generator",
     description:
       "One of the primary lifting surfaces, carefully shaped to keep the aircraft stable in the air. Equipped with flaps, slats, and ailerons for precise control.",
-    tooltipPosition: { top: "45%", left: "25%", align: "left" }, // Mid-Left Wing, Box Left
+    tooltipPosition: { top: "38%", left: "29%", align: "center" }, // Mid-Left Wing, Box Left
     modalViewBox: "50 80 150 90", // Full left wing
   },
   {
@@ -59,7 +59,7 @@ const SECTIONS: SectionConfig[] = [
     short: "Lift generator",
     description:
       "Mirrors the left wing to balance lift, fuel storage, and control surfaces. Integral fuel tanks extend range and structural integrity.",
-    tooltipPosition: { top: "51%", left: "72%", align: "right" }, // Mid-Right Wing, Box Right
+    tooltipPosition: { top: "51%", left: "78%", align: "right" }, // Mid-Right Wing, Box Right (adjusted right)
     modalViewBox: "200 80 150 90", // Full right wing
   },
   {
@@ -128,6 +128,37 @@ export default function AboutHero() {
   const selectedSection = selectedId ? sectionById[selectedId] : null;
   const activeSection = activeId ? sectionById[activeId] : null;
 
+  // Helper to adjust tooltip alignment dynamically (e.g. preventing overflow on wide screens)
+  const tooltipAlign = activeId
+    ? activeId === "rightWing"
+      ? "center"
+      : sectionById[activeId].tooltipPosition.align
+    : "center";
+
+  const getTooltipLeft = (id: SectionId | null, viewport: number | null) => {
+    if (!id) return "50%";
+    const cfgLeft = sectionById[id].tooltipPosition.left;
+
+    if (viewport === null) return cfgLeft;
+
+    // Nudge right-side elements slightly left on medium/large screens
+    // to keep the tooltip inside the viewport without overlapping the plane.
+    if (id === "rightWing") {
+      if (viewport <= 1200) return "72%"; // more left on smaller large screens
+      if (viewport <= 1500) return "70%"; // extra left between 1300-1500
+      if (viewport <= 1600) return "74%"; // centered above wing, inside screen
+      return cfgLeft;
+    }
+
+    if (id === "engineRight") {
+      if (viewport <= 1200) return "54%"; // more left on smaller large screens
+      if (viewport <= 1600) return "58%"; // slightly left but still above engine
+      return cfgLeft;
+    }
+
+    return cfgLeft;
+  };
+
   return (
     <section className="steps-section-container relative overflow-hidden min-h-screen flex flex-col items-center py-20 px-4 lg:px-12 gap-12">
       <div className="steps-background-elements">
@@ -176,7 +207,7 @@ export default function AboutHero() {
                         className="absolute flex flex-col items-center justify-center"
                         style={{
                           top: sectionById[activeId].tooltipPosition.top,
-                          left: sectionById[activeId].tooltipPosition.left,
+                          left: getTooltipLeft(activeId, viewportWidth),
                           transform: "translate(-50%, -50%)",
                           width: 0,
                           height: 0,
@@ -195,14 +226,14 @@ export default function AboutHero() {
                         >
                           <path
                             d={(() => {
-                              const align = sectionById[activeId].tooltipPosition.align;
+                              const align = tooltipAlign;
                               let anchorX = 100;
                               let anchorY = 112;
 
                               if (activeId === "leftWing") {
-                                anchorX = 160;
-                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
-                                anchorY = isNarrow ? 125 : 155;
+                                anchorX = 120;
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1200;
+                                anchorY = isNarrow ? 125 : 210;
                               } else if (activeId === "engineLeft") {
                                 anchorX = 160;
                                 const isNarrow = viewportWidth !== null && viewportWidth < 1250;
@@ -219,14 +250,28 @@ export default function AboutHero() {
                                 
                                 anchorY = isNarrow ? 60 : 100;
                                 
+                              }  else if (activeId === "rightWing") {
+
+                                const isRange =
+                                  viewportWidth !== null && viewportWidth >= 1000 && viewportWidth <= 1070;
+                                if (isRange) {
+                                  // Lift the anchor ~40 units up in this width band
+                                  anchorY = 72;
+                                } else {
+                                  const isNarrow = viewportWidth !== null && viewportWidth < 1200;
+                                  anchorY = isNarrow ? 100 : 112;
+                                }
                               }
 
                               else if (activeId === "engineRight") {
-                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
-                                anchorY = isNarrow ? 60 : 117;
-                               
-                              }
+                                const isMid = viewportWidth !== null && viewportWidth < 1600;
 
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1300;
+                                anchorY = isNarrow ? 60 : 117;
+                                anchorX = isMid? 130 : isNarrow ? 160: 100;
+
+                               
+                              } 
 
                               if (align === "right") {
                                 return `M ${anchorX} ${anchorY} C ${anchorX + 24} ${anchorY + 2}, ${anchorX + 40} ${anchorY - 18}, 160 64`;
@@ -244,17 +289,31 @@ export default function AboutHero() {
                           />
                           <circle
                             cx={(() => {
-                              if (activeId === "leftWing") return 160;
+                              if (activeId === "leftWing") return 120;
                               if (activeId === "engineLeft") return 160;
                               if (activeId === "cockpit") return 125;
                               if (activeId === "tail") return 60;
+                              if(activeId === "engineRight") {
+                             const isMid = viewportWidth !== null && viewportWidth < 1600;
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1300;
+                                return isMid ? 130 : isNarrow ? 160: 100;
+                              }
 
                               return 100;
                             })()}
                             cy={(() => {
                               if (activeId === "leftWing") {
-                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
-                                return isNarrow ? 125 : 155;
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1200;
+                                return isNarrow ? 125 : 210;
+                              }
+                               if (activeId === "rightWing") {
+                                const isRange =
+                                  viewportWidth !== null && viewportWidth >= 1000 && viewportWidth <= 1070;
+                                if (isRange) {
+                                  return 72;
+                                }
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1200;
+                                return isNarrow ? 100 : 112;
                               }
                               if (activeId === "cockpit") return 70;
                               if (activeId === "tail"){
@@ -266,7 +325,7 @@ export default function AboutHero() {
                                 return isNarrow ? 60 : 126;
                               }
                                if (activeId === "engineRight"){
-                                const isNarrow = viewportWidth !== null && viewportWidth < 1250;
+                                const isNarrow = viewportWidth !== null && viewportWidth < 1300;
                                 return isNarrow ? 60 : 117;
                               }
 
@@ -283,13 +342,13 @@ export default function AboutHero() {
                             "text-white px-5 py-3 " +
                             "shadow-[4px_4px_0px_rgba(255,255,255,0.2)] " +
                             "min-w-[220px] max-w-[300px] " +
-                            (sectionById[activeId].tooltipPosition.align === "left"
+                            (tooltipAlign === "left"
                               ? "right-[50px] bottom-[30px] "
                               : "") +
-                            (sectionById[activeId].tooltipPosition.align === "right"
+                            (tooltipAlign === "right"
                               ? "left-[50px] bottom-[30px] "
                               : "") +
-                            (sectionById[activeId].tooltipPosition.align === "center"
+                            (tooltipAlign === "center"
                               ? "bottom-[50px] "
                               : "")
                           }
@@ -623,7 +682,7 @@ export default function AboutHero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 md:backdrop-blur-md p-4"
             onClick={() => setSelectedId(null)}
           >
             <motion.div
@@ -645,11 +704,11 @@ export default function AboutHero() {
               <div className="w-full md:w-1/2 h-64 md:h-auto bg-slate-950 flex items-center justify-center p-8 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.1),_transparent_70%)]" />
                 <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  animate={viewportWidth && viewportWidth > 700 ? { rotate: 360 } : { rotate: 0 }}
+                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
                   className="w-full h-full max-w-[300px] max-h-[300px]"
                 >
-                  <svg viewBox={selectedSection.modalViewBox} className="w-full h-full drop-shadow-[0_0_30px_rgba(56,189,248,0.5)]">
+                  <svg viewBox={selectedSection.modalViewBox} className="w-full h-full">
                     <defs>
                       <linearGradient id="plane-body-modal" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#f9fafb" />

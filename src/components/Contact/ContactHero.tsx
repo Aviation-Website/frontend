@@ -70,7 +70,7 @@ export function ContactHero() {
           Contact Our Team
         </h1>
         <p className="max-w-2xl mx-auto text-lg text-slate-600 leading-relaxed">
-          We're here to help with your flight simulation audio needs. Fill out the form and we'll get back to you.
+          We&apos;re here to help with your flight simulation audio needs. Fill out the form and we&apos;ll get back to you.
         </p>
       </motion.div>
 
@@ -137,13 +137,13 @@ export function ContactHero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
               whileHover={{ y: -8, scale: 1.02 }}
-              className="group relative flex flex-col items-center p-6 rounded-2xl bg-white/70 border border-blue-50 hover:border-blue-200 hover:bg-blue-50/60 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-lg overflow-hidden"
+              className="group relative flex flex-col items-center p-6 rounded-2xl bg-[#1e4b79] border border-slate-700 hover:border-sky-500 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-sky-500/20 overflow-hidden"
             >
-              <div className={`relative h-14 w-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-110 transition-all duration-300`}>
+              <div className={`relative h-14 w-14 rounded-full bg-[#1a2b63] flex items-center justify-center text-sky-400 mb-4 group-hover:scale-110 transition-all duration-300 group-hover:bg-sky-500/20 group-hover:text-sky-300`}>
                 <item.icon className="h-7 w-7" />
               </div>
-              <h3 className="font-bold text-[#152351] text-lg mb-1 relative">{item.label}</h3>
-              <p className="text-sm text-slate-500 relative">{item.desc}</p>
+              <h3 className="font-bold text-white text-lg mb-1 relative">{item.label}</h3>
+              <p className="text-sm text-slate-400 relative">{item.desc}</p>
             </motion.div>
           ))}
         </div>
