@@ -33,6 +33,22 @@ const ORBIT_FEATURES = [
 
 export default function AboutMission() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState<number | null>(() =>
+    typeof window !== "undefined" ? window.innerWidth : null
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -119,8 +135,12 @@ export default function AboutMission() {
                     <motion.div 
                       className="flex h-full items-center"
                       animate={{ x: ["-50%", "0%"] }}
-                      transition={{ duration: 25, ease: "linear", repeat: Infinity }}
-                      style={{ width: "200%" }}
+                      transition={{ 
+                        duration: viewportWidth && viewportWidth <= 700 ? 40 : 25, 
+                        ease: "linear", 
+                        repeat: Infinity 
+                      }}
+                      style={{ width: "200%", willChange: "transform" }}
                     >
                       {/* Detailed World Map Pattern (Repeated Twice) */}
                       {[0, 1].map((i) => (
@@ -170,15 +190,16 @@ export default function AboutMission() {
                   className="relative z-20"
                   initial={{ rotate: 0 }} 
                   animate={{ 
-                    y: [-3, 3, -3],
-                    x: [-1, 1, -1],
-                    rotate: [0, -1, 1, 0] 
+                    y: viewportWidth && viewportWidth <= 700 ? [-2, 2, -2] : [-3, 3, -3],
+                    x: viewportWidth && viewportWidth <= 700 ? [-0.5, 0.5, -0.5] : [-1, 1, -1],
+                    rotate: viewportWidth && viewportWidth <= 700 ? [0, -0.5, 0.5, 0] : [0, -1, 1, 0]
                   }}
                   transition={{ 
-                    y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-                    x: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-                    rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+                    y: { duration: viewportWidth && viewportWidth <= 700 ? 4 : 3, repeat: Infinity, ease: "easeInOut" },
+                    x: { duration: viewportWidth && viewportWidth <= 700 ? 6 : 5, repeat: Infinity, ease: "easeInOut" },
+                    rotate: { duration: viewportWidth && viewportWidth <= 700 ? 8 : 6, repeat: Infinity, ease: "easeInOut" }
                   }}
+                  style={{ willChange: "transform" }}
                 >
                   <Image
                     src="/About/plane-svgrepo-com.svg"

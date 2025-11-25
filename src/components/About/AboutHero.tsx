@@ -745,16 +745,19 @@ export default function AboutHero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 md:backdrop-blur-md p-4"
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 ${
+              viewportWidth && viewportWidth > 700 ? "backdrop-blur-md" : ""
+            }`}
             onClick={() => setSelectedId(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={viewportWidth && viewportWidth < 700 ? { duration: 0.2 } : {}} // Faster on mobile
+              initial={viewportWidth && viewportWidth <= 700 ? { opacity: 0 } : { scale: 0.9, opacity: 0 }}
+              animate={viewportWidth && viewportWidth <= 700 ? { opacity: 1 } : { scale: 1, opacity: 1 }}
+              exit={viewportWidth && viewportWidth <= 700 ? { opacity: 0 } : { scale: 0.9, opacity: 0 }}
+              transition={viewportWidth && viewportWidth <= 700 ? { duration: 0.15 } : { duration: 0.3 }}
               className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-900 border border-slate-700 shadow-2xl flex flex-col md:flex-row"
               onClick={(e) => e.stopPropagation()}
+              style={viewportWidth && viewportWidth <= 700 ? { willChange: "opacity", contain: "layout style paint" } : {}}
             >
               {/* Close Button */}
               <button
@@ -768,9 +771,10 @@ export default function AboutHero() {
               <div className="w-full md:w-1/2 h-64 md:h-auto bg-slate-950 flex items-center justify-center p-8 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.1),_transparent_70%)]" />
                 <motion.div
-                  animate={viewportWidth && viewportWidth > 700 ? { rotate: 360 } : { rotate: 0 }}
-                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                  animate={viewportWidth && viewportWidth > 700 ? { rotate: 360 } : {}}
+                  transition={viewportWidth && viewportWidth > 700 ? { duration: 15, repeat: Infinity, ease: "linear" } : {}}
                   className="w-full h-full max-w-[300px] max-h-[300px]"
+                  style={viewportWidth && viewportWidth > 700 ? { willChange: "transform" } : {}}
                 >
                   <svg viewBox={selectedSection.modalViewBox} className="w-full h-full">
                     <defs>
