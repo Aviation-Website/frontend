@@ -3,17 +3,24 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
+import { usePathname } from "next/navigation";
 
 const Preloader = () => {
+  const pathname = usePathname();
+  const isHome = pathname === "/home" || pathname === "/";
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!isHome) return;
+
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3500);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isHome]);
+
+  if (!isHome) return null;
 
   return (
     <AnimatePresence>
