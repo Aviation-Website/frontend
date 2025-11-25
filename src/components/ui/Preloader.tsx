@@ -15,7 +15,7 @@ const Preloader = () => {
 
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3500);
+    }, 2500); // reduced from 3500ms -> ~1s shorter total
 
     return () => clearTimeout(timer);
   }, [isHome]);
@@ -46,22 +46,21 @@ const Preloader = () => {
           {/* Plane - MAIN CONTENT */}
           <motion.div
             className="absolute z-30 flex items-center justify-center"
-            initial={{ y: "150vh", opacity: 0, scale: 0.2 }}
-            animate={{ y: "0vh", opacity: 1, scale: 1 }}
-            exit={{ y: "-150vh", opacity: 0 }}
+            initial={{ y: "80vh", opacity: 1, scale: 0.9 }}
+            animate={{ y: "-20vh", opacity: 1, scale: 2.2 }}
+            exit={{ y: "-120vh", opacity: 0, scale: 2.4 }}
             transition={{ 
-              duration: 3.5, 
+              duration: 1.8, // was 2.3s, ~0.5s faster so it finishes before 2.5s timeout
               ease: "easeInOut",
-              opacity: { duration: 0.5 }
             }}
           >
             <div className="flex flex-col items-center gap-4">
               <Image 
                 src="/Logo/AirplanePreloader.png"
-                width={150} 
-                height={150}
+                width={260} 
+                height={260}
                 alt="Plane" 
-                className="w-20 h-20 md:w-40 md:h-40 object-contain drop-shadow-2xl"
+                className="w-32 h-32 md:w-64 md:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-2xl"
                 priority
                 unoptimized
               />
