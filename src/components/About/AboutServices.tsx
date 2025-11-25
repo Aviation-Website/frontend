@@ -172,18 +172,18 @@ export default function AboutServices() {
               <article
                 key={service.title}
                 role="button"
-              tabIndex={0}
-              onClick={() => {
-                setActiveIndex(index);
-                setModalKey((prev) => prev + 1);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
+                tabIndex={0}
+                onClick={() => {
                   setActiveIndex(index);
                   setModalKey((prev) => prev + 1);
-                }
-              }}
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActiveIndex(index);
+                    setModalKey((prev) => prev + 1);
+                  }
+                }}
                 className="relative cursor-pointer overflow-hidden rounded-4xl border border-blue-500/40 bg-[#002d4b] px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(15,23,42,1)]"
               >
                 <div className="pointer-events-none absolute inset-0 opacity-80">
