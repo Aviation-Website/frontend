@@ -62,7 +62,13 @@ export default function AboutServices() {
   }, [activeIndex]);
 
   return (
-    <section className="relative w-full overflow-hidden bg-white py-14 sm:py-18 text-slate-900">
+    <motion.section
+      className="relative w-full overflow-hidden bg-white py-14 sm:py-18 text-slate-900"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+    >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,45,75,0.10),transparent_60%),radial-gradient(circle_at_bottom,rgba(0,45,75,0.06),transparent_65%)]" />
       <div className="pointer-events-none absolute inset-0">
 
@@ -140,16 +146,34 @@ export default function AboutServices() {
       </div>
       <div className="relative z-10 mx-auto max-w-[1380px] px-4">
         <div className="text-center">
-          <div className="inline-flex items-center gap-3 rounded-full border border-blye-950/80 bg-[#002d4b] px-6 py-2.5 text-sm font-bold uppercase tracking-[0.2em] text-white shadow-lg backdrop-blur-md">
+          <motion.div
+            className="inline-flex items-center gap-3 rounded-full border border-blye-950/80 bg-[#002d4b] px-6 py-2.5 text-sm font-bold uppercase tracking-[0.2em] text-white shadow-lg backdrop-blur-md"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
             <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.8)]" />
             What we offer
-          </div>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+          </motion.div>
+          <motion.h2
+            className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          >
             One service, three ways to sound real
-          </h2>
+          </motion.h2>
         </div>
 
-        <div className="mt-6 flex justify-center">
+        <motion.div
+          className="mt-6 flex justify-center"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+        >
           <Image
             src="/About/Lifelike text-to-speech - visual selection.svg"
             alt="Lifelike text-to-speech visualization"
@@ -157,7 +181,7 @@ export default function AboutServices() {
             width={800}
             height={400}
           />
-        </div>
+        </motion.div>
 
         <div className="mt-8 grid gap-6 md:mt-10 md:grid-cols-3">
           {SERVICES.map((service, index) => {
@@ -169,7 +193,7 @@ export default function AboutServices() {
             const subtitleDuration = service.subtitle.length * subtitleSpeed;
 
             return (
-              <article
+              <motion.article
                 key={service.title}
                 role="button"
                 tabIndex={0}
@@ -185,6 +209,10 @@ export default function AboutServices() {
                   }
                 }}
                 className="relative cursor-pointer overflow-hidden rounded-4xl border border-blue-500/40 bg-[#002d4b] px-7 py-8 text-slate-50 shadow-[0_8px_60px_rgba(15,23,42,0.9)] backdrop-blur-md transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(15,23,42,1)]"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease: "easeOut" }}
               >
                 <div className="pointer-events-none absolute inset-0 opacity-80">
                   <div className="absolute -left-16 -top-20 h-40 w-40 rounded-full bg-[radial-gradient(circle_at_center,rgba(248,250,252,0.16),transparent_60%)] blur-sm" />
@@ -226,7 +254,7 @@ export default function AboutServices() {
                     showCursor
                   />
                 </div>
-              </article>
+              </motion.article>
             );
           })}
         </div>
@@ -241,7 +269,7 @@ export default function AboutServices() {
           />
         )}
       </AnimatePresence>
-    </section>
+    </motion.section>
   );
 }
 

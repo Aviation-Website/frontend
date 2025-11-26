@@ -65,8 +65,13 @@ export default function AboutMission() {
 
       <div className="relative mx-auto max-w-7xl px-4">
         {/* Header */}
-        <div className="mx-auto mb-6 max-w-3xl text-center">
-      
+        <motion.div
+          className="mx-auto mb-6 max-w-3xl text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
             Audio training out of the box.
             <br />
@@ -76,7 +81,7 @@ export default function AboutMission() {
             AirSpeak gives you ready-to-fly training audio: cockpit voices, ATC, and ambience that
             drop straight into your simulator or classroom scenarios.
           </p>
-        </div>
+        </motion.div>
 
         {/* Radial Layout Container */}
         <div className="relative mx-auto max-w-7xl">
@@ -107,23 +112,43 @@ export default function AboutMission() {
             {/* Left Column Cards */}
             <div className="flex flex-col gap-y-12 lg:gap-y-40 lg:items-end">
               {/* Top Left */}
-              <FeatureCard
-                feature={ORBIT_FEATURES[0]}
-                isActive={activeIndex === 0}
-                onClick={() => setActiveIndex(0)}
-                className="lg:translate-y-16"
-              />
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              >
+                <FeatureCard
+                  feature={ORBIT_FEATURES[0]}
+                  isActive={activeIndex === 0}
+                  onClick={() => setActiveIndex(0)}
+                  className="lg:translate-y-16"
+                />
+              </motion.div>
               {/* Bottom Left */}
-              <FeatureCard
-                feature={ORBIT_FEATURES[2]}
-                isActive={activeIndex === 2}
-                onClick={() => setActiveIndex(2)}
-                className="lg:-translate-y-16"
-              />
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              >
+                <FeatureCard
+                  feature={ORBIT_FEATURES[2]}
+                  isActive={activeIndex === 2}
+                  onClick={() => setActiveIndex(2)}
+                  className="lg:-translate-y-16"
+                />
+              </motion.div>
             </div>
 
             {/* Center Image */}
-            <div className="relative z-10 flex justify-center py-4 lg:py-0">
+            <motion.div
+              className="relative z-10 flex justify-center py-4 lg:py-0"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+            >
               <div className="relative w-full aspect-square rounded-full bg-[#002d4b] p-0 shadow-2xl ring-1 ring-white/10 overflow-hidden flex flex-col items-center justify-center group">
                 
                 {/* Rotating Earth Map Background */}
@@ -231,24 +256,38 @@ export default function AboutMission() {
                   </AnimatePresence>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Column Cards */}
             <div className="flex flex-col gap-y-12 lg:gap-y-40 lg:items-start">
               {/* Top Right */}
-              <FeatureCard
-                feature={ORBIT_FEATURES[1]}
-                isActive={activeIndex === 1}
-                onClick={() => setActiveIndex(1)}
-                className="lg:translate-y-16"
-              />
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              >
+                <FeatureCard
+                  feature={ORBIT_FEATURES[1]}
+                  isActive={activeIndex === 1}
+                  onClick={() => setActiveIndex(1)}
+                  className="lg:translate-y-16"
+                />
+              </motion.div>
               {/* Bottom Right */}
-              <FeatureCard
-                feature={ORBIT_FEATURES[3]}
-                isActive={activeIndex === 3}
-                onClick={() => setActiveIndex(3)}
-                className="lg:-translate-y-16"
-              />
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              >
+                <FeatureCard
+                  feature={ORBIT_FEATURES[3]}
+                  isActive={activeIndex === 3}
+                  onClick={() => setActiveIndex(3)}
+                  className="lg:-translate-y-16"
+                />
+              </motion.div>
             </div>
 
           </div>

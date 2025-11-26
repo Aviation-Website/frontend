@@ -212,7 +212,13 @@ export default function AboutHero() {
   };
 
   return (
-    <section className="steps-section-container relative overflow-hidden min-h-screen flex flex-col items-center py-20 px-4 lg:px-12 gap-12">
+    <motion.section
+      className="steps-section-container relative overflow-hidden min-h-screen flex flex-col items-center py-20 px-4 lg:px-12 gap-12"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="steps-background-elements">
         <div className="grid-overlay" />
         <div className="glow-effect" />
@@ -429,14 +435,19 @@ export default function AboutHero() {
           </AnimatePresence>
         </div>
 
-        {/* Left Column: Controls & Info */}
-        <div className="w-full lg:w-[32%] flex flex-col gap-8 lg:sticky lg:top-24 lg:mt-18 relative z-20">
+        <motion.div
+          className="w-full lg:w-[32%] flex flex-col gap-8 lg:sticky lg:top-24 lg:mt-18 relative z-20"
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+        >
           {/* Quick Jump Buttons - MOVED TO TOP */}
           <div className="flex flex-col gap-3 relative z-40 max-w-[360px]">
             <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Quick Jump:</span>
             <div className="flex flex-wrap gap-2">
-              {SECTIONS.map((section) => (
-                <button
+              {SECTIONS.map((section, idx) => (
+                <motion.button
                   key={section.id}
                   onClick={() => handleClick(section.id)}
                   onMouseEnter={() => handleHover(section.id)}
@@ -447,9 +458,13 @@ export default function AboutHero() {
                       ? "bg-sky-500 text-white border-sky-500 shadow-[0_0_15px_rgba(14,165,233,0.4)]"
                       : "bg-slate-800/50 text-slate-300 border-slate-700 hover:bg-slate-700 hover:border-slate-600"}
                   `}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.3 + idx * 0.05, ease: "easeOut" }}
                 >
                   {section.label}
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -457,7 +472,13 @@ export default function AboutHero() {
           {/* Dynamic "Currently Exploring" Card - WHITE THEME */}
           {/* Not rendered at all on very small screens (< 700px) since there's no hover */}
           {viewportWidth !== null && viewportWidth < 700 ? null : (
-            <div className="w-full bg-white border border-slate-200 rounded-2xl p-6 min-h-[180px] transition-all duration-300 shadow-xl">
+            <motion.div
+              className="w-full bg-white border border-slate-200 rounded-2xl p-6 min-h-[180px] transition-all duration-300 shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+            >
               <p className="text-xs font-bold text-sky-600 uppercase tracking-wider mb-2">
                 Currently Exploring
               </p>
@@ -490,17 +511,24 @@ export default function AboutHero() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           )}
-        </div>
+        </motion.div>
 
         {/* Right Column: Plane Model Section (Increased Size) */}
-        <div className="w-full lg:w-[68%] flex justify-center items-center relative">
+        <motion.div
+          className="w-full lg:w-[68%] flex justify-center items-center relative"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+        >
           <motion.div
             className="relative aspect-[16/9] w-full scale-125 lg:scale-150 origin-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, scale: 0.85 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           >
             
             {/* SVG Plane */}
@@ -735,7 +763,7 @@ export default function AboutHero() {
             </g>
           </svg>
         </motion.div>
-      </div>
+      </motion.div>
       </div>
 
       {/* Modal Overlay */}
@@ -932,6 +960,6 @@ export default function AboutHero() {
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </motion.section>
   );
 }
