@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
+import Link from "next/link";
 
 export const Hero = () => {
   return (
@@ -60,12 +61,12 @@ export const Hero = () => {
             transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
             className="pt-4 md:pt-8"
           >
-            <a
-              href="/register"
+            <Link
+              href="/signup"
               className="inline-block bg-white text-[#003049] text-[0.7rem] md:text-xl font-bold py-2 px-6 md:py-4 md:px-10 rounded-full shadow-lg hover:bg-gray-500 hover:text-white hover:scale-105 transition-all duration-300 font-sans normal-case"
             >
               Train Now
-            </a>
+            </Link>
           </motion.div>
         </div>
       </div>
