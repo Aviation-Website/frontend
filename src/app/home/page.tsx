@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function home() {
   return (
     <main className="smooth-scroll-wrapper">
-        <Preloader />
+        {/* <Preloader /> */}
         <Navbar />
         <Hero />
         <PilotPhrases />
