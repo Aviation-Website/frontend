@@ -1,9 +1,18 @@
+"use client";
+
 import React from "react";
+import { motion } from "motion/react";
 import Stepper, { Step } from "@/components/Stepper";
 
 export default function AboutSteps() {
   return (
-    <section className="relative w-full overflow-hidden bg-slate-950 text-slate-50 min-h-[460px] font-montserrat">
+    <motion.section
+      className="relative w-full overflow-hidden bg-slate-950 text-slate-50 min-h-[460px] font-montserrat"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div
         className="absolute inset-0 bg-cover bg-center opacity-80"
         style={{ backgroundImage: "url('/About/about-hero.jpg')" }}
@@ -12,23 +21,47 @@ export default function AboutSteps() {
 
       <div className="relative mx-auto flex max-w-[1380px] flex-col gap-10 px-4 py-20 sm:py-24 lg:py-28 md:flex-row md:items-center ">
         <div className="space-y-6 md:w-1/2">
-          <p className="inline-flex items-center rounded-full bg-[#002d4b] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white ring-1 ring-white">
+          <motion.p
+            className="inline-flex items-center rounded-full bg-[#002d4b] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white ring-1 ring-white"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
             About US
-          </p>
-          <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+          </motion.p>
+          <motion.h1
+            className="text-balance text-3xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          >
             Make every flight With a clear{" "}
             <span className="relative inline-flex text-5xl items-center rounded-2xl bg-white px-3 py-1 mt-4 text-[#002d4b] shadow-[0_12px_40px_rgba(56,189,248,0.6)] font-black ">
               Audio Lines
             </span>
-          </h1>
-          <p className="max-w-xl text-sm leading-relaxed text-slate-200 sm:text-base">
+          </motion.h1>
+          <motion.p
+            className="max-w-xl text-sm leading-relaxed text-slate-200 sm:text-base"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          >
             These four phases show how FlightSounds supports pilots with focused, low-distraction
             audio from pre-flight to debrief.
-          </p>
+          </motion.p>
 
         </div>
 
-        <div className="md:w-1/2 md:ml-auto lg:w-5/12">
+        <motion.div
+          className="md:w-1/2 md:ml-auto lg:w-5/12"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+        >
           <Stepper
             initialStep={1}
             autoPlay
@@ -82,8 +115,8 @@ export default function AboutSteps() {
               </p>
             </Step>
           </Stepper>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }
