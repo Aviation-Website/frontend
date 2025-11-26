@@ -128,17 +128,17 @@ function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqItemProps) {
             )}
           </AnimatePresence>
         </div>
-        <span className="ml-3 mt-1 flex h-5 w-5 shrink-0 items-center justify-center text-sky-500">
+        <span className="ml-3 mt-1 flex h-6 w-6 shrink-0 items-center justify-center text-sky-500">
           <svg
-            className={`h-5 w-5 transform transition-transform duration-300 ${isOpen ? "rotate-0" : "-rotate-90"}`}
+            className={`h-6 w-6 transform transition-transform duration-300 ${isOpen ? "-rotate-90" : "rotate-0"}`}
             viewBox="0 0 20 20"
             fill="none"
             aria-hidden="true"
           >
             <path
-              d="M5 8l5 5 5-5"
+              d="M12 6L8 10l4 4"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="1.6"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
