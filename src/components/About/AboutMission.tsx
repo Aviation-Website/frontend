@@ -161,7 +161,7 @@ export default function AboutMission() {
                       className="flex h-full items-center"
                       animate={{ x: ["-50%", "0%"] }}
                       transition={{ 
-                        duration: viewportWidth && viewportWidth <= 700 ? 40 : 25, 
+                        duration: viewportWidth && viewportWidth <= 700 ? 40 : 20, 
                         ease: "linear", 
                         repeat: Infinity 
                       }}
