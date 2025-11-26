@@ -92,7 +92,7 @@ function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqItemProps) {
       <button
         type="button"
         onClick={onToggle}
-        className="group flex w-full items-start gap-5 px-5 py-5 text-left transition-colors hover:bg-slate-50"
+        className="group flex w-full items-start gap-5 px-5 py-5 text-left transition-colors hover:bg-slate-50 cursor-pointer"
         aria-expanded={isOpen}
       >
         {/* Number Badge */}
@@ -128,6 +128,22 @@ function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqItemProps) {
             )}
           </AnimatePresence>
         </div>
+        <span className="ml-3 mt-1 flex h-5 w-5 shrink-0 items-center justify-center text-sky-500">
+          <svg
+            className={`h-5 w-5 transform transition-transform duration-300 ${isOpen ? "rotate-0" : "-rotate-90"}`}
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 8l5 5 5-5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </button>
     </div>
   );
