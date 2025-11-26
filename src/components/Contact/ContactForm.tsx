@@ -61,7 +61,7 @@ export const ContactForm = () => {
               key={tag}
               type="button"
               onClick={() => setSubject(tag)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${subject === tag
+              className={`px-4 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 ${subject === tag
                   ? "bg-[#3271b1] text-white shadow-md shadow-blue-500/20"
                   : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                 }`}

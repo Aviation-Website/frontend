@@ -47,7 +47,7 @@ const FAQ_ITEMS: FaqItem[] = [
   },
   {
     id: "team-access",
-    question: "Can my  team use one workspace?",
+    question: "Can my team use one workspace?",
     answer:
       "We are designing shared workspaces so instructors, curriculum designers, and check airmen can collaborate on the same playbooks, scenarios, and audio libraries.",
   },
