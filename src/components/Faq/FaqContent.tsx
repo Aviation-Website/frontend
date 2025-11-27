@@ -115,17 +115,25 @@ function FaqAccordionItem({ item, index, isOpen, onToggle, isMobile }: FaqItemPr
           </h3>
           <AnimatePresence initial={false}>
             {isOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={isMobile ? { duration: 0.2, ease: "easeOut" } : { duration: 0.3, ease: "easeInOut" }}
-                className="overflow-hidden"
-              >
-                <p className="pt-3 pr-4 text-[15px] leading-relaxed text-slate-600">
-                  {item.answer}
-                </p>
-              </motion.div>
+              isMobile ? (
+                <div className="overflow-hidden">
+                  <p className="pt-3 pr-4 text-[15px] leading-relaxed text-slate-600">
+                    {item.answer}
+                  </p>
+                </div>
+              ) : (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="overflow-hidden"
+                >
+                  <p className="pt-3 pr-4 text-[15px] leading-relaxed text-slate-600">
+                    {item.answer}
+                  </p>
+                </motion.div>
+              )
             )}
           </AnimatePresence>
         </div>

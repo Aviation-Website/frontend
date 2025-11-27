@@ -235,3 +235,18 @@
     width: 100%;
   }
 }
+
+/* Disable hover effects on images for 300px to 700px widths only */
+@media (min-width: 300px) and (max-width: 700px) {
+  .steps-image-wrapper:hover .steps-image {
+    transform: none;
+  }
+
+  .airplane-image-wrapper:hover .airplane-image {
+    transform: none;
+  }
+
+  .airplane-image-wrapper:hover .overlay {
+    opacity: 0;
+  }
+}
