@@ -1,10 +1,58 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import type { ElementType } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import "./StepsSection.css";
 
 export const StepsSection = () => {
+  const [isMobileWidth, setIsMobileWidth] = useState(false);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const width = window.innerWidth;
+      setIsMobileWidth(width >= 300 && width <= 700);
+    };
+
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  const disableScrollAnimation = isMobileWidth;
+
+  const HeaderWrapper: ElementType = disableScrollAnimation ? "div" : motion.div;
+  const LeftWrapper: ElementType = disableScrollAnimation ? "div" : motion.div;
+  const RightWrapper: ElementType = disableScrollAnimation ? "div" : motion.div;
+
+  const headerMotionProps = disableScrollAnimation
+    ? {}
+    : {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.8, ease: "easeOut" },
+        viewport: { once: true },
+      };
+
+  const leftMotionProps = disableScrollAnimation
+    ? {}
+    : {
+        initial: { opacity: 0, x: -30 },
+        whileInView: { opacity: 1, x: 0 },
+        transition: { duration: 0.8, delay: 0.2 },
+        viewport: { once: true },
+      };
+
+  const rightMotionProps = disableScrollAnimation
+    ? {}
+    : {
+        initial: { opacity: 0, x: 30 },
+        whileInView: { opacity: 1, x: 0 },
+        transition: { duration: 0.8, delay: 0.4 },
+        viewport: { once: true },
+      };
+
   return (
     <section className="steps-section-container">
       <div className="steps-background-elements">
@@ -12,11 +60,8 @@ export const StepsSection = () => {
         <div className="glow-effect"></div>
       </div>
       
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: true }}
+      <HeaderWrapper
+        {...headerMotionProps}
         className="steps-header"
       >
         <div className="steps-banner">
@@ -24,16 +69,13 @@ export const StepsSection = () => {
         </div>
         <h2 className="steps-title">Flight Process</h2>
         <p className="steps-subtitle">Master the art of aviation communication from pre-flight to landing.</p>
-      </motion.div>
+      </HeaderWrapper>
 
       <div className="steps-content">
         {/* Left Column: Steps Image */}
-        <motion.div
+        <LeftWrapper
+          {...leftMotionProps}
           className="steps-left"
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
         >
           <div className="image-wrapper steps-image-wrapper">
             <Image
@@ -44,15 +86,12 @@ export const StepsSection = () => {
               className="steps-image"
             />
           </div>
-        </motion.div>
+        </LeftWrapper>
 
         {/* Right Column: Airplane Image */}
-        <motion.div
+        <RightWrapper
+          {...rightMotionProps}
           className="steps-right"
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
         >
           <div className="image-wrapper airplane-image-wrapper">
             <Image
@@ -63,7 +102,7 @@ export const StepsSection = () => {
               className="airplane-image"
             />
           </div>
-        </motion.div>
+        </RightWrapper>
       </div>
     </section>
   );
