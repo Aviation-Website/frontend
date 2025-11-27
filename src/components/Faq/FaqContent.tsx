@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 
@@ -80,13 +80,14 @@ const FAQ_ITEMS: FaqItem[] = [
 type FaqItemProps = {
   item: FaqItem;
   index: number;
+  isMobile: boolean;
   isOpen: boolean;
   onToggle: () => void;
 };
 
 
 
-function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqItemProps) {
+function FaqAccordionItem({ item, index, isOpen, onToggle, isMobile }: FaqItemProps) {
   return (
     <div className="border-b border-slate-200 last:border-0">
       <button
@@ -118,7 +119,7 @@ function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqItemProps) {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
+                transition={isMobile ? { duration: 0.2, ease: "easeOut" } : { duration: 0.3, ease: "easeInOut" }}
                 className="overflow-hidden"
               >
                 <p className="pt-3 pr-4 text-[15px] leading-relaxed text-slate-600">
@@ -151,6 +152,19 @@ function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqItemProps) {
 
 export default function FaqContent() {
   const [openId, setOpenId] = useState<string | null>(null);
+  const [isMobileWidth, setIsMobileWidth] = useState(false);
+
+  useEffect(() => {
+    const updateIsMobile = () => {
+      const width = window.innerWidth;
+      setIsMobileWidth(width >= 300 && width <= 700);
+    };
+
+    updateIsMobile();
+
+    window.addEventListener("resize", updateIsMobile);
+    return () => window.removeEventListener("resize", updateIsMobile);
+  }, []);
 
   // Split items into two columns
   const midPoint = Math.ceil(FAQ_ITEMS.length / 2);
@@ -239,6 +253,7 @@ export default function FaqContent() {
                           key={item.id}
                           item={item}
                           index={idx}
+                          isMobile={isMobileWidth}
                           isOpen={openId === item.id}
                           onToggle={() => setOpenId(openId === item.id ? null : item.id)}
                         />
@@ -254,6 +269,7 @@ export default function FaqContent() {
                           key={item.id}
                           item={item}
                           index={midPoint + idx}
+                          isMobile={isMobileWidth}
                           isOpen={openId === item.id}
                           onToggle={() => setOpenId(openId === item.id ? null : item.id)}
                         />
