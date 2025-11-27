@@ -415,9 +415,7 @@ export default function AboutHero() {
                             }
                           >
                             <h3
-                              className={`font-bold mb-1 tracking-wide ${
-                                viewportWidth && viewportWidth <= 1000 ? "text-base" : "text-lg"
-                              }`}
+                              className={`font-bold mb-1 tracking-wide text-sm`}
                             >
                               {sectionById[activeId].label}
                             </h3>
@@ -790,7 +788,7 @@ export default function AboutHero() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedId(null)}
-                className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors"
+                className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 cursor-pointer transition-colors"
               >
                 <X size={24} />
               </button>
