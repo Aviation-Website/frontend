@@ -5,13 +5,11 @@ import { motion } from "framer-motion";
 import { sampleArcs } from "./Arc";
 import { ContactForm } from "./ContactForm";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
-import { Suspense } from "react";
 
-// Preload the World component immediately
-const WorldModule = import("@/components/ui/globe");
-
-const World = dynamic(() => WorldModule.then((m) => m.World), {
+// Dynamically import World component with no SSR
+const World = dynamic(() => import("@/components/ui/globe").then((m) => m.World), {
   ssr: false,
+  loading: () => <div className="h-full w-full" />,
 });
 
 const globeConfig = {
