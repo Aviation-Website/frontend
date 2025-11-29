@@ -12,8 +12,8 @@ const features = [
     icon: MessageSquare
   },
   {
-    title: "A220 Cockpit Calls",
-    description: "Specialized training for A220 systems and flows, featuring exact manufacturer phraseology.",
+    title: "A320 Cockpit Calls",
+    description: "Specialized training for A320 systems and flows, featuring exact manufacturer phraseology.",
     icon: Plane
   },
   {

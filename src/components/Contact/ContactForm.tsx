@@ -2,6 +2,13 @@
 
 import React, { useState } from "react";
 import { IconPlane } from "@tabler/icons-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const ContactForm = () => {
   const [subject, setSubject] = useState("Inquiry");
@@ -44,32 +51,49 @@ export const ContactForm = () => {
       <div className="space-y-2">
         <div className="flex justify-between items-center">
           <label htmlFor="subject" className="text-sm font-bold text-[#152351]">Subject</label>
-          <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">Choose or write</span>
+          <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">Choose a topic</span>
         </div>
-        <input
-          type="text"
-          id="subject"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#3271b1] focus:border-transparent outline-none transition-all bg-white text-gray-700"
-        />
+        
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2 pt-1">
-          {tags.map((tag) => (
-            <button
-              key={tag}
-              type="button"
-              onClick={() => setSubject(tag)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 ${subject === tag
-                  ? "bg-[#3271b1] text-white shadow-md shadow-blue-500/20"
-                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                }`}
-            >
-              {tag}
-            </button>
-          ))}
+
+        <div className="relative">
+          <Select
+            value={tags.includes(subject) ? subject : "Others"}
+            onValueChange={(val) => {
+              if (val === "Others") {
+                setSubject("");
+              } else {
+                setSubject(val);
+              }
+            }}
+          >
+            <SelectTrigger className="w-full px-4 py-3 h-auto rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#3271b1] focus:border-transparent outline-none transition-all bg-white text-gray-700">
+              <SelectValue placeholder="Select a subject" />
+            </SelectTrigger>
+            <SelectContent>
+              {tags.map((tag) => (
+                <SelectItem key={tag} value={tag}>
+                  {tag}
+                </SelectItem>
+              ))}
+              <SelectItem value="Others">Others</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
+
+        {(!tags.includes(subject) || subject === "") && (
+          <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+            <input
+              type="text"
+              id="subject-custom"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="Please specify your subject"
+              className="w-full px-4 py-3 mt-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#3271b1] focus:border-transparent outline-none transition-all bg-white text-gray-700"
+              autoFocus
+            />
+          </div>
+        )}
       </div>
 
       {/* Row 3: Message */}

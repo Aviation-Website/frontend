@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -5,10 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Image from "next/image";
+import PhoneInput from "react-phone-number-input";
 
 const Logo = () => <Image src="/Logo/Logo-OG.png" alt="AirSpeak Logo" className="rounded-md" width={28} height={28} />;
 const AuthWaves = ()=> <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-50 -z-10" width={1920} height={1080} />;
 export function Signup() {
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
+
   return (
     <div className="relative flex items-center justify-center min-h-screen ">
       <AuthWaves />
@@ -29,21 +35,40 @@ export function Signup() {
             Create new account for workspace
           </h3>
         </div>
-              <div>
-                <Label
-                  htmlFor="name-login-05"
-                  className="text-sm font-medium text-foreground dark:text-foreground"
-                >
-                  Name
-                </Label>
-                <Input
-                  type="text"
-                  id="name-login-05"
-                  name="name-login-05"
-                  autoComplete="name-login-05"
-                  placeholder="Name"
-                  className="mt-2"
-                />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <Label
+                    htmlFor="first-name-login-05"
+                    className="text-sm font-medium text-foreground dark:text-foreground"
+                  >
+                    First Name
+                  </Label>
+                  <Input
+                    type="text"
+                    id="first-name-login-05"
+                    name="first-name-login-05"
+                    autoComplete="given-name"
+                    placeholder="First Name"
+                    className="mt-2"
+                  />
+                </div>
+
+                <div>
+                  <Label
+                    htmlFor="last-name-login-05"
+                    className="text-sm font-medium text-foreground dark:text-foreground"
+                  >
+                    Last Name
+                  </Label>
+                  <Input
+                    type="text"
+                    id="last-name-login-05"
+                    name="last-name-login-05"
+                    autoComplete="family-name"
+                    placeholder="Last Name"
+                    className="mt-2"
+                  />
+                </div>
               </div>
 
               <div>
@@ -63,37 +88,55 @@ export function Signup() {
                 />
               </div>
 
-              <div>
-                <Label
-                  htmlFor="password-login-05"
-                  className="text-sm font-medium text-foreground dark:text-foreground"
-                >
-                  Password
-                </Label>
-                <Input
-                  type="password"
-                  id="password-login-05   "
-                  name="password-login-05"
-                  autoComplete="password-login-05"
-                  placeholder="Password"
-                  className="mt-2"
-                />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <Label
+                    htmlFor="password-login-05"
+                    className="text-sm font-medium text-foreground dark:text-foreground"
+                  >
+                    Password
+                  </Label>
+                  <Input
+                    type="password"
+                    id="password-login-05"
+                    name="password-login-05"
+                    autoComplete="password-login-05"
+                    placeholder="Password"
+                    className="mt-2"
+                  />
+                </div>
+
+                <div>
+                  <Label
+                    htmlFor="confirm-password-login-05"
+                    className="text-sm font-medium text-foreground dark:text-foreground"
+                  >
+                    Confirm password
+                  </Label>
+                  <Input
+                    type="password"
+                    id="confirm-password-login-05"
+                    name="confirm-password-login-05"
+                    autoComplete="confirm-password-login-05"
+                    placeholder="Password"
+                    className="mt-2"
+                  />
+                </div>
               </div>
 
               <div>
                 <Label
-                  htmlFor="confirm-password-login-05"
+                  htmlFor="phone-login-05"
                   className="text-sm font-medium text-foreground dark:text-foreground"
                 >
-                  Confirm password
+                  Phone Number
                 </Label>
-                <Input
-                  type="password"
-                  id="confirm-password-login-05"
-                  name="confirm-password-login-05"
-                  autoComplete="confirm-password-login-05"
-                  placeholder="Password"
-                  className="mt-2"
+                <PhoneInput
+                  international
+                  defaultCountry="EG"
+                  value={phoneNumber}
+                  onChange={setPhoneNumber}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 items-center gap-2 [&_.PhoneInputCountry]:mr-0 [&_.PhoneInputCountrySelect]:h-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:h-full"
                 />
               </div>
 

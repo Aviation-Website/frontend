@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { Roboto, Montserrat } from "next/font/google";
-import "./globals.css";
-
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import "./globals.css";
 // import Preloader from "@/components/ui/Preloader";
 
-// Using Roboto as B612 might not be available in Next.js Google Fonts
-// But we'll add B612 via CSS import for aviation authenticity
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "700"],
