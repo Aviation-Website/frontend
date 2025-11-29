@@ -108,15 +108,15 @@ export const Footer = () => {
                       <input 
                         type="text" 
                         placeholder="Name" 
-                        className="flex-1 bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-500 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
+                        className="flex-1 bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-500 rounded-xl px-3 py-2 md:px-4 md:py-2.5 text-[10px] md:text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
                       />
                       <input 
                         type="email" 
                         placeholder="Email" 
-                        className="flex-1 bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-500 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
+                        className="flex-1 bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-500 rounded-xl px-3 py-2 md:px-4 md:py-2.5 text-[10px] md:text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
                       />
                     </div>
-                    <button className="w-full bg-blue-600 text-white font-bold rounded-xl px-4 py-3 text-xs hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-pointer">
+                    <button className="w-full bg-blue-600 text-white font-bold rounded-xl px-3 py-2 md:px-4 md:py-3 text-[10px] md:text-xs hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-pointer">
                       Subscribe Now
                     </button>
                   </div>

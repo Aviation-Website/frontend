@@ -277,13 +277,13 @@ export default function TermsContent() {
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={() => window.print()}
-                    className="px-6 py-2 bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors text-sm font-medium shadow-sm cursor-pointer"
+                    className="px-4 py-2 md:px-6 md:py-2 bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors text-xs md:text-sm font-medium shadow-sm cursor-pointer"
                   >
                     Print Terms
                   </button>
                   <a
                     href="/contact-us"
-                    className="px-6 py-2 bg-[#002d4b] text-white rounded-lg hover:bg-blue-900 transition-colors text-sm font-medium shadow-lg shadow-blue-900/20"
+                    className="px-4 py-2 md:px-6 md:py-2 bg-[#002d4b] text-white rounded-lg hover:bg-blue-900 transition-colors text-xs md:text-sm font-medium shadow-lg shadow-blue-900/20"
                   >
                     Contact Legal
                   </a>
