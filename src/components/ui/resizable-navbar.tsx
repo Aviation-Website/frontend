@@ -49,7 +49,7 @@ interface MobileNavMenuProps {
   isOpen: boolean;
 }
 
-export const Navbar = ({ children }: NavbarProps) => {
+export const Navbar = ({ children, className }: NavbarProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll({
     target: ref,
@@ -72,6 +72,7 @@ export const Navbar = ({ children }: NavbarProps) => {
       className={cn(
         "sticky inset-x-0 top-0 z-40 w-full transition-colors duration-300",
         !visible && "bg-[#002d4b] dark:bg-[#002d4b]",
+        className
       )}
     >
       {React.Children.map(children, (child) =>

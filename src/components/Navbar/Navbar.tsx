@@ -25,7 +25,7 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <NavbarWrapper className="md:bg-[#002d4b]">
+    <NavbarWrapper className="md:bg-[#002d4b] print:hidden">
       <NavBody className="bg-[#002d4b] dark:bg-[#002d4b]">
         <NavbarLogo />
         <NavItems 

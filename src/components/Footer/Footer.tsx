@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export const Footer = () => {
   return (
-    <footer className="w-full bg-[#002d4b] pt-12 pb-5 relative overflow-x-hidden">
+    <footer className="w-full bg-[#002d4b] pt-12 pb-5 relative overflow-x-hidden print:hidden">
       <div className="container mx-auto px-6 md:px-10 relative z-10">
         <div className="flex flex-col min-[1400px]:flex-row gap-10 mb-12 items-start">
           

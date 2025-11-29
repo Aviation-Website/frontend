@@ -68,7 +68,7 @@ export default function ScrollToTop() {
           whileHover={{ scale: 1.5, rotate: 0 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 flex items-center justify-center rounded-full bg-transparent transition-colors cursor-pointer"
+          className="fixed bottom-8 right-8 z-50 flex items-center justify-center rounded-full bg-transparent transition-colors cursor-pointer print:hidden"
           aria-label="Scroll to top"
         >
           <Image 
