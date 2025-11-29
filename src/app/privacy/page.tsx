@@ -109,28 +109,44 @@ export default function PrivacyPage() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-      setActiveSection(id);
+      const navbarHeight = 100; // Navbar + some padding
+      const elementTop = element.offsetTop;
+      const offsetPosition = elementTop - navbarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+      // Don't set active section here - let scroll event handler update it naturally
     }
   };
 
   // Update active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200; // Offset
+      const navbarHeight = 100;
+      const scrollPosition = window.scrollY + navbarHeight + 50; // Small offset to trigger earlier
+      
+      // Find the section that's currently in view (iterate in reverse to get the correct one)
+      let currentSection = sections[0].id;
       
       for (const section of sections) {
         const element = document.getElementById(section.id);
         if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section.id);
-            break;
+          const elementTop = element.offsetTop;
+          // If we've scrolled past this section's top, mark it as current
+          if (scrollPosition >= elementTop) {
+            currentSection = section.id;
           }
         }
       }
+      
+      setActiveSection(currentSection);
     };
 
+    // Run once on mount to set initial state
+    handleScroll();
+    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -176,7 +192,7 @@ export default function PrivacyPage() {
                   <button
                     key={section.id}
                     onClick={() => scrollToSection(section.id)}
-                    className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group ${
+                    className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group cursor-pointer ${
                       activeSection === section.id
                         ? "bg-blue-50 text-blue-600 shadow-sm"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
