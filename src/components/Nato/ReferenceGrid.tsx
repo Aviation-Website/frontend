@@ -11,6 +11,11 @@ export const ReferenceGrid = () => {
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
 
   const speakWithSynthesis = (code: string, letter: string) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      return;
+    }
+
+    window.speechSynthesis.cancel();
     setPlayingLetter(letter);
     const utterance = new SpeechSynthesisUtterance(code);
     utterance.rate = 0.9;
@@ -36,9 +41,15 @@ export const ReferenceGrid = () => {
       currentAudio.pause();
       setCurrentAudio(null);
     }
-    
+
+    // Prefer speech synthesis where available for better cross-browser and mobile support
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      speakWithSynthesis(code, letter);
+      return;
+    }
+
     setPlayingLetter(letter);
-    
+
     try {
       const audio = new Audio(audioUrl);
       setCurrentAudio(audio);
@@ -51,7 +62,7 @@ export const ReferenceGrid = () => {
       const handleError = () => {
         // Fallback to speech synthesis
         setCurrentAudio(null);
-        if ('speechSynthesis' in window) {
+        if (typeof window !== "undefined" && 'speechSynthesis' in window) {
           speakWithSynthesis(code, letter);
         } else {
           setPlayingLetter(null);
@@ -64,7 +75,7 @@ export const ReferenceGrid = () => {
       audio.play().catch(() => {
         // Fallback to speech synthesis
         setCurrentAudio(null);
-        if ('speechSynthesis' in window) {
+        if (typeof window !== "undefined" && 'speechSynthesis' in window) {
           speakWithSynthesis(code, letter);
         } else {
           setPlayingLetter(null);
@@ -73,7 +84,7 @@ export const ReferenceGrid = () => {
     } catch {
       // Fallback to speech synthesis
       setCurrentAudio(null);
-      if ('speechSynthesis' in window) {
+      if (typeof window !== "undefined" && 'speechSynthesis' in window) {
         speakWithSynthesis(code, letter);
       } else {
         setPlayingLetter(null);
