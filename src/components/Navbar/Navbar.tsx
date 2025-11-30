@@ -19,6 +19,7 @@ const navItems = [
   { name: 'About', link: '/about' },
   { name: 'Contact', link: '/contact-us' },
   { name: 'FAQ', link: '/faq' },
+  { name: 'NATO', link: '/nato-alphabet' },
 ];
 
 export function Navbar() {

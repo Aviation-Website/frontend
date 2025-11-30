@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
@@ -133,7 +134,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       )}
     >
       {items.map((item, idx) => (
-        <a
+        <Link
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
           className={cn(
@@ -152,7 +153,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
             />
           )}
           <span className="relative z-20">{item.name}</span>
-        </a>
+        </Link>
       ))}
     </div>
   );
@@ -243,7 +244,7 @@ export const MobileNavToggle = ({
 
 export const NavbarLogo = () => {
   return (
-    <a
+    <Link
       href="#"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
@@ -254,7 +255,7 @@ export const NavbarLogo = () => {
         height={40}
       />
       <span className="font-bold text-lg text-white dark:text-white">AirSpeak</span>
-    </a>
+    </Link>
   );
 };
 
@@ -285,6 +286,18 @@ export const NavbarButton = ({
     gradient:
       "bg-gradient-to-b from- to- text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
   };
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className={cn(baseStyles, variantStyles[variant], className)}
+        {...props}
+      >
+        {children}
+      </Link>
+    );
+  }
 
   const Component = Tag as React.ElementType<{
     href?: string;

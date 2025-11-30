@@ -12,35 +12,35 @@ const termsSections = [
     title: "1. Introduction",
     content:
       "Welcome to AirSpeak. These Terms of Service ('Terms') govern your access to and use of the AirSpeak website, mobile application, and services (collectively, the 'Service'). By accessing or using the Service, you agree to be bound by these Terms.",
-    icon: <Image src="/terms/book.apng" alt="Introduction Icon" width={25} height={25} />,
+    icon: <Image src="/Terms/book.apng" alt="Introduction Icon" width={25} height={25} />,
   },
   {
     id: "accounts",
     title: "2. User Accounts",
     content:
       "To access certain features of the Service, you may be required to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to notify us immediately of any unauthorized use of your account.",
-    icon: <Image src="/terms/account.apng" alt="User Accounts Icon" width={25} height={25} />,
+    icon: <Image src="/Terms/account.apng" alt="User Accounts Icon" width={25} height={25} />,
   },
   {
     id: "intellectual-property",
     title: "3. Intellectual Property",
     content:
       "The Service and its original content (excluding Content provided by users), features, and functionality are and will remain the exclusive property of AirSpeak and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries.",
-    icon: <Image src="/terms/brain.apng" alt="Intellectual Property Icon" width={25} height={25} />,
+    icon: <Image src="/Terms/brain.apng" alt="Intellectual Property Icon" width={25} height={25} />,
   },
   {
     id: "termination",
     title: "4. Termination",
     content:
       "We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the Service will immediately cease.",
-    icon: <Image src="/terms/warning.apng" alt="Termination Icon" width={25} height={25} />,
+    icon: <Image src="/Terms/warning.apng" alt="Termination Icon" width={25} height={25} />,
   },
   {
     id: "governing-law",
     title: "5. Governing Law",
     content:
       "These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which AirSpeak operates, without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.",
-    icon: <Image src="/terms/shield.apng" alt="Governing Law Icon" width={25} height={25} />,
+    icon: <Image src="/Terms/shield.apng" alt="Governing Law Icon" width={25} height={25} />,
   },
 ];
 

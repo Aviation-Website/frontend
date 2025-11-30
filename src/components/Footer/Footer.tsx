@@ -77,7 +77,7 @@ export const Footer = () => {
                         <li><Link href="/privacy" className="font-medium text-xs text-gray-400 hover:text-white transition-colors">Privacy Policy</Link></li>
                         <li><Link href="/terms" className="font-medium text-xs text-gray-400 hover:text-white transition-colors">Terms & Conditions</Link></li>
                         <li><Link href="/partnership" className="font-medium text-xs text-gray-400 hover:text-white transition-colors">Partnership</Link></li>
-                        <li><Link href="/terms" className="font-medium text-xs text-gray-400 hover:text-white transition-colors">NATO Alphabet</Link></li>
+                        <li><Link href="/nato-alphabet" className="font-medium text-xs text-gray-400 hover:text-white transition-colors">NATO Alphabet</Link></li>
                     </ul>
                 </div>
             </div>
