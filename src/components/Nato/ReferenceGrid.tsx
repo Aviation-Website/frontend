@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Volume2, Play } from "lucide-react";
@@ -8,22 +8,63 @@ import { NatoData } from "./data";
 
 export const ReferenceGrid = () => {
   const [playingLetter, setPlayingLetter] = useState<string | null>(null);
-  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Cleanup function
+  useEffect(() => {
+    return () => {
+      // Cleanup on unmount
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current = null;
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const clearPlayingState = () => {
+    setPlayingLetter(null);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
 
   const speakWithSynthesis = (code: string, letter: string) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) {
+      clearPlayingState();
+      return;
+    }
+
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+    
     setPlayingLetter(letter);
+    
     const utterance = new SpeechSynthesisUtterance(code);
     utterance.rate = 0.9;
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
     
     utterance.onend = () => {
-      setPlayingLetter(null);
+      clearPlayingState();
     };
     
     utterance.onerror = () => {
-      setPlayingLetter(null);
+      clearPlayingState();
     };
+    
+    // Safety timeout in case events don't fire
+    timeoutRef.current = setTimeout(() => {
+      clearPlayingState();
+    }, 5000);
     
     window.speechSynthesis.speak(utterance);
   };
@@ -31,52 +72,80 @@ export const ReferenceGrid = () => {
   const playNatoAudio = (audioUrl: string, letter: string, code: string) => {
     if (playingLetter) return; // Prevent multiple plays at once
     
-    // Stop any currently playing audio
-    if (currentAudio) {
-      currentAudio.pause();
-      setCurrentAudio(null);
+    // Stop any currently playing audio and clear timeout
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+    }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
     
     setPlayingLetter(letter);
     
     try {
-      const audio = new Audio(audioUrl);
-      setCurrentAudio(audio);
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audioRef.current = audio;
+      
+      const cleanup = () => {
+        audio.removeEventListener('ended', handleEnded);
+        audio.removeEventListener('error', handleError);
+        audio.removeEventListener('loadeddata', handleLoaded);
+        audio.removeEventListener('canplay', handleCanPlay);
+        clearPlayingState();
+      };
       
       const handleEnded = () => {
-        setPlayingLetter(null);
-        setCurrentAudio(null);
+        cleanup();
       };
       
       const handleError = () => {
+        cleanup();
         // Fallback to speech synthesis
-        setCurrentAudio(null);
-        if ('speechSynthesis' in window) {
+        if (typeof window !== 'undefined' && window.speechSynthesis) {
           speakWithSynthesis(code, letter);
-        } else {
-          setPlayingLetter(null);
         }
+      };
+
+      let canPlayTriggered = false;
+      
+      const handleLoaded = () => {
+        if (!canPlayTriggered) {
+          // Try to play once data is loaded
+          audio.play().catch(handleError);
+        }
+      };
+
+      const handleCanPlay = () => {
+        canPlayTriggered = true;
+        // Try to play when ready
+        audio.play().catch(handleError);
       };
       
       audio.addEventListener('ended', handleEnded);
       audio.addEventListener('error', handleError);
+      audio.addEventListener('loadeddata', handleLoaded);
+      audio.addEventListener('canplay', handleCanPlay);
       
-      audio.play().catch(() => {
-        // Fallback to speech synthesis
-        setCurrentAudio(null);
-        if ('speechSynthesis' in window) {
+      // Set source after listeners to catch all events
+      audio.src = audioUrl;
+      audio.load();
+      
+      // Safety timeout: if nothing happens in 8 seconds, reset state
+      timeoutRef.current = setTimeout(() => {
+        cleanup();
+        // Try speech synthesis as fallback
+        if (typeof window !== 'undefined' && window.speechSynthesis) {
           speakWithSynthesis(code, letter);
-        } else {
-          setPlayingLetter(null);
         }
-      });
+      }, 8000);
+      
     } catch {
       // Fallback to speech synthesis
-      setCurrentAudio(null);
-      if ('speechSynthesis' in window) {
+      clearPlayingState();
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
         speakWithSynthesis(code, letter);
-      } else {
-        setPlayingLetter(null);
       }
     }
   };
