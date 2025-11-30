@@ -86,7 +86,7 @@ export const Footer = () => {
           {/* Right Side: Newsletter Section */}
           {/* Stacked below on <1400px, Floating relative on >1400px */}
           <div className="w-full min-[1400px]:w-2/5 flex flex-col items-center min-[1400px]:items-end mt-8 min-[1400px]:mt-0">
-             <div className="w-full max-w-md bg-white/90 rounded-4xl p-6 relative overflow-hidden min-[1400px]:relative min-[1400px]:top-40 shadow-xl backdrop-blur-sm">
+             <div className="w-full max-w-md bg-white/90 rounded-4xl p-4 sm:p-6 relative overflow-hidden min-[1400px]:relative min-[1400px]:top-40 shadow-xl backdrop-blur-sm">
                 <div
                   className="absolute inset-0 pointer-events-none"
                   style={{
@@ -98,25 +98,27 @@ export const Footer = () => {
                   }}
                 />
                 <div className="relative z-10 flex flex-col items-center text-center w-full">
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#002d4b] mb-2">
+                  <h3 className="text-lg min-[450px]:text-xl sm:text-2xl font-bold text-[#002d4b] mb-2 leading-tight">
                     Subscribe to our newsletter
                   </h3>
-                  <p className="font-medium text-xs sm:text-sm text-[#002d4b]/80 mb-5">Get the latest aviation updates and offers.</p>
+                  <p className="font-medium text-[10px] min-[450px]:text-xs sm:text-sm text-[#002d4b]/80 mb-4 sm:mb-5 leading-relaxed px-2">
+                    Get the latest aviation updates and offers.
+                  </p>
                   
-                  <div className="flex flex-col w-full gap-3">
-                    <div className="flex gap-3">
+                  <div className="flex flex-col w-full gap-2.5 sm:gap-3">
+                    <div className="flex flex-col min-[450px]:flex-row gap-2.5 sm:gap-3">
                       <input 
                         type="text" 
                         placeholder="Name" 
-                        className="flex-1 bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-500 rounded-xl px-3 py-2 md:px-4 md:py-2.5 text-[10px] md:text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
+                        className="w-full min-[450px]:flex-1 bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-500 rounded-xl px-3 py-2 md:px-4 md:py-2.5 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
                       />
                       <input 
                         type="email" 
                         placeholder="Email" 
-                        className="flex-1 bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-500 rounded-xl px-3 py-2 md:px-4 md:py-2.5 text-[10px] md:text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
+                        className="w-full min-[450px]:flex-1 bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-500 rounded-xl px-3 py-2 md:px-4 md:py-2.5 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
                       />
                     </div>
-                    <button className="w-full bg-blue-600 text-white font-bold rounded-xl px-3 py-2 md:px-4 md:py-3 text-[10px] md:text-xs hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-pointer">
+                    <button className="w-full bg-blue-600 text-white font-bold rounded-xl px-3 py-2.5 md:px-4 md:py-3 text-xs md:text-sm uppercase tracking-wide hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-pointer">
                       Subscribe Now
                     </button>
                   </div>

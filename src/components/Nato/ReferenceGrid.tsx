@@ -132,14 +132,14 @@ export const ReferenceGrid = () => {
       audio.src = audioUrl;
       audio.load();
       
-      // Safety timeout: if nothing happens in 8 seconds, reset state
+      // Safety timeout: if nothing happens in 4 seconds, reset state
       timeoutRef.current = setTimeout(() => {
         cleanup();
         // Try speech synthesis as fallback
         if (typeof window !== 'undefined' && window.speechSynthesis) {
           speakWithSynthesis(code, letter);
         }
-      }, 8000);
+      }, 4000);
       
     } catch {
       // Fallback to speech synthesis
