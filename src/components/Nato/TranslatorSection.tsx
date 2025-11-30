@@ -36,8 +36,10 @@ export const TranslatorSection = () => {
                         type="text"
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
+                        onKeyDown={(e) => e.key === "Escape" && setInputText("")}
                         placeholder="Type to translate (e.g. 'Pilot')"
                         className="w-full bg-slate-900 text-white placeholder:text-gray-600 text-xl md:text-2xl py-6 pl-14 pr-6 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                        style={{ fontFamily: '"B612", sans-serif' }}
                         maxLength={20}
                     />
                     {inputText && (

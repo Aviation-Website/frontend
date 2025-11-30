@@ -155,13 +155,6 @@ export const ReferenceGrid = () => {
         <div className="container mx-auto px-6">
             <div className="flex items-center justify-between mb-12">
                 <h2 className="text-3xl font-bold flex items-center gap-3 text-gray-900">
-                    <Image
-                      src="/Nato/search-document-svgrepo-com.svg"
-                      alt="Search document icon"
-                      width={44}
-                      height={24}
-                      className="w-14 h-14"
-                    />
                     Full Reference
                 </h2>
                 <div className="h-px flex-1 bg-gray-200 ml-6" />
@@ -169,10 +162,10 @@ export const ReferenceGrid = () => {
 
             <motion.div
                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4"
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                viewport={{ once: true, margin: "0px" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
                 {NatoData.map((item) => {
                     const isPlaying = playingLetter === item.letter;
