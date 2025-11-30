@@ -16,10 +16,10 @@ export const Footer = () => {
                   <Image
                       src="/Logo/Logo.svg"
                       alt="AirSpeak Logo"
-                      width={32}
+                      width={42}
                       height={32}
                   />
-                <span className="text-lg font-bold text-white">AirSpeak</span>
+                <span className="text-2xl font-bold text-white">AirSpeak</span>
               </div>
               <p className="text-gray-300 mb-6 max-w-sm text-sm leading-relaxed">
                 Master aviation communication with real-world scenarios and interactive training.
