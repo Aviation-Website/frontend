@@ -193,7 +193,7 @@ export default function FaqContent() {
             height={240}
           />
         </div>
-        <div className="absolute -top-1 right-4 sm:right-10 xl:right-6 xl:top-4 2xl:-top-4 2xl:right-10 block lg:hidden 2xl:block">
+        <div className="absolute -top-1 right-4 sm:right-10 xl:right-6 xl:top-4 2xl:-top-1 2xl:right-10 block lg:hidden 2xl:block">
           <Image
             src="/Faq/chatbot.png"
             alt="AI assistant searching FAQs"
