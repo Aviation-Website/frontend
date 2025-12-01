@@ -151,7 +151,9 @@ export default function PrivacyContent() {
                 <ShieldCheck className="w-8 h-8 text-blue-200" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">Privacy Policy</h1>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-linear-to-b from-white to-blue-200">
+              Privacy Policy
+            </h1>
             <p className="text-lg md:text-xl text-blue-200 max-w-2xl mx-auto leading-relaxed">
               We are committed to protecting your personal information and your right to privacy.
             </p>
