@@ -1,15 +1,19 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { JSX, SVGProps } from "react";
+import { JSX, SVGProps, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import { useSignIn } from "@/hooks/mutations/use-sign-in";
+import { buildOAuthUrl } from "@/lib/oauth";
 
 const DiscordIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.5382-9.6752-3.567-13.6607a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419z"/>
+    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.5382-9.6752-3.567-13.6607a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419z" />
   </svg>
 );
 
@@ -20,9 +24,37 @@ const GoogleIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) =>
 );
 
 const Logo = () => <Image src="/Logo/Logo-OG.png" alt="AirSpeak Logo" className="rounded-md" width={28} height={28} />;
-const AuthWaves = ()=> <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-30 -z-10" width={1920} height={1080} />;
+const AuthWaves = () => <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-30 -z-10" width={1920} height={1080} />;
 
 export function Login() {
+  const { mutate: signIn, isLoading, error } = useSignIn();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // Build OAuth URLs (now pointing to Django backend)
+  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
+  const discordClientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "";
+  const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+  const googleOAuthUrl = googleClientId
+    ? buildOAuthUrl("google", googleClientId, backendUrl, appUrl)
+    : "#";
+  const discordOAuthUrl = discordClientId
+    ? buildOAuthUrl("discord", discordClientId, backendUrl, appUrl)
+    : "#";
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await signIn(formData);
+    } catch (err) {
+      console.error("Sign in failed:", err);
+    }
+  };
+
   return (
     <div className="relative flex items-center justify-center min-h-screen ">
       <AuthWaves />
@@ -51,7 +83,12 @@ export function Login() {
               </p>
               <div className="mt-8 flex flex-col items-center space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <Button variant="outline" className="flex-1 items-center justify-center space-x-2 py-2" asChild>
-                  <a href="#">
+                  <a href={discordOAuthUrl} onClick={(e) => {
+                    if (!discordClientId) {
+                      e.preventDefault();
+                      alert("Discord OAuth not configured");
+                    }
+                  }}>
                     <DiscordIcon className="size-5" aria-hidden={true} />
                     <span className="text-sm font-medium">Login with Discord</span>
                   </a>
@@ -61,7 +98,12 @@ export function Login() {
                   className="mt-2 flex-1 items-center justify-center space-x-2 py-2 sm:mt-0"
                   asChild
                 >
-                  <a href="#">
+                  <a href={googleOAuthUrl} onClick={(e) => {
+                    if (!googleClientId) {
+                      e.preventDefault();
+                      alert("Google OAuth not configured");
+                    }
+                  }}>
                     <GoogleIcon className="size-4" aria-hidden={true} />
                     <span className="text-sm font-medium">Login with Google</span>
                   </a>
@@ -77,7 +119,28 @@ export function Login() {
                 </div>
               </div>
 
-              <form action="#" method="post" className="mt-6 space-y-4">
+              {error && (
+                <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                  <p className="text-sm text-destructive">
+                    {error.message || "Sign in failed. Please try again."}
+                  </p>
+                  {error.message?.toLowerCase().includes("not verified") && (
+                    <p className="mt-2 text-xs text-muted-foreground dark:text-muted-foreground">
+                      If you didn&apos;t receive the activation email, you can request a new one from the
+                      verification page.
+                      {" "}
+                      <Link
+                        href={`/verification?email=${encodeURIComponent(formData.email)}`}
+                        className="font-medium text-primary hover:text-primary/90 dark:text-primary hover:dark:text-primary/90 cursor-pointer hover:underline ml-1"
+                      >
+                        Go to verification
+                      </Link>
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 <div>
                   <Label htmlFor="email-login-04" className="text-sm font-medium text-foreground dark:text-foreground">
                     Email
@@ -85,10 +148,13 @@ export function Login() {
                   <Input
                     type="email"
                     id="email-login-04"
-                    name="email-login-04"
+                    name="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
                     autoComplete="email"
                     placeholder="galal@dev.co"
                     className="mt-2"
+                    required
                   />
                 </div>
                 <div>
@@ -101,14 +167,17 @@ export function Login() {
                   <Input
                     type="password"
                     id="password-login-04"
-                    name="password-login-04"
-                    autoComplete="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
+                    autoComplete="current-password"
                     placeholder="********"
                     className="mt-2"
+                    required
                   />
                 </div>
-                <Button type="submit" className="mt-4 w-full py-2 font-medium cursor-pointer">
-                  Sign in
+                <Button type="submit" className="mt-4 w-full py-2 font-medium cursor-pointer" disabled={isLoading}>
+                  {isLoading ? "Signing in..." : "Sign in"}
                 </Button>
               </form>
               <p className="mt-6 text-sm text-muted-foreground dark:text-muted-foreground">

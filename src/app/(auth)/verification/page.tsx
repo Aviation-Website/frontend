@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Verification } from "@/components/Auth/Verification/Verification";
 
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function VerificationPage() {
-  return <Verification />;
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <Verification />
+    </Suspense>
+  );
 }

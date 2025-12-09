@@ -1,14 +1,30 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Image from "next/image";
+import { useRequestPasswordReset } from "@/hooks/mutations/use-password-reset";
 
 const Logo = () => <Image src="/Logo/Logo-OG.png" alt="AirSpeak Logo" className="rounded-md" width={28} height={28} />;
 const AuthWaves = () => <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-30 -z-10" width={1920} height={1080} />;
 
 export function ForgetPassword() {
+  const { mutate: requestReset, isLoading, error, isSuccess } = useRequestPasswordReset();
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await requestReset({ email });
+    } catch (err) {
+      console.error("Password reset request failed:", err);
+    }
+  };
+
   return (
     <div className="relative flex items-center justify-center min-h-screen">
       <AuthWaves />
@@ -30,7 +46,23 @@ export function ForgetPassword() {
                 We'll send you a link to reset your password.
               </p>
 
-              <form action="#" method="post" className="mt-6 space-y-4">
+              {isSuccess && (
+                <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md">
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    Password reset email sent! Check your inbox for further instructions.
+                  </p>
+                </div>
+              )}
+
+              {error && (
+                <div className="mt-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                  <p className="text-sm text-destructive">
+                    {error.message || "Failed to send reset email. Please try again."}
+                  </p>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 <div>
                   <Label htmlFor="email-reset" className="text-sm font-medium text-foreground dark:text-foreground">
                     Email Address
@@ -38,15 +70,23 @@ export function ForgetPassword() {
                   <Input
                     type="email"
                     id="email-reset"
-                    name="email-reset"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
                     placeholder="galal@dev.co"
                     className="mt-2"
+                    required
+                    disabled={isSuccess}
                   />
                 </div>
 
-                <Button type="submit" className="mt-4 w-full py-2 font-medium cursor-pointer">
-                  Send Reset Link
+                <Button
+                  type="submit"
+                  className="mt-4 w-full py-2 font-medium cursor-pointer"
+                  disabled={isLoading || isSuccess}
+                >
+                  {isLoading ? "Sending..." : isSuccess ? "Email Sent" : "Send Reset Link"}
                 </Button>
               </form>
 

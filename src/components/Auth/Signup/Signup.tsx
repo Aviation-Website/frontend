@@ -1,19 +1,89 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import Image from "next/image";
-import PhoneInput from "react-phone-number-input";
+import { useSignUp } from "@/hooks/mutations/use-sign-up";
 
 const Logo = () => <Image src="/Logo/Logo-OG.png" alt="AirSpeak Logo" className="rounded-md" width={28} height={28} />;
-const AuthWaves = ()=> <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-50 -z-10" width={1920} height={1080} />;
+const AuthWaves = () => <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-50 -z-10" width={1920} height={1080} />;
 export function Signup() {
-  const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
+  const router = useRouter();
+  const { mutate: signUp, isLoading, error } = useSignUp();
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+    re_password: "",
+    first_name: "",
+    last_name: "",
+    country: "",
+  });
+
+  const [validationErrors, setValidationErrors] = useState<{
+    password?: string;
+    username?: string;
+    re_password?: string;
+  }>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Clear validation error when user types
+    if (validationErrors[name as keyof typeof validationErrors]) {
+      setValidationErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const validateForm = () => {
+    const errors: typeof validationErrors = {};
+    let isValid = true;
+
+    // Password Regex: At least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+      errors.password = "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.";
+      isValid = false;
+    }
+
+    // Username Regex: Alphanumeric only
+    const usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (!usernameRegex.test(formData.username)) {
+      errors.username = "Username can only contain letters and numbers.";
+      isValid = false;
+    }
+
+    if (formData.password !== formData.re_password) {
+      errors.re_password = "Passwords do not match.";
+      isValid = false;
+    }
+
+    setValidationErrors(errors);
+    return isValid;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      await signUp(formData);
+      router.push(`/verification?email=${encodeURIComponent(formData.email)}`);
+    } catch (err) {
+      console.error("Sign up failed:", err);
+    }
+  };
 
   return (
     <div className="relative flex items-center justify-center min-h-screen ">
@@ -25,65 +95,127 @@ export function Signup() {
         </Link>
       </div>
       <div className="flex flex-1 flex-col justify-center px-4 py-10 lg:px-6 z-10">
-        
+
 
         <Card className="mt-4 sm:mx-auto sm:w-full sm:max-w-md z-10">
           <CardContent>
-            <form action="#" method="post" className="space-y-4">
-                <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h3 className="mt-2 text-center text-lg font-bold text-foreground dark:text-foreground">
-            Create new account for workspace
-          </h3>
-        </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <h3 className="mt-2 text-center text-lg font-bold text-foreground dark:text-foreground">
+                  Create new account for workspace
+                </h3>
+              </div>
+
+              {/* Email and Form Fields */}
+
+              {error && (
+                <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                  <p className="text-sm text-destructive">
+                    {error.message || "Sign up failed. Please try again."}
+                  </p>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <Label
-                    htmlFor="first-name-login-05"
+                    htmlFor="first_name"
                     className="text-sm font-medium text-foreground dark:text-foreground"
                   >
                     First Name
                   </Label>
                   <Input
                     type="text"
-                    id="first-name-login-05"
-                    name="first-name-login-05"
+                    id="first_name"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
                     autoComplete="given-name"
                     placeholder="First Name"
                     className="mt-2"
+                    required
                   />
                 </div>
 
                 <div>
                   <Label
-                    htmlFor="last-name-login-05"
+                    htmlFor="last_name"
                     className="text-sm font-medium text-foreground dark:text-foreground"
                   >
                     Last Name
                   </Label>
                   <Input
                     type="text"
-                    id="last-name-login-05"
-                    name="last-name-login-05"
+                    id="last_name"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
                     autoComplete="family-name"
                     placeholder="Last Name"
                     className="mt-2"
+                    required
                   />
                 </div>
               </div>
 
               <div>
                 <Label
-                  htmlFor="email-login-05"
+                  htmlFor="email"
                   className="text-sm font-medium text-foreground dark:text-foreground"
                 >
                   Email
                 </Label>
                 <Input
                   type="email"
-                  id="email-login-05"
-                  name="email-login-05"
-                  autoComplete="email-login-05"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  autoComplete="email"
                   placeholder="galal@dev.co"
+                  className="mt-2"
+                  required
+                />
+              </div>
+
+              <div>
+                <Label
+                  htmlFor="username"
+                  className="text-sm font-medium text-foreground dark:text-foreground"
+                >
+                  Username
+                </Label>
+                <Input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  autoComplete="username"
+                  placeholder="Choose a username"
+                  className="mt-2"
+                  required
+                />
+                {validationErrors.username && (
+                  <p className="text-xs text-destructive mt-1">{validationErrors.username}</p>
+                )}
+              </div>
+
+              <div>
+                <Label
+                  htmlFor="country"
+                  className="text-sm font-medium text-foreground dark:text-foreground"
+                >
+                  Country
+                </Label>
+                <Input
+                  type="text"
+                  id="country"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  autoComplete="country-name"
+                  placeholder="e.g., Egypt"
                   className="mt-2"
                 />
               </div>
@@ -91,53 +223,49 @@ export function Signup() {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <Label
-                    htmlFor="password-login-05"
+                    htmlFor="password"
                     className="text-sm font-medium text-foreground dark:text-foreground"
                   >
                     Password
                   </Label>
                   <Input
                     type="password"
-                    id="password-login-05"
-                    name="password-login-05"
-                    autoComplete="password-login-05"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    autoComplete="new-password"
                     placeholder="Password"
                     className="mt-2"
+                    required
                   />
+                  {validationErrors.password && (
+                    <p className="text-xs text-destructive mt-1">{validationErrors.password}</p>
+                  )}
                 </div>
 
                 <div>
                   <Label
-                    htmlFor="confirm-password-login-05"
+                    htmlFor="re_password"
                     className="text-sm font-medium text-foreground dark:text-foreground"
                   >
                     Confirm password
                   </Label>
                   <Input
                     type="password"
-                    id="confirm-password-login-05"
-                    name="confirm-password-login-05"
-                    autoComplete="confirm-password-login-05"
+                    id="re_password"
+                    name="re_password"
+                    value={formData.re_password}
+                    onChange={handleChange}
+                    autoComplete="new-password"
                     placeholder="Password"
                     className="mt-2"
+                    required
                   />
+                  {validationErrors.re_password && (
+                    <p className="text-xs text-destructive mt-1">{validationErrors.re_password}</p>
+                  )}
                 </div>
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="phone-login-05"
-                  className="text-sm font-medium text-foreground dark:text-foreground"
-                >
-                  Phone Number
-                </Label>
-                <PhoneInput
-                  international
-                  defaultCountry="EG"
-                  value={phoneNumber}
-                  onChange={setPhoneNumber}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 items-center gap-2 [&_.PhoneInputCountry]:mr-0 [&_.PhoneInputCountrySelect]:h-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:h-full"
-                />
               </div>
 
               <div className="mt-2 flex items-start">
@@ -156,8 +284,12 @@ export function Signup() {
                 </Label>
               </div>
 
-              <Button type="submit" className="mt-4 w-full py-2 font-medium cursor-pointer">
-                Create account
+              <Button
+                type="submit"
+                className="mt-4 w-full py-2 font-medium cursor-pointer"
+                disabled={isLoading}
+              >
+                {isLoading ? "Creating account..." : "Create account"}
               </Button>
 
               <p className="text-center text-xs text-muted-foreground dark:text-muted-foreground">
@@ -177,19 +309,19 @@ export function Signup() {
                 </Link>
               </p>
               <p className="mt-6 text-center text-sm text-muted-foreground dark:text-muted-foreground">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="font-medium text-primary hover:text-primary/90 dark:text-primary hover:dark:text-primary/90 cursor-pointer hover:underline"
-          >
-            Sign in
-          </Link>
-        </p>
+                Already have an account?{" "}
+                <Link
+                  href="/login"
+                  className="font-medium text-primary hover:text-primary/90 dark:text-primary hover:dark:text-primary/90 cursor-pointer hover:underline"
+                >
+                  Sign in
+                </Link>
+              </p>
             </form>
           </CardContent>
         </Card>
 
-        
+
       </div>
     </div>
   );

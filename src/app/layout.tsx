@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto, Montserrat } from "next/font/google";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import { AuthProvider } from "@/lib/auth/auth-context";
 import "./globals.css";
 // import Preloader from "@/components/ui/Preloader";
 
@@ -18,6 +19,8 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
   title: "AirSpeak - Aviation Communication Training",
   description: "Master aviation communication with real-world scenarios and interactive training modules designed for professional pilots.",
@@ -27,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AirSpeak - Master Aviation Communication",
     description: "Train with exact, book-standard phraseology for professional pilots. Interactive scenarios, AI voices, and structured learning.",
-    url: "https://airspeak.netlify.app",
+  url: appUrl,
     siteName: "AirSpeak",
     images: [
       {
@@ -48,7 +51,7 @@ export const metadata: Metadata = {
     images: ["/Logo/Logo-OG.png"],
     creator: "@AirSpeakApp",
   },
-  metadataBase: new URL("https://airspeak.netlify.app"),
+  metadataBase: new URL(appUrl),
   keywords: [
     "aviation",
     "communication",
@@ -73,9 +76,10 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://airspeak.netlify.app",
+  canonical: appUrl,
   },
 };
+
 
 export default function RootLayout({
   children,
@@ -83,13 +87,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${roboto.className} ${montserrat.variable} antialiased`} style={{ fontFamily: '"B612", sans-serif' }}>
-        {/* <Preloader /> */}
-        <SmoothScroll />
-        {children}
-        <ScrollToTop />
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body className={`${roboto.className} ${montserrat.variable} antialiased`} style={{ fontFamily: '"B612", sans-serif' }}>
+          {/* <Preloader /> */}
+          <SmoothScroll />
+          {children}
+          <ScrollToTop />
+        </body>
+      </html>
+    </AuthProvider>
   );
 }
