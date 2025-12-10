@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto, Montserrat } from "next/font/google";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import { AuthProvider as NextAuthProvider } from "@/components/Auth/AuthProvider";
 import { AuthProvider } from "@/lib/auth/auth-context";
 import "./globals.css";
 // import Preloader from "@/components/ui/Preloader";
@@ -87,15 +88,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthProvider>
-      <html lang="en">
-        <body className={`${roboto.className} ${montserrat.variable} antialiased`} style={{ fontFamily: '"B612", sans-serif' }}>
-          {/* <Preloader /> */}
-          <SmoothScroll />
-          {children}
-          <ScrollToTop />
-        </body>
-      </html>
-    </AuthProvider>
+    <NextAuthProvider>
+      <AuthProvider>
+        <html lang="en">
+          <body className={`${roboto.className} ${montserrat.variable} antialiased`} style={{ fontFamily: '"B612", sans-serif' }}>
+            {/* <Preloader /> */}
+            <SmoothScroll />
+            {children}
+            <ScrollToTop />
+          </body>
+        </html>
+      </AuthProvider>
+    </NextAuthProvider>
   );
 }

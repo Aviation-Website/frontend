@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Image from "next/image";
 import { useConfirmPasswordReset } from "@/hooks/mutations/use-password-reset";
+import { validatePassword, validatePasswordConfirmation } from "@/lib/utils/password-validation";
 
 const Logo = () => <Image src="/Logo/Logo-OG.png" alt="AirSpeak Logo" className="rounded-md" width={28} height={28} />;
 const AuthWaves = () => <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-30 -z-10" width={1920} height={1080} />;
@@ -28,12 +29,47 @@ export function ResetPassword({ uid: propUid, token: propToken }: ResetPasswordP
         re_new_password: "",
     });
 
+    const [validationErrors, setValidationErrors] = useState<{
+        new_password?: string;
+        re_new_password?: string;
+    }>({});
+
     const uid = propUid || searchParams.get("uid");
     const token = propToken || searchParams.get("token");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+        
+        // Clear validation error when user types
+        if (validationErrors[name as keyof typeof validationErrors]) {
+            setValidationErrors((prev) => ({ ...prev, [name]: undefined }));
+        }
+    };
+
+    const validateForm = () => {
+        const errors: typeof validationErrors = {};
+        let isValid = true;
+
+        // Validate password strength
+        const passwordCheck = validatePassword(formData.new_password);
+        if (!passwordCheck.isValid) {
+            errors.new_password = passwordCheck.error;
+            isValid = false;
+        }
+
+        // Validate password confirmation
+        const confirmCheck = validatePasswordConfirmation(
+            formData.new_password,
+            formData.re_new_password
+        );
+        if (!confirmCheck.isValid) {
+            errors.re_new_password = confirmCheck.error;
+            isValid = false;
+        }
+
+        setValidationErrors(errors);
+        return isValid;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -43,7 +79,7 @@ export function ResetPassword({ uid: propUid, token: propToken }: ResetPasswordP
             return;
         }
 
-        if (formData.new_password !== formData.re_new_password) {
+        if (!validateForm()) {
             return;
         }
 
@@ -67,8 +103,6 @@ export function ResetPassword({ uid: propUid, token: propToken }: ResetPasswordP
             return () => clearTimeout(timer);
         }
     }, [isSuccess, router]);
-
-    const passwordsMatch = formData.new_password === formData.re_new_password;
 
     if (!uid || !token) {
         return (
@@ -124,6 +158,17 @@ export function ResetPassword({ uid: propUid, token: propToken }: ResetPasswordP
                                     <p className="text-sm text-destructive">
                                         {error.message || "Password reset failed. The link may be invalid or expired."}
                                     </p>
+                                    {error.code === "ACCOUNT_NOT_VERIFIED" && error.email && (
+                                        <p className="mt-2 text-xs text-muted-foreground dark:text-muted-foreground">
+                                            Your account is not verified.{" "}
+                                            <Link
+                                                href={`/verification?email=${encodeURIComponent(error.email)}`}
+                                                className="font-medium text-primary hover:text-primary/90 dark:text-primary hover:dark:text-primary/90 cursor-pointer hover:underline"
+                                            >
+                                                Click here to resend the verification email
+                                            </Link>
+                                        </p>
+                                    )}
                                 </div>
                             )}
 
@@ -144,6 +189,12 @@ export function ResetPassword({ uid: propUid, token: propToken }: ResetPasswordP
                                             className="mt-2"
                                             required
                                         />
+                                        {validationErrors.new_password && (
+                                            <p className="text-xs text-destructive mt-1">{validationErrors.new_password}</p>
+                                        )}
+                                        <p className="text-xs text-muted-foreground mt-1">
+                                            Must be 8+ characters with uppercase, lowercase, number, and special character
+                                        </p>
                                     </div>
 
                                     <div>
@@ -161,15 +212,15 @@ export function ResetPassword({ uid: propUid, token: propToken }: ResetPasswordP
                                             className="mt-2"
                                             required
                                         />
-                                        {formData.re_new_password && !passwordsMatch && (
-                                            <p className="text-xs text-destructive mt-1">Passwords do not match</p>
+                                        {validationErrors.re_new_password && (
+                                            <p className="text-xs text-destructive mt-1">{validationErrors.re_new_password}</p>
                                         )}
                                     </div>
 
                                     <Button
                                         type="submit"
                                         className="mt-4 w-full py-2 font-medium cursor-pointer"
-                                        disabled={isLoading || !passwordsMatch}
+                                        disabled={isLoading}
                                     >
                                         {isLoading ? "Resetting password..." : "Reset Password"}
                                     </Button>

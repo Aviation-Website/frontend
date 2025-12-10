@@ -13,8 +13,10 @@ const COOKIE_OPTIONS: Partial<ResponseCookie> = {
     path: "/",
 };
 
-const ACCESS_TOKEN_MAX_AGE = 15 * 60; // 15 minutes in seconds
-const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
+// IMPORTANT: These must match the backend token lifetimes in Django settings!
+// Backend: ACCESS_TOKEN_LIFETIME = 60 minutes, REFRESH_TOKEN_LIFETIME = 7 days
+const ACCESS_TOKEN_MAX_AGE = 60 * 60; // 60 minutes (matches Django settings)
+const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60; // 7 days (matches Django settings)
 
 /**
  * Set authentication tokens in httpOnly cookies

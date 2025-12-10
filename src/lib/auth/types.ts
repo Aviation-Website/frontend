@@ -112,6 +112,9 @@ export interface ApiErrorResponse {
     message: string;
     errors?: Record<string, string[]>;
     status?: number;
+    code?: string;
+    email?: string;
+    retry_after?: number;
 }
 
 /**

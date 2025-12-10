@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSignIn } from "@/hooks/mutations/use-sign-in";
-import { buildOAuthUrl } from "@/lib/oauth";
+import { signIn as nextAuthSignIn } from "next-auth/react";
 
 const DiscordIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -33,18 +33,40 @@ export function Login() {
     password: "",
   });
 
-  // Build OAuth URLs (now pointing to Django backend)
-  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
-  const discordClientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "";
-  const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const getErrorMessage = (err: any) => {
+    if (!err) return null;
+    if (err.code === "ACCOUNT_NOT_VERIFIED" || (err.message && err.message.toLowerCase().includes("not verified"))) {
+      return "Your account is not verified yet.";
+    }
 
-  const googleOAuthUrl = googleClientId
-    ? buildOAuthUrl("google", googleClientId, backendUrl, appUrl)
-    : "#";
-  const discordOAuthUrl = discordClientId
-    ? buildOAuthUrl("discord", discordClientId, backendUrl, appUrl)
-    : "#";
+    // Try to parse JSON message if it looks like one
+    if (typeof err.message === 'string' && (err.message.trim().startsWith('{') || err.message.trim().startsWith('['))) {
+      try {
+        const parsed = JSON.parse(err.message);
+        if (typeof parsed === 'string') return parsed;
+        if (typeof parsed === 'object') {
+          if (parsed.detail) return parsed.detail;
+          if (parsed.message) return parsed.message;
+          const firstKey = Object.keys(parsed)[0];
+          if (firstKey && Array.isArray(parsed[firstKey])) return `${parsed[firstKey][0]}`;
+          if (firstKey) return `${parsed[firstKey]}`;
+        }
+      } catch (e) {
+        // parsing failed, use original
+      }
+    }
+
+    return err.message || "Sign in failed. Please try again.";
+  };
+
+  const handleOAuthSignIn = async (provider: "google" | "discord") => {
+    try {
+      await nextAuthSignIn(provider, { callbackUrl: "/home" });
+    } catch (error) {
+      console.error(`${provider} sign in failed:`, error);
+    }
+  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,31 +104,23 @@ export function Login() {
                 </Link>
               </p>
               <div className="mt-8 flex flex-col items-center space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
-                <Button variant="outline" className="flex-1 items-center justify-center space-x-2 py-2" asChild>
-                  <a href={discordOAuthUrl} onClick={(e) => {
-                    if (!discordClientId) {
-                      e.preventDefault();
-                      alert("Discord OAuth not configured");
-                    }
-                  }}>
-                    <DiscordIcon className="size-5" aria-hidden={true} />
-                    <span className="text-sm font-medium">Login with Discord</span>
-                  </a>
+                <Button
+                  variant="outline"
+                  className="flex-1 items-center justify-center space-x-2 py-2"
+                  onClick={() => handleOAuthSignIn("discord")}
+                  type="button"
+                >
+                  <DiscordIcon className="size-5" aria-hidden={true} />
+                  <span className="text-sm font-medium">Login with Discord</span>
                 </Button>
                 <Button
                   variant="outline"
                   className="mt-2 flex-1 items-center justify-center space-x-2 py-2 sm:mt-0"
-                  asChild
+                  onClick={() => handleOAuthSignIn("google")}
+                  type="button"
                 >
-                  <a href={googleOAuthUrl} onClick={(e) => {
-                    if (!googleClientId) {
-                      e.preventDefault();
-                      alert("Google OAuth not configured");
-                    }
-                  }}>
-                    <GoogleIcon className="size-4" aria-hidden={true} />
-                    <span className="text-sm font-medium">Login with Google</span>
-                  </a>
+                  <GoogleIcon className="size-4" aria-hidden={true} />
+                  <span className="text-sm font-medium">Login with Google</span>
                 </Button>
               </div>
 
@@ -120,22 +134,22 @@ export function Login() {
               </div>
 
               {error && (
-                <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                  <p className="text-sm text-destructive">
-                    {error.message || "Sign in failed. Please try again."}
+                <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-md">
+                  <p className="text-sm text-red-600 dark:text-red-400 font-medium">
+                    {/* intelligently parse the error message to avoid showing raw JSON or long backend strings if not needed */}
+                    {getErrorMessage(error)}
                   </p>
-                  {error.message?.toLowerCase().includes("not verified") && (
-                    <p className="mt-2 text-xs text-muted-foreground dark:text-muted-foreground">
-                      If you didn&apos;t receive the activation email, you can request a new one from the
-                      verification page.
-                      {" "}
-                      <Link
-                        href={`/verification?email=${encodeURIComponent(formData.email)}`}
-                        className="font-medium text-primary hover:text-primary/90 dark:text-primary hover:dark:text-primary/90 cursor-pointer hover:underline ml-1"
-                      >
-                        Go to verification
-                      </Link>
-                    </p>
+
+                  {(error.code === "ACCOUNT_NOT_VERIFIED" || (error.message && error.message.toLowerCase().includes("not verified"))) && (
+                    <div className="mt-3">
+                      <Button asChild variant="secondary" size="sm" className="w-full bg-red-100 hover:bg-red-200 text-red-700 border border-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300 dark:border-red-800">
+                        <Link
+                          href={`/verification?email=${encodeURIComponent(error.email || formData.email)}`}
+                        >
+                          Resend Verification Email
+                        </Link>
+                      </Button>
+                    </div>
                   )}
                 </div>
               )}

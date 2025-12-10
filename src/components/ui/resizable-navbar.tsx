@@ -79,9 +79,9 @@ export const Navbar = ({ children, className }: NavbarProps) => {
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
           ? React.cloneElement(
-              child as React.ReactElement<{ visible?: boolean }>,
-              { visible },
-            )
+            child as React.ReactElement<{ visible?: boolean }>,
+            { visible },
+          )
           : child,
       )}
     </motion.div>
@@ -236,9 +236,9 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) => {
   return isOpen ? (
-    <IconX className="text-white dark:text-white" onClick={onClick} />
+    <IconX className="text-white dark:text-white cursor-pointer" onClick={onClick} />
   ) : (
-    <IconMenu2 className="text-white dark:text-white" onClick={onClick} />
+    <IconMenu2 className="text-white dark:text-white cursor-pointer" onClick={onClick} />
   );
 };
 

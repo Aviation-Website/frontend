@@ -13,24 +13,33 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        await djangoAPI.account.resendActivation(email);
+        const response = await djangoAPI.account.resendActivation(email);
 
         return NextResponse.json(
             {
-                message: "If an inactive account with this email exists, a new activation email has been sent.",
+                message: response.detail || "Activation email has been sent. Please check your inbox.",
             },
             { status: 200 }
         );
     } catch (error) {
         console.error("Resend activation error:", error);
+        
+        const errorMessage = error instanceof Error ? error.message : "Failed to resend activation email";
+        let statusCode = 400;
+        let errorCode = "RESEND_FAILED";
+        
+        // Check for rate limiting
+        if (errorMessage.includes("429") || errorMessage.includes("rate")) {
+            statusCode = 429;
+            errorCode = "RATE_LIMITED";
+        }
+
         return NextResponse.json(
             {
-                error:
-                    error instanceof Error
-                        ? error.message
-                        : "Failed to resend activation email",
+                error: errorMessage,
+                code: errorCode,
             },
-            { status: 400 }
+            { status: statusCode }
         );
     }
 }

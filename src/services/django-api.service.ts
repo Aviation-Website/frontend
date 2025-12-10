@@ -5,6 +5,7 @@
  */
 
 const DJANGO_API_URL = process.env.DJANGO_API_URL || "http://localhost:8000";
+import { dlog, derror } from "@/lib/debug";
 
 interface DjangoRequestOptions extends RequestInit {
     token?: string;
@@ -44,10 +45,10 @@ class DjangoAPIService {
         
         const DEBUG = process.env.NEXT_PUBLIC_DEBUG === "true";
         if (DEBUG) {
-            console.log(`[Django API] ${method} ${endpoint}`);
-            console.log(`[Django API] Full URL: ${url}`);
-            console.log(`[Django API] Authorization Header: ${token ? `Bearer ${token.substring(0, 20)}...` : "MISSING"}`);
-            console.log(`[Django API] Headers:`, Object.keys(headers));
+            dlog(`[Django API] ${method} ${endpoint}`);
+            dlog(`[Django API] Full URL: ${url}`);
+            dlog(`[Django API] Authorization Header: ${token ? `Bearer ${token.substring(0, 20)}...` : "MISSING"}`);
+            dlog(`[Django API] Headers:`, Object.keys(headers));
         }
 
         const response = await fetch(url, {
@@ -56,7 +57,7 @@ class DjangoAPIService {
         });
 
         if (DEBUG) {
-            console.log(`[Django API] Response Status: ${response.status} ${response.statusText}`);
+            dlog(`[Django API] Response Status: ${response.status} ${response.statusText}`);
         }
 
         const contentType = response.headers.get("content-type");
@@ -70,8 +71,8 @@ class DjangoAPIService {
         }
 
         if (DEBUG) {
-            console.log(`[Django API] Response Content-Type: ${contentType}`);
-            console.log(`[Django API] Response Body:`, data);
+            dlog(`[Django API] Response Content-Type: ${contentType}`);
+            dlog(`[Django API] Response Body:`, data);
         }
 
         if (!response.ok) {
@@ -85,9 +86,9 @@ class DjangoAPIService {
                         : JSON.stringify(data);
 
             if (DEBUG) {
-                console.error(`[Django API] ERROR ${response.status}:`);
-                console.error(`  - Message: ${errorMessage}`);
-                console.error(`  - Full Response:`, data);
+                derror(`[Django API] ERROR ${response.status}:`);
+                derror(`  - Message: ${errorMessage}`);
+                derror(`  - Full Response:`, data);
             }
 
             const error = new Error(errorMessage);
@@ -292,12 +293,44 @@ class DjangoAPIService {
         },
 
         /**
+         * Custom Login
+         * Checks user status (exists, verified, password valid) before signing in
+         * Returns detailed error codes if anything fails
+         */
+        customLogin: (data: { email: string; password: string }) => {
+            return this.request<{
+                detail: string;
+                user: any;
+            }>(
+                "/api/account/login/",
+                {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                }
+            );
+        },
+
+        /**
          * Resend Activation Email
          * Send activation email again if the account exists but is not active
          */
         resendActivation: (email: string) => {
-            return this.request<void>(
+            return this.request<{ detail: string }>(
                 "/api/account/resend-activation/",
+                {
+                    method: "POST",
+                    body: JSON.stringify({ email }),
+                }
+            );
+        },
+        
+        /**
+         * Request password reset
+         * Send password reset email (checks if account is verified)
+         */
+        requestPasswordReset: (email: string) => {
+            return this.request<{ detail: string }>(
+                "/api/account/password-reset/",
                 {
                     method: "POST",
                     body: JSON.stringify({ email }),

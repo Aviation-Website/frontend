@@ -59,6 +59,17 @@ export function ForgetPassword() {
                   <p className="text-sm text-destructive">
                     {error.message || "Failed to send reset email. Please try again."}
                   </p>
+                  {error.code === "ACCOUNT_NOT_VERIFIED" && error.email && (
+                    <p className="mt-2 text-xs text-muted-foreground dark:text-muted-foreground">
+                      Your account is not verified yet.{" "}
+                      <Link
+                        href={`/verification?email=${encodeURIComponent(error.email)}`}
+                        className="font-medium text-primary hover:text-primary/90 dark:text-primary hover:dark:text-primary/90 cursor-pointer hover:underline"
+                      >
+                        Click here to resend the verification email
+                      </Link>
+                    </p>
+                  )}
                 </div>
               )}
 

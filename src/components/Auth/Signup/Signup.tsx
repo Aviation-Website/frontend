@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import Image from "next/image";
 import { useSignUp } from "@/hooks/mutations/use-sign-up";
+import { validatePassword, validatePasswordConfirmation } from "@/lib/utils/password-validation";
 
 const Logo = () => <Image src="/Logo/Logo-OG.png" alt="AirSpeak Logo" className="rounded-md" width={28} height={28} />;
 const AuthWaves = () => <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-50 -z-10" width={1920} height={1080} />;
@@ -43,14 +44,38 @@ export function Signup() {
     }
   };
 
+  const getErrorMessage = (err: any) => {
+    if (!err) return null;
+
+    // Try to parse JSON message if it looks like one
+    if (typeof err.message === 'string' && (err.message.trim().startsWith('{') || err.message.trim().startsWith('['))) {
+      try {
+        const parsed = JSON.parse(err.message);
+        if (typeof parsed === 'string') return parsed;
+        if (typeof parsed === 'object') {
+          if (parsed.detail) return parsed.detail;
+          if (parsed.message) return parsed.message;
+          // Handle array of errors
+          const firstKey = Object.keys(parsed)[0];
+          if (firstKey && Array.isArray(parsed[firstKey])) return `${parsed[firstKey][0]}`;
+          if (firstKey) return `${parsed[firstKey]}`;
+        }
+      } catch (e) {
+        // parsing failed, use original
+      }
+    }
+
+    return err.message || "Sign up failed. Please try again.";
+  };
+
   const validateForm = () => {
     const errors: typeof validationErrors = {};
     let isValid = true;
 
-    // Password Regex: At least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(formData.password)) {
-      errors.password = "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.";
+    // Validate password strength
+    const passwordCheck = validatePassword(formData.password);
+    if (!passwordCheck.isValid) {
+      errors.password = passwordCheck.error;
       isValid = false;
     }
 
@@ -61,14 +86,17 @@ export function Signup() {
       isValid = false;
     }
 
-    if (formData.password !== formData.re_password) {
-      errors.re_password = "Passwords do not match.";
+    // Validate password confirmation
+    const confirmCheck = validatePasswordConfirmation(formData.password, formData.re_password);
+    if (!confirmCheck.isValid) {
+      errors.re_password = confirmCheck.error;
       isValid = false;
     }
 
     setValidationErrors(errors);
     return isValid;
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,7 +139,7 @@ export function Signup() {
               {error && (
                 <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
                   <p className="text-sm text-destructive">
-                    {error.message || "Sign up failed. Please try again."}
+                    {getErrorMessage(error)}
                   </p>
                 </div>
               )}

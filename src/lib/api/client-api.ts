@@ -57,7 +57,18 @@ export async function apiClient<T = unknown>(
                     ? (data as { message: string }).message
                     : "An error occurred";
 
-        throw new Error(errorMessage);
+        const error = new Error(errorMessage) as any;
+        
+        // Preserve additional error details from response
+        if (typeof data === "object" && data !== null) {
+            error.code = (data as any).code;
+            error.email = (data as any).email;
+            error.retry_after = (data as any).retry_after;
+            error.status = response.status;
+            error.response = data;
+        }
+
+        throw error;
     }
 
     return data as T;

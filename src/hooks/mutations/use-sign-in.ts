@@ -42,11 +42,14 @@ export function useSignIn() {
                 isError: false,
             });
         } catch (error) {
-            const apiError = error as ApiError;
+            const apiError = error as any;
             const errorResponse = {
                 message: apiError.message || "Sign in failed",
                 errors: apiError.errors,
                 status: apiError.status,
+                code: apiError.code,
+                email: apiError.email,
+                retry_after: apiError.retry_after,
             };
 
             setState({

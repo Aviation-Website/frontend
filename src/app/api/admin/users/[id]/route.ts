@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { djangoAPI } from "@/services/django-api.service";
 import { getAccessToken, refreshAccessToken } from "@/lib/auth/cookies";
+import { jwtVerify } from "jose";
+import { dlog, derror } from "@/lib/debug";
 
 interface RouteParams {
     params: Promise<{
@@ -15,18 +19,18 @@ export async function PATCH(request: NextRequest, { params: paramsPromise }: Rou
         
         const DEBUG = process.env.NEXT_PUBLIC_DEBUG === "true";
         if (DEBUG) {
-            console.log(`[ADMIN PATCH] Received params:`, params);
-            console.log(`[ADMIN PATCH] params.id type: ${typeof params.id}, value: "${params.id}"`);
+            dlog(`[ADMIN PATCH] Received params:`, params);
+            dlog(`[ADMIN PATCH] params.id type: ${typeof params.id}, value: "${params.id}"`);
         }
         
         const userId = parseInt(params.id, 10);
         
         if (DEBUG) {
-            console.log(`[ADMIN PATCH] Parsed userId: ${userId}, isNaN: ${isNaN(userId)}`);
+            dlog(`[ADMIN PATCH] Parsed userId: ${userId}, isNaN: ${isNaN(userId)}`);
         }
         
         if (isNaN(userId)) {
-            console.error(`[ADMIN PATCH] BLOCKED: Invalid user ID - got "${params.id}", expected a number`);
+            derror(`[ADMIN PATCH] BLOCKED: Invalid user ID - got "${params.id}", expected a number`);
             return NextResponse.json(
                 { error: `Invalid user ID: "${params.id}" is not a valid number` },
                 { status: 400 }
@@ -34,25 +38,58 @@ export async function PATCH(request: NextRequest, { params: paramsPromise }: Rou
         }
 
         let accessToken = await getAccessToken();
-        if (DEBUG) {
-            console.log(`[ADMIN PATCH] Step 1: Initial token check - ${accessToken ? "Found" : "Not found"}`);
+        let authMethod = "cookie";
+
+        // If no access token in cookies, check NextAuth session (OAuth users)
+        if (!accessToken) {
+            const session = await getServerSession();
+                if (session && (session as any)?.djangoAccessToken) {
+                accessToken = (session as any).djangoAccessToken;
+                authMethod = "nextauth-session";
+                if (DEBUG) dlog("[ADMIN PATCH] Using NextAuth Django token");
+            }
+        } else {
+            if (DEBUG) dlog("[ADMIN PATCH] Using cookie token");
         }
 
+        // If still no access token, try to refresh
         if (!accessToken) {
-            if (DEBUG) {
-                console.log(`[ADMIN PATCH] Step 2: Attempting to refresh token`);
-            }
             accessToken = await refreshAccessToken();
-            if (DEBUG) {
-                console.log(`[ADMIN PATCH] Step 2: After refresh - ${accessToken ? "Success" : "Failed"}`);
+            if (accessToken) {
+                authMethod = "refreshed-cookie";
+                if (DEBUG) dlog("[ADMIN PATCH] Token refreshed from cookie");
             }
         }
 
         if (!accessToken) {
-            console.error(`[ADMIN PATCH] BLOCKED: No token available after refresh`);
+            derror(`[ADMIN PATCH] BLOCKED: No token available`);
             return NextResponse.json(
-                { error: "Authentication required: No valid token found" },
+                { error: "Authentication required", details: "Please log in to access admin features" },
                 { status: 401 }
+            );
+        }
+
+        // Check if user is superuser
+        const session = await getServerSession();
+        let isSuperuser = (session as any)?.isSuperuser || false;
+
+        // Fallback: if NextAuth session not present or not showing superuser, try JWT cookie
+        if (!isSuperuser && accessToken) {
+            try {
+                const secret = new TextEncoder().encode(process.env.DJANGO_SECRET_KEY || 'django-insecure-change-this-in-production-asap-12345');
+                const { payload } = await jwtVerify(accessToken, secret, { algorithms: ['HS256'] });
+                isSuperuser = !!(payload as any).is_superuser;
+                if (process.env.NEXT_PUBLIC_DEBUG === "true") dlog(`[ADMIN PATCH] Superuser from Django JWT: ${isSuperuser}`);
+            } catch (err) {
+                if (process.env.NEXT_PUBLIC_DEBUG === "true") derror(`[ADMIN PATCH] Failed to verify Django JWT for superuser check:`, err instanceof Error ? err.message : err);
+            }
+        }
+
+        if (!isSuperuser) {
+            derror("[ADMIN PATCH] User is not superuser");
+            return NextResponse.json(
+                { error: "Unauthorized", details: "Only superusers can modify users" },
+                { status: 403 }
             );
         }
 
@@ -60,29 +97,50 @@ export async function PATCH(request: NextRequest, { params: paramsPromise }: Rou
         const { is_active } = body as { is_active?: boolean };
 
         if (typeof is_active !== "boolean") {
-            console.error(`[ADMIN PATCH] BLOCKED: Invalid payload - is_active is ${typeof is_active}, expected boolean`);
+            derror(`[ADMIN PATCH] BLOCKED: Invalid payload - is_active is ${typeof is_active}, expected boolean`);
             return NextResponse.json(
                 { error: "Invalid payload: is_active must be a boolean" },
                 { status: 400 }
             );
         }
 
-        if (DEBUG) {
-            console.log(`[ADMIN PATCH] Step 3: Calling Django API - User ${userId}, is_active=${is_active}`);
-            console.log(`[ADMIN PATCH] Step 3: Token first 30 chars: ${accessToken.substring(0, 30)}...`);
-            console.log(`[ADMIN PATCH] Step 3: Token type check: ${typeof accessToken}`);
+            if (DEBUG) {
+            dlog(`[ADMIN PATCH] Calling Django API with ${authMethod} - User ${userId}, is_active=${is_active}`);
         }
 
-        const user = await djangoAPI.admin.setUserActive(userId, is_active, accessToken);
+        // Attempt API call and retry on 401 with refresh token or NextAuth django token
+        let user;
+        try {
+            user = await djangoAPI.admin.setUserActive(userId, is_active, accessToken!);
+        } catch (err) {
+            if (process.env.NEXT_PUBLIC_DEBUG === "true") derror('[ADMIN PATCH] Django API error, attempting refresh if possible:', err instanceof Error ? err.message : err);
+            const refreshed = await refreshAccessToken();
+            if (refreshed && refreshed !== accessToken) {
+                accessToken = refreshed;
+                authMethod = "refreshed-cookie";
+                if (DEBUG) dlog('[ADMIN PATCH] Retrying Django API with refreshed access token');
+                user = await djangoAPI.admin.setUserActive(userId, is_active, accessToken!);
+            } else {
+                const session2 = await getServerSession();
+                if (session2 && (session2 as any)?.djangoAccessToken && (session2 as any).djangoAccessToken !== accessToken) {
+                    accessToken = (session2 as any).djangoAccessToken;
+                    authMethod = "nextauth-session";
+                    if (DEBUG) dlog('[ADMIN PATCH] Retrying Django API with NextAuth djangoAccessToken');
+                    user = await djangoAPI.admin.setUserActive(userId, is_active, accessToken!);
+                } else {
+                    throw err;
+                }
+            }
+        }
         
         if (DEBUG) {
-            console.log(`[ADMIN PATCH] Step 4: Success! Updated user:`, user);
+            dlog(`[ADMIN PATCH] Success! Updated user:`, user);
         }
 
         return NextResponse.json(user, { status: 200 });
     } catch (error) {
         if (process.env.NEXT_PUBLIC_DEBUG === "true") {
-            console.error("[ADMIN PATCH] EXCEPTION CAUGHT:", error);
+            derror("[ADMIN PATCH] EXCEPTION CAUGHT:", error);
         }
         
         // Extract status code from error if available
@@ -90,23 +148,23 @@ export async function PATCH(request: NextRequest, { params: paramsPromise }: Rou
         const errorMessage = error instanceof Error ? error.message : "Unknown error";
         
         if (process.env.NEXT_PUBLIC_DEBUG === "true") {
-            console.error(`[ADMIN PATCH] ERROR DETAILS:`);
-            console.error(`  - Status Code: ${status}`);
-            console.error(`  - Error Message: ${errorMessage}`);
-            console.error(`  - Error Type: ${error instanceof Error ? "Error" : typeof error}`);
-            console.error(`  - Full Error:`, error);
+            derror(`[ADMIN PATCH] ERROR DETAILS:`);
+            derror(`  - Status Code: ${status}`);
+            derror(`  - Error Message: ${errorMessage}`);
+            derror(`  - Error Type: ${error instanceof Error ? "Error" : typeof error}`);
+            derror(`  - Full Error:`, error);
         }
         
         // Provide more helpful error messages to frontend
         let userMessage = errorMessage;
         if (status === 403) {
-            userMessage = `Permission Denied (403): ${errorMessage || "You do not have permission to perform this action"}`;
+            userMessage = `Permission Denied: ${errorMessage || "You do not have permission to perform this action"}`;
         } else if (status === 401) {
-            userMessage = `Unauthorized (401): Your authentication token is invalid or expired`;
+            userMessage = `Unauthorized: Your authentication token is invalid or expired`;
         } else if (status === 400) {
-            userMessage = `Bad Request (400): ${errorMessage || "Invalid request"}`;
+            userMessage = `Bad Request: ${errorMessage || "Invalid request"}`;
         } else if (status >= 500) {
-            userMessage = `Server Error (${status}): ${errorMessage || "An unexpected error occurred"}`;
+            userMessage = `Server Error: ${errorMessage || "An unexpected error occurred"}`;
         }
         
         return NextResponse.json(
