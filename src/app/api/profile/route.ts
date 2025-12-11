@@ -120,7 +120,7 @@ export async function PATCH(request: NextRequest) {
 
     dlog("[Profile PATCH] Token from cookie:", accessToken ? `${accessToken.substring(0, 20)}...` : "NULL");
 
-        // If no access token in cookies, check NextAuth session (OAuth users)
+        // If no access token in cookies, check NextAuth session
         if (!accessToken) {
             dlog("[Profile PATCH] No cookie token, checking NextAuth session");
             const session = await getServerSession(authOptions);
@@ -176,14 +176,14 @@ export async function PATCH(request: NextRequest) {
         }
 
         const body = await request.json();
-        const { first_name, last_name, country } = body;
+        const { first_name, last_name, phone_number } = body;
 
     
         // Call Django API
         let user;
         try {
             user = await djangoAPI.profile.updateProfile(
-                { first_name, last_name, country },
+                { first_name, last_name, phone_number },
                 accessToken!
             );
         } catch (err) {
@@ -193,7 +193,7 @@ export async function PATCH(request: NextRequest) {
                 authMethod = 'refreshed-cookie';
                 dlog('[Profile PATCH] Retrying with refreshed access token');
                 user = await djangoAPI.profile.updateProfile(
-                    { first_name, last_name, country },
+                    { first_name, last_name, phone_number },
                     accessToken!
                 );
             } else {
@@ -203,7 +203,7 @@ export async function PATCH(request: NextRequest) {
                     authMethod = 'nextauth-session';
                     dlog('[Profile PATCH] Retrying with NextAuth djangoAccessToken');
                     user = await djangoAPI.profile.updateProfile(
-                        { first_name, last_name, country },
+                        { first_name, last_name, phone_number },
                         accessToken!
                     );
                 } else {

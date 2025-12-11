@@ -4,7 +4,7 @@ import { getToken } from 'next-auth/jwt';
 import { jwtVerify } from 'jose';
 import { dlog, derror } from '@/lib/debug';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Public paths that don't require authentication
@@ -128,7 +128,10 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Configure which routes to run middleware on
+// Export as default middleware for Next.js 16
+export default proxy;
+
+// Configure which routes to run proxy on
 export const config = {
   matcher: [
     /*

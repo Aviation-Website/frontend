@@ -3,7 +3,7 @@
 /**
  * Authentication Context
  * Manages global authentication state
- * Integrates with both NextAuth (for OAuth) and Django (for email/password)
+ * Integrates with both NextAuth (for Google/Discord) and Django (for email/password)
  */
 
 import React, {
@@ -158,7 +158,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setIsLoading(true);
             
             try {
-                // If there's a NextAuth session (OAuth login)
+                // If there's a NextAuth session (Google/Discord login)
                 if (session?.user) {
                     dlog("[AuthContext] NextAuth session detected:", session.user.email);
                     
@@ -169,19 +169,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     } catch (error) {
                         dlog("[AuthContext] No Django user data, using session data");
                         // If Django doesn't have the user, create a minimal user object from session
-                        const oauthUser: User = {
+                        const nextAuthUser: User = {
                             id: (session as any).djangoUserId || 0,
                             email: session.user.email || "",
-                            username: session.user.name || "OAuth User",
+                            username: session.user.name || "NextAuth User",
                             first_name: session.user.name?.split(" ")[0] || "",
                             last_name: session.user.name?.split(" ").slice(1).join(" ") || "",
-                            country: "",
+                            phone_number: "",
                             date_joined: new Date().toISOString(),
                             is_active: true,
                             is_superuser: (session as any).isSuperuser || false,
                             is_staff: (session as any).isStaff || false,
                         };
-                        setUser(oauthUser);
+                        setUser(nextAuthUser);
                     }
                 } else {
                     dlog("[AuthContext] No NextAuth session, checking Django auth");

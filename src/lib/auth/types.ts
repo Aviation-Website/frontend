@@ -13,7 +13,7 @@ export interface User {
     username: string;
     first_name: string;
     last_name: string;
-    country: string;
+    phone_number: string;
     date_joined: string;
     is_active?: boolean;
     is_superuser?: boolean;
@@ -38,7 +38,7 @@ export interface SignUpData {
     re_password: string;
     first_name: string;
     last_name: string;
-    country: string;
+    phone_number: string;
 }
 
 /**
@@ -81,7 +81,7 @@ export interface ProfileUpdateData {
     first_name?: string;
     last_name?: string;
     email?: string;
-    country?: string;
+    phone_number?: string;
 }
 
 /**
@@ -126,7 +126,7 @@ export interface SignUpResponse {
     username: string;
     first_name: string;
     last_name: string;
-    country: string;
+    phone_number: string;
 }
 
 /**

@@ -12,6 +12,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSignUp } from "@/hooks/mutations/use-sign-up";
 import { validatePassword, validatePasswordConfirmation } from "@/lib/utils/password-validation";
+import { PhoneInputComponent } from "@/components/ui/phone-input";
 
 const Logo = () => <Image src="/Logo/Logo-OG.png" alt="AirSpeak Logo" className="rounded-md" width={28} height={28} />;
 const AuthWaves = () => <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-50 -z-10" width={1920} height={1080} />;
@@ -25,7 +26,7 @@ export function Signup() {
     re_password: "",
     first_name: "",
     last_name: "",
-    country: "",
+    phone_number: "",
   });
 
   const [validationErrors, setValidationErrors] = useState<{
@@ -231,21 +232,19 @@ export function Signup() {
 
               <div>
                 <Label
-                  htmlFor="country"
+                  htmlFor="phone_number"
                   className="text-sm font-medium text-foreground dark:text-foreground"
                 >
-                  Country
+                  Phone Number
                 </Label>
-                <Input
-                  type="text"
-                  id="country"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  autoComplete="country-name"
-                  placeholder="e.g., Egypt"
-                  className="mt-2"
-                />
+                <div className="mt-2">
+                  <PhoneInputComponent
+                    value={formData.phone_number}
+                    onChange={(value) => setFormData((prev) => ({ ...prev, phone_number: value || "" }))}
+                    placeholder="Enter phone number"
+                    id="phone_number"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

@@ -114,7 +114,7 @@ class DjangoAPIService {
             re_password: string;
             first_name?: string;
             last_name?: string;
-            country?: string;
+            phone_number?: string;
         }) => {
             return this.request<{
                 id: number;
@@ -122,7 +122,7 @@ class DjangoAPIService {
                 username: string;
                 first_name: string;
                 last_name: string;
-                country: string;
+                phone_number: string;
             }>(
                 "/auth/users/",
                 {
@@ -251,7 +251,7 @@ class DjangoAPIService {
          * Update user profile
          */
         updateProfile: (
-            data: { first_name?: string; last_name?: string; country?: string },
+            data: { first_name?: string; last_name?: string; phone_number?: string },
             token: string
         ) => {
             return this.request<{
@@ -259,7 +259,7 @@ class DjangoAPIService {
                 email: string;
                 first_name?: string;
                 last_name?: string;
-                country?: string;
+                phone_number?: string;
             }>(
                 "/api/account/profile/",
                 {
@@ -353,7 +353,7 @@ class DjangoAPIService {
                 username: string;
                 first_name: string;
                 last_name: string;
-                country: string;
+                phone_number: string;
                 is_active: boolean;
                 is_superuser: boolean;
                 date_joined: string;

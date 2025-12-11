@@ -59,11 +59,11 @@ export function Login() {
     return err.message || "Sign in failed. Please try again.";
   };
 
-  const handleOAuthSignIn = async (provider: "google" | "discord") => {
+  const handleNextAuthSignIn = async (provider: "google" | "discord") => {
     try {
       await nextAuthSignIn(provider, { callbackUrl: "/home" });
     } catch (error) {
-      console.error(`${provider} sign in failed:`, error);
+      console.error("NextAuth sign in failed:", error);
     }
   };
 
@@ -107,7 +107,7 @@ export function Login() {
                 <Button
                   variant="outline"
                   className="flex-1 items-center justify-center space-x-2 py-2"
-                  onClick={() => handleOAuthSignIn("discord")}
+                  onClick={() => handleNextAuthSignIn("discord")}
                   type="button"
                 >
                   <DiscordIcon className="size-5" aria-hidden={true} />
@@ -116,7 +116,7 @@ export function Login() {
                 <Button
                   variant="outline"
                   className="mt-2 flex-1 items-center justify-center space-x-2 py-2 sm:mt-0"
-                  onClick={() => handleOAuthSignIn("google")}
+                  onClick={() => handleNextAuthSignIn("google")}
                   type="button"
                 >
                   <GoogleIcon className="size-4" aria-hidden={true} />

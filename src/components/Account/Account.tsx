@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { authService } from "@/lib/auth/auth-service";
 import Image from "next/image";
 import Link from "next/link";
+import { PhoneInputComponent } from "@/components/ui/phone-input";
 
 const AuthWaves = () => <Image src="/Auth/auth-wave.png" alt="Auth Waves" className="absolute top-0 left-0 w-full h-full object-cover opacity-30 -z-10" width={1920} height={1080} />;
 
@@ -23,7 +24,7 @@ export function Account() {
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
-        country: "",
+        phone_number: "",
     });
 
     useEffect(() => {
@@ -31,7 +32,7 @@ export function Account() {
             setFormData({
                 first_name: user.first_name || "",
                 last_name: user.last_name || "",
-                country: user.country || "",
+                phone_number: user.phone_number || "",
             });
         }
     }, [user]);
@@ -141,15 +142,13 @@ export function Account() {
                                 </div>
 
                                 <div className="sm:col-span-3">
-                                    <Label htmlFor="country">Country</Label>
+                                    <Label htmlFor="phone_number">Phone Number</Label>
                                     <div className="mt-2">
-                                        <Input
-                                            type="text"
-                                            name="country"
-                                            id="country"
-                                            value={formData.country}
-                                            onChange={handleChange}
-                                            autoComplete="country-name"
+                                        <PhoneInputComponent
+                                            value={formData.phone_number}
+                                            onChange={(value) => setFormData((prev) => ({ ...prev, phone_number: value || "" }))}
+                                            placeholder="Enter phone number"
+                                            id="phone_number"
                                         />
                                     </div>
                                 </div>

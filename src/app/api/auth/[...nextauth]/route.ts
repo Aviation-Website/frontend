@@ -31,9 +31,9 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
-        // Sync OAuth user with Django backend
+        // Sync NextAuth user with Django backend
         if (!user.email) {
-          derror("[NextAuth] No email provided by OAuth provider");
+          derror("[NextAuth] No email provided by authentication provider");
           return false;
         }
 
@@ -43,7 +43,7 @@ export const authOptions: AuthOptions = {
         
         // Try to get or create user in Django
         const createUserResponse = await fetch(
-          `${djangoAPIUrl}/api/oauth/sync-user/`,
+          `${djangoAPIUrl}/api/nextauth/sync-user/`,
           {
             method: "POST",
             headers: {
@@ -54,7 +54,8 @@ export const authOptions: AuthOptions = {
               username: user.email.split("@")[0], // Use email prefix as username
               first_name: user.name?.split(" ")[0] || "",
               last_name: user.name?.split(" ").slice(1).join(" ") || "",
-              provider: account?.provider || "oauth",
+              phone_number: "", // Phone number will be empty for NextAuth users initially
+              provider: account?.provider || "nextauth",
             }),
           }
         );
@@ -78,7 +79,7 @@ export const authOptions: AuthOptions = {
         
         return true;
       } catch (error) {
-  derror("[NextAuth] OAuth sign-in callback error:", error);
+  derror("[NextAuth] Sign-in callback error:", error);
         return false;
       }
     },

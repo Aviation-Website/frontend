@@ -21,7 +21,7 @@ import {
     XCircle,
     MoreVertical,
     Mail,
-    Globe,
+    Phone,
     Loader2
 } from "lucide-react";
 
@@ -211,7 +211,7 @@ export default function AdminUsersPage() {
                                             <tr>
                                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">User</th>
                                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Contact</th>
-                                                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Location</th>
+                                                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Phone</th>
                                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Role</th>
                                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Status</th>
                                                 <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Actions</th>
@@ -294,8 +294,8 @@ function UserRow({ user, currentUser, onToggle, isProcessing }: {
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center text-sm text-slate-600 dark:text-slate-300">
-                    <Globe className="w-4 h-4 mr-2 text-slate-400" />
-                    {user.country || "Unknown"}
+                    <Phone className="w-4 h-4 mr-2 text-slate-400" />
+                    {user.phone_number || "Not provided"}
                 </div>
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
@@ -378,8 +378,8 @@ function UserCard({ user, currentUser, onToggle, isProcessing }: {
                     {user.email}
                 </div>
                 <div className="flex items-center">
-                    <Globe className="w-4 h-4 mr-2 text-slate-400" />
-                    {user.country || "Unknown"}
+                    <Phone className="w-4 h-4 mr-2 text-slate-400" />
+                    {user.phone_number || "Not provided"}
                 </div>
                 <div className="flex items-center">
                     <Shield className="w-4 h-4 mr-2 text-slate-400" />

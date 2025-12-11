@@ -1,4 +1,5 @@
 @import "react-phone-number-input/style.css";
+@import "./phone-input.css";
 
 @font-face {
   font-family: 'B612';

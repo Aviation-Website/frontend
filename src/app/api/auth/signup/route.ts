@@ -9,7 +9,7 @@ import { djangoAPI } from "@/services/django-api.service";
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { email, username, password, re_password, first_name, last_name, country } = body;
+        const { email, username, password, re_password, first_name, last_name, phone_number } = body;
 
     // Received signup payload - forwarded to Django backend
 
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
             re_password,
             first_name: first_name || "",
             last_name: last_name || "",
-            country: country || "",
+            phone_number: phone_number || "",
         });
 
         console.log("[SignUp Route] User created successfully");
