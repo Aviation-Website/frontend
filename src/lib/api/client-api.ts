@@ -42,8 +42,13 @@ export async function apiClient<T = unknown>(
     const isJson = contentType?.includes("application/json");
 
     let data: unknown;
-    if (isJson) {
-        data = await response.json();
+    
+    // Handle empty responses (e.g., 204 No Content)
+    if (response.status === 204 || response.headers.get("content-length") === "0") {
+        data = null;
+    } else if (isJson) {
+        const text = await response.text();
+        data = text ? JSON.parse(text) : null;
     } else {
         data = await response.text();
     }
@@ -143,4 +148,106 @@ export async function del<T = unknown>(
         method: "DELETE",
         ...options,
     });
+}
+
+/**
+ * POST with FormData (for file uploads)
+ */
+export async function postFormData<T = unknown>(
+    endpoint: string,
+    formData: FormData,
+    options?: RequestOptions
+): Promise<T> {
+    const url = endpoint.startsWith("/api") 
+        ? endpoint 
+        : `/api${endpoint}`;
+
+    const response = await fetch(url, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+        ...options,
+        // Don't set Content-Type header - browser will set it with boundary
+    });
+
+    const contentType = response.headers.get("content-type");
+    const isJson = contentType?.includes("application/json");
+
+    let data: unknown;
+    if (isJson) {
+        data = await response.json();
+    } else {
+        data = await response.text();
+    }
+
+    if (!response.ok) {
+        const errorMessage =
+            typeof data === "object" && data !== null && "error" in data
+                ? (data as { error: string }).error
+                : typeof data === "object" && data !== null && "message" in data
+                    ? (data as { message: string }).message
+                    : "An error occurred";
+
+        const error = new Error(errorMessage) as any;
+        
+        if (typeof data === "object" && data !== null) {
+            error.status = response.status;
+            error.response = data;
+        }
+
+        throw error;
+    }
+
+    return data as T;
+}
+
+/**
+ * PATCH with FormData (for file uploads)
+ */
+export async function patchFormData<T = unknown>(
+    endpoint: string,
+    formData: FormData,
+    options?: RequestOptions
+): Promise<T> {
+    const url = endpoint.startsWith("/api") 
+        ? endpoint 
+        : `/api${endpoint}`;
+
+    const response = await fetch(url, {
+        method: "PATCH",
+        body: formData,
+        credentials: "include",
+        ...options,
+        // Don't set Content-Type header - browser will set it with boundary
+    });
+
+    const contentType = response.headers.get("content-type");
+    const isJson = contentType?.includes("application/json");
+
+    let data: unknown;
+    if (isJson) {
+        data = await response.json();
+    } else {
+        data = await response.text();
+    }
+
+    if (!response.ok) {
+        const errorMessage =
+            typeof data === "object" && data !== null && "error" in data
+                ? (data as { error: string }).error
+                : typeof data === "object" && data !== null && "message" in data
+                    ? (data as { message: string }).message
+                    : "An error occurred";
+
+        const error = new Error(errorMessage) as any;
+        
+        if (typeof data === "object" && data !== null) {
+            error.status = response.status;
+            error.response = data;
+        }
+
+        throw error;
+    }
+
+    return data as T;
 }

@@ -180,3 +180,137 @@ export async function PATCH(request: NextRequest, { params: paramsPromise }: Rou
         );
     }
 }
+
+export async function GET(request: NextRequest, { params: paramsPromise }: RouteParams) {
+    try {
+        const params = await paramsPromise;
+        const userId = parseInt(params.id, 10);
+        
+        if (isNaN(userId)) {
+            return NextResponse.json(
+                { error: `Invalid user ID: "${params.id}" is not a valid number` },
+                { status: 400 }
+            );
+        }
+
+        let accessToken = await getAccessToken();
+
+        if (!accessToken) {
+            const session = await getServerSession(authOptions);
+            if (session && (session as any)?.djangoAccessToken) {
+                accessToken = (session as any).djangoAccessToken;
+            }
+        }
+
+        if (!accessToken) {
+            accessToken = await refreshAccessToken();
+        }
+
+        if (!accessToken) {
+            return NextResponse.json(
+                { error: "Authentication required" },
+                { status: 401 }
+            );
+        }
+
+        // Check if user is superuser
+        const session = await getServerSession(authOptions);
+        let isSuperuser = (session as any)?.isSuperuser || false;
+
+        if (!isSuperuser && accessToken) {
+            try {
+                const secret = new TextEncoder().encode(process.env.DJANGO_SECRET_KEY || 'django-insecure-change-this-in-production-asap-12345');
+                const { payload } = await jwtVerify(accessToken, secret, { algorithms: ['HS256'] });
+                isSuperuser = !!(payload as any).is_superuser;
+            } catch (err) {
+                derror(`[ADMIN GET] Failed to verify Django JWT:`, err);
+            }
+        }
+
+        if (!isSuperuser) {
+            return NextResponse.json(
+                { error: "Unauthorized" },
+                { status: 403 }
+            );
+        }
+
+        const user = await djangoAPI.admin.getUser(userId, accessToken!);
+        return NextResponse.json(user, { status: 200 });
+    } catch (error) {
+        derror("[ADMIN GET] Error:", error);
+        const status = (error as any)?.status || 500;
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        
+        return NextResponse.json(
+            { error: errorMessage },
+            { status }
+        );
+    }
+}
+
+export async function DELETE(request: NextRequest, { params: paramsPromise }: RouteParams) {
+    try {
+        const params = await paramsPromise;
+        const userId = parseInt(params.id, 10);
+        
+        if (isNaN(userId)) {
+            return NextResponse.json(
+                { error: `Invalid user ID: "${params.id}" is not a valid number` },
+                { status: 400 }
+            );
+        }
+
+        let accessToken = await getAccessToken();
+
+        if (!accessToken) {
+            const session = await getServerSession(authOptions);
+            if (session && (session as any)?.djangoAccessToken) {
+                accessToken = (session as any).djangoAccessToken;
+            }
+        }
+
+        if (!accessToken) {
+            accessToken = await refreshAccessToken();
+        }
+
+        if (!accessToken) {
+            return NextResponse.json(
+                { error: "Authentication required" },
+                { status: 401 }
+            );
+        }
+
+        // Check if user is superuser
+        const session = await getServerSession(authOptions);
+        let isSuperuser = (session as any)?.isSuperuser || false;
+
+        if (!isSuperuser && accessToken) {
+            try {
+                const secret = new TextEncoder().encode(process.env.DJANGO_SECRET_KEY || 'django-insecure-change-this-in-production-asap-12345');
+                const { payload } = await jwtVerify(accessToken, secret, { algorithms: ['HS256'] });
+                isSuperuser = !!(payload as any).is_superuser;
+            } catch (err) {
+                derror(`[ADMIN DELETE] Failed to verify Django JWT:`, err);
+            }
+        }
+
+        if (!isSuperuser) {
+            return NextResponse.json(
+                { error: "Unauthorized" },
+                { status: 403 }
+            );
+        }
+
+        await djangoAPI.admin.deleteUser(userId, accessToken!);
+        return NextResponse.json({ success: true, message: "User deleted successfully" }, { status: 200 });
+    } catch (error) {
+        derror("[ADMIN DELETE] Error:", error);
+        const status = (error as any)?.status || 500;
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        
+        return NextResponse.json(
+            { error: errorMessage },
+            { status }
+        );
+    }
+}

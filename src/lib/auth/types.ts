@@ -14,7 +14,10 @@ export interface User {
     first_name: string;
     last_name: string;
     phone_number: string;
+    profile_picture?: string | null;
     date_joined: string;
+    last_login?: string | null;
+    is_email_verified?: boolean;
     is_active?: boolean;
     is_superuser?: boolean;
     is_staff?: boolean;
@@ -82,6 +85,7 @@ export interface ProfileUpdateData {
     last_name?: string;
     email?: string;
     phone_number?: string;
+    profile_picture?: File | null;
 }
 
 /**

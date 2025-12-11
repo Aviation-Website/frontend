@@ -62,9 +62,23 @@ export function Navbar() {
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="flex items-center gap-2 text-white hover:text-blue-200 transition-colors focus:outline-none cursor-pointer"
               >
-                <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-                  {user?.first_name?.[0]?.toUpperCase() || user?.username?.[0]?.toUpperCase() || 'U'}
-                </div>
+                {user?.profile_picture ? (
+                  <Image
+                    src={
+                      user.profile_picture.startsWith('http://') || user.profile_picture.startsWith('https://')
+                        ? user.profile_picture
+                        : `${process.env.NEXT_PUBLIC_DJANGO_API_URL || 'http://localhost:8000'}${user.profile_picture}`
+                    }
+                    alt="Profile"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 rounded-full object-cover ring-2 ring-white/20"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
+                    {user?.first_name?.[0]?.toUpperCase() || user?.username?.[0]?.toUpperCase() || 'U'}
+                  </div>
+                )}
                 <span className="font-medium hidden sm:block">
                   {user?.first_name || user?.username || 'User'}
                 </span>

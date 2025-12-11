@@ -64,8 +64,13 @@ class DjangoAPIService {
         const isJson = contentType?.includes("application/json");
 
         let data: unknown;
-        if (isJson) {
-            data = await response.json();
+        
+        // Handle empty responses (e.g., 204 No Content)
+        if (response.status === 204 || response.headers.get("content-length") === "0") {
+            data = null;
+        } else if (isJson) {
+            const text = await response.text();
+            data = text ? JSON.parse(text) : null;
         } else {
             data = await response.text();
         }
@@ -367,6 +372,30 @@ class DjangoAPIService {
         },
 
         /**
+         * Get user by ID
+         */
+        getUser: (id: number, token: string) => {
+            return this.request<{
+                id: number;
+                email: string;
+                username: string;
+                first_name: string;
+                last_name: string;
+                phone_number: string;
+                is_active: boolean;
+                is_superuser: boolean;
+                is_staff: boolean;
+                date_joined: string;
+            }>(
+                `/api/account/admin/users/${id}/`,
+                {
+                    method: "GET",
+                    token,
+                }
+            );
+        },
+
+        /**
          * Update user
          */
         setUserActive: (id: number, is_active: boolean, token: string) => {
@@ -381,6 +410,19 @@ class DjangoAPIService {
                 {
                     method: "PATCH",
                     body: JSON.stringify({ is_active }),
+                    token,
+                }
+            );
+        },
+
+        /**
+         * Delete user
+         */
+        deleteUser: (id: number, token: string) => {
+            return this.request<void>(
+                `/api/account/admin/users/${id}/`,
+                {
+                    method: "DELETE",
                     token,
                 }
             );

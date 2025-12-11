@@ -43,7 +43,7 @@ export const authOptions: AuthOptions = {
         
         // Try to get or create user in Django
         const createUserResponse = await fetch(
-          `${djangoAPIUrl}/api/nextauth/sync-user/`,
+          `${djangoAPIUrl}/api/oauth/sync-user/`,
           {
             method: "POST",
             headers: {
@@ -56,6 +56,7 @@ export const authOptions: AuthOptions = {
               last_name: user.name?.split(" ").slice(1).join(" ") || "",
               phone_number: "", // Phone number will be empty for NextAuth users initially
               provider: account?.provider || "nextauth",
+              picture: user.image || "", // Include profile picture from OAuth provider
             }),
           }
         );

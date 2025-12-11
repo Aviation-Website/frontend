@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 export default function AccountPage() {
     return (
         <RequireAuth>
+            <Navbar />
             <Account />
         </RequireAuth>
     );

@@ -157,16 +157,16 @@ export function Login() {
               <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 <div>
                   <Label htmlFor="email-login-04" className="text-sm font-medium text-foreground dark:text-foreground">
-                    Email
+                    Username or Email
                   </Label>
                   <Input
-                    type="email"
+                    type="text"
                     id="email-login-04"
                     name="email"
                     value={formData.email}
                     onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                    autoComplete="email"
-                    placeholder="galal@dev.co"
+                    autoComplete="username"
+                    placeholder="galal@dev.co or galal"
                     className="mt-2"
                     required
                   />

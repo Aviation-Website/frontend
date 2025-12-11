@@ -1,4 +1,4 @@
-import { get, patch } from "@/lib/api/client-api";
+import { get, patch, del } from "@/lib/api/client-api";
 import type { User } from "@/lib/auth/types";
 
 export interface AdminUser extends User {
@@ -17,6 +17,23 @@ export const adminService = {
         }));
     },
 
+    async getUserById(id: number | string): Promise<AdminUser> {
+        // Convert to number if it's a string
+        const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+        
+        if (isNaN(numericId)) {
+            throw new Error(`Invalid user ID: "${id}" is not a valid number`);
+        }
+        
+        const user = await get<AdminUser>(`/admin/users/${numericId}`);
+        
+        // Ensure the returned user ID is a number
+        return {
+            ...user,
+            id: typeof user.id === 'string' ? parseInt(user.id, 10) : user.id
+        };
+    },
+
     async setUserActive(id: number | string, is_active: boolean): Promise<AdminUser> {
         // Convert to number if it's a string
         const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
@@ -32,5 +49,16 @@ export const adminService = {
             ...user,
             id: typeof user.id === 'string' ? parseInt(user.id, 10) : user.id
         };
+    },
+
+    async deleteUser(id: number | string): Promise<void> {
+        // Convert to number if it's a string
+        const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+        
+        if (isNaN(numericId)) {
+            throw new Error(`Invalid user ID: "${id}" is not a valid number`);
+        }
+        
+        await del(`/admin/users/${numericId}`);
     },
 };

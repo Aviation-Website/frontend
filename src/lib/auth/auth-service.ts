@@ -4,7 +4,7 @@
  * All authentication logic is handled server-side via API routes
  */
 
-import { post, get, patch } from "@/lib/api/client-api";
+import { post, get, patch, patchFormData, del } from "@/lib/api/client-api";
 import type {
     SignUpData,
     SignInData,
@@ -99,8 +99,33 @@ export const authService = {
     /**
      * Update Profile
      * Update authenticated user's profile via Next.js API route
+     * Supports file upload for profile picture
      */
     async updateProfile(data: ProfileUpdateData): Promise<User> {
+        // If profile_picture is included, use FormData
+        if (data.profile_picture !== undefined) {
+            const formData = new FormData();
+            
+            if (data.first_name) formData.append("first_name", data.first_name);
+            if (data.last_name) formData.append("last_name", data.last_name);
+            if (data.email) formData.append("email", data.email);
+            if (data.phone_number) formData.append("phone_number", data.phone_number);
+            if (data.profile_picture) {
+                formData.append("profile_picture", data.profile_picture);
+            }
+            
+            return patchFormData<User>("/profile", formData);
+        }
+        
+        // Otherwise use JSON
         return patch<User>("/profile", data);
+    },
+
+    /**
+     * Delete Profile Picture
+     * Remove authenticated user's profile picture via Next.js API route
+     */
+    async deleteProfilePicture(): Promise<User> {
+        return del<User>("/profile");
     },
 };
