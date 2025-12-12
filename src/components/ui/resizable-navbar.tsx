@@ -70,9 +70,16 @@ export const Navbar = ({ children, className }: NavbarProps) => {
     <motion.div
       ref={ref}
       // IMPORTANT: Change this to class of `fixed` if you want the navbar to be fixed
+      animate={{
+        backgroundColor: visible ? "transparent" : "#002d4b",
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 200,
+        damping: 50,
+      }}
       className={cn(
-        "sticky inset-x-0 top-0 z-40 w-full transition-colors duration-300",
-        !visible && "bg-[#002d4b] dark:bg-[#002d4b]",
+        "sticky inset-x-0 top-0 z-40 w-full",
         className
       )}
     >
