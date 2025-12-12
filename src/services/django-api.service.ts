@@ -64,13 +64,8 @@ class DjangoAPIService {
         const isJson = contentType?.includes("application/json");
 
         let data: unknown;
-        
-        // Handle empty responses (e.g., 204 No Content)
-        if (response.status === 204 || response.headers.get("content-length") === "0") {
-            data = null;
-        } else if (isJson) {
-            const text = await response.text();
-            data = text ? JSON.parse(text) : null;
+        if (isJson) {
+            data = await response.json();
         } else {
             data = await response.text();
         }
@@ -106,6 +101,79 @@ class DjangoAPIService {
     }
 
     /**
+     * Make request to Django API with FormData (for file uploads)
+     */
+    private async requestFormData<T>(
+        endpoint: string,
+        formData: FormData,
+        token?: string
+    ): Promise<T> {
+        const headers: Record<string, string> = {};
+
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+
+        const url = `${this.baseURL}${endpoint}`;
+        
+        const DEBUG = process.env.NEXT_PUBLIC_DEBUG === "true";
+        if (DEBUG) {
+            dlog(`[Django API FormData] PATCH ${endpoint}`);
+            dlog(`[Django API FormData] Full URL: ${url}`);
+            dlog(`[Django API FormData] Authorization Header: ${token ? `Bearer ${token.substring(0, 20)}...` : "MISSING"}`);
+        }
+
+        const response = await fetch(url, {
+            method: "PATCH",
+            body: formData,
+            headers,
+        });
+
+        if (DEBUG) {
+            dlog(`[Django API FormData] Response Status: ${response.status} ${response.statusText}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        const isJson = contentType?.includes("application/json");
+
+        let data: unknown;
+        if (isJson) {
+            data = await response.json();
+        } else {
+            data = await response.text();
+        }
+
+        if (DEBUG) {
+            dlog(`[Django API FormData] Response Content-Type: ${contentType}`);
+            dlog(`[Django API FormData] Response Body:`, data);
+        }
+
+        if (!response.ok) {
+            const errorMessage =
+                typeof data === "object" && data !== null && "detail" in data
+                    ? (data as { detail: string }).detail
+                    : typeof data === "object" && data !== null && "message" in data
+                        ? (data as { message: string }).message
+                        : typeof data === "string"
+                        ? data
+                        : JSON.stringify(data);
+
+            if (DEBUG) {
+                derror(`[Django API FormData] ERROR ${response.status}:`);
+                derror(`  - Message: ${errorMessage}`);
+                derror(`  - Full Response:`, data);
+            }
+
+            const error = new Error(errorMessage);
+            (error as any).status = response.status;
+            (error as any).responseData = data;
+            throw error;
+        }
+
+        return data as T;
+    }
+
+    /**
      * Authentication Endpoints
      */
     auth = {
@@ -119,7 +187,7 @@ class DjangoAPIService {
             re_password: string;
             first_name?: string;
             last_name?: string;
-            phone_number?: string;
+            country?: string;
         }) => {
             return this.request<{
                 id: number;
@@ -127,7 +195,7 @@ class DjangoAPIService {
                 username: string;
                 first_name: string;
                 last_name: string;
-                phone_number: string;
+                country: string;
             }>(
                 "/auth/users/",
                 {
@@ -256,7 +324,7 @@ class DjangoAPIService {
          * Update user profile
          */
         updateProfile: (
-            data: { first_name?: string; last_name?: string; phone_number?: string },
+            data: { first_name?: string; last_name?: string; email?: string; phone_number?: string; country?: string },
             token: string
         ) => {
             return this.request<{
@@ -265,11 +333,53 @@ class DjangoAPIService {
                 first_name?: string;
                 last_name?: string;
                 phone_number?: string;
+                profile_picture?: string;
             }>(
                 "/api/account/profile/",
                 {
                     method: "PATCH",
                     body: JSON.stringify(data),
+                    token,
+                }
+            );
+        },
+
+        /**
+         * Update user profile with file (FormData)
+         */
+        updateProfileWithFile: (
+            formData: FormData,
+            token: string
+        ) => {
+            return this.requestFormData<{
+                id: string;
+                email: string;
+                first_name?: string;
+                last_name?: string;
+                phone_number?: string;
+                profile_picture?: string;
+            }>(
+                "/api/account/profile/",
+                formData,
+                token
+            );
+        },
+
+        /**
+         * Delete user profile picture
+         */
+        deleteProfilePicture: (token: string) => {
+            return this.request<{
+                id: string;
+                email: string;
+                first_name?: string;
+                last_name?: string;
+                phone_number?: string;
+                profile_picture?: string;
+            }>(
+                "/api/account/profile/",
+                {
+                    method: "DELETE",
                     token,
                 }
             );
@@ -358,36 +468,12 @@ class DjangoAPIService {
                 username: string;
                 first_name: string;
                 last_name: string;
-                phone_number: string;
+                country: string;
                 is_active: boolean;
                 is_superuser: boolean;
                 date_joined: string;
             }>>(
                 "/api/account/admin/users/",
-                {
-                    method: "GET",
-                    token,
-                }
-            );
-        },
-
-        /**
-         * Get user by ID
-         */
-        getUser: (id: number, token: string) => {
-            return this.request<{
-                id: number;
-                email: string;
-                username: string;
-                first_name: string;
-                last_name: string;
-                phone_number: string;
-                is_active: boolean;
-                is_superuser: boolean;
-                is_staff: boolean;
-                date_joined: string;
-            }>(
-                `/api/account/admin/users/${id}/`,
                 {
                     method: "GET",
                     token,
@@ -410,19 +496,6 @@ class DjangoAPIService {
                 {
                     method: "PATCH",
                     body: JSON.stringify({ is_active }),
-                    token,
-                }
-            );
-        },
-
-        /**
-         * Delete user
-         */
-        deleteUser: (id: number, token: string) => {
-            return this.request<void>(
-                `/api/account/admin/users/${id}/`,
-                {
-                    method: "DELETE",
                     token,
                 }
             );
