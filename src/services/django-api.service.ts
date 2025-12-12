@@ -64,7 +64,10 @@ class DjangoAPIService {
         const isJson = contentType?.includes("application/json");
 
         let data: unknown;
-        if (isJson) {
+        // Handle 204 No Content responses (they have no body)
+        if (response.status === 204) {
+            data = null;
+        } else if (isJson) {
             data = await response.json();
         } else {
             data = await response.text();
@@ -496,6 +499,19 @@ class DjangoAPIService {
                 {
                     method: "PATCH",
                     body: JSON.stringify({ is_active }),
+                    token,
+                }
+            );
+        },
+
+        /**
+         * Delete user
+         */
+        deleteUser: (id: number, token: string) => {
+            return this.request<{ detail: string }>(
+                `/api/account/admin/users/${id}/`,
+                {
+                    method: "DELETE",
                     token,
                 }
             );
